@@ -1,5 +1,6 @@
 #include <Arduino.h>
-#include <NimBLEDevice.h>
+#include <map>
+#include <BluetoothSerial.h>
 #include "StateMachine.h"
 #include "WebServer.h"
 
@@ -12,82 +13,65 @@
 #define SERIAL_ENABLED 1
 #define BLUETOOTH_SCAN_TIME 5
 
-#define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
+#define BT_DISCOVER_TIME  3000 // 3 seconds
+#define BT_SCAN_LIMIT  10 // 10 devices
 
-BLEScan *pBLEScan;
+BluetoothSerial BTnow;
 
-// To be passed to Core 0
-void _scanBluetooth();
+esp_spp_sec_t sec_mask=ESP_SPP_SEC_NONE; // or ESP_SPP_SEC_ENCRYPT|ESP_SPP_SEC_AUTHENTICATE to request pincode confirmation
+esp_spp_role_t role=ESP_SPP_ROLE_SLAVE; // or ESP_SPP_ROLE_MASTER
 
 unsigned char step = IDLE;
+String bluetoothDeviceConnected;
 
-class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
-{
-  /*** Only a reference to the advertised device is passed now
-    void onResult(BLEAdvertisedDevice advertisedDevice) { **/
-  void onResult(BLEAdvertisedDevice *advertisedDevice)
-  {
-    if (advertisedDevice->haveName()) {
-      #ifdef SERIAL_ENABLED
-      Serial.print("Device name: ");
-      Serial.println(advertisedDevice->getName().c_str());
-      Serial.println("");
-      #endif
-    }
-
-    if (advertisedDevice->haveServiceUUID()) {
-      #ifdef SERIAL_ENABLED
-      BLEUUID devUUID = advertisedDevice->getServiceUUID();
-      Serial.print("Found ServiceUUID: ");
-      Serial.println(devUUID.toString().c_str());
-      Serial.println("");
-      #endif
-    }
-  }
+struct ScanResult {
+  char *result[BT_SCAN_LIMIT];
+  int counter;
 };
 
-void _setupBluetooth() {
-  BLEDevice::init("BLE Bitch!");
-  // Setup Adv Server
-  BLEServer *pServer = BLEDevice::createServer();
-  BLEService *pService = pServer->createService(SERVICE_UUID);
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
-                                         CHARACTERISTIC_UUID,
-                                         NIMBLE_PROPERTY::READ | NIMBLE_PROPERTY::WRITE
-                                       );
+struct ScanResult scanResult;
 
-  pCharacteristic->setValue("Hello World says Neil");
-  pService->start();
-  // BLEAdvertising *pAdvertising = pServer->getAdvertising();  // this still is working for backward compatibility
-  BLEAdvertising *pAdvertising = BLEDevice::getAdvertising();
-  pAdvertising->addServiceUUID(SERVICE_UUID);
-  pAdvertising->setScanResponse(true);
-  pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
-  pAdvertising->setMinPreferred(0x12);
-  BLEDevice::startAdvertising();
-  // Setup Scan!
-  pBLEScan = BLEDevice::getScan(); //create new scan
-  pBLEScan->setAdvertisedDeviceCallbacks(new MyAdvertisedDeviceCallbacks());
-  pBLEScan->setActiveScan(true); //active scan uses more power, but get results faster
-  pBLEScan->setInterval(100);
-  pBLEScan->setWindow(99); // less or equal setInterval value
+void btAdvertisedDeviceFound(BTAdvertisedDevice* pDevice) {
+  if (pDevice->haveName()) {
+    scanResult.result[scanResult.counter] = strcpy((char*) malloc(20), pDevice->getName().c_str());
+    Serial.printf("Found a device asynchronously2 : %s\n", scanResult.result[scanResult.counter]);
+    // Send an event to populate web server listed devices
+    sendEvent(EVENT_SEND_SCANNED_DEVICE, scanResult.result[scanResult.counter]);
+    // Increase counter.
+    scanResult.counter++;
+  }
+}
+
+void _setupBluetooth() {
+  if(!BTnow.begin("ESP32test", true) ) {
+    Serial.println("========== BTnow failed!");
+    abort();
+  }
 }
 
 void _scanBluetooth() {
-  BLEScanResults foundDevices = pBLEScan->start(BLUETOOTH_SCAN_TIME, false);
-  #ifdef SERIAL_ENABLED
-  Serial.print("Devices found: ");
-  Serial.println(foundDevices.getCount());
-  // for (size_t i = 0; i < foundDevices.getCount(); i++)
-  // {
-  //   NimBLEAdvertisedDevice deviceFound = foundDevices.getDevice(i);
-  //   Serial.println(deviceFound.getName().c_str());
-  // }
+  Serial.print("Starting discoverAsync...");
+  // Clean the previous BT scan results.
+  scanResult.counter = 0;
+  // Start discovery
+  if (BTnow.discoverAsync(btAdvertisedDeviceFound)) {
+    Serial.println("Findings will be reported in \"btAdvertisedDeviceFound\"");
+    delay(BT_DISCOVER_TIME);
+    Serial.print("Stopping discoverAsync... ");
+    BTnow.discoverAsyncStop();
+    Serial.println("stopped");
+  } else {
+    Serial.println("Error on discoverAsync f.e. not workin after a \"connect\"");
+  }
+}
 
-  Serial.println("Scan done!");
-  #endif
-  pBLEScan->clearResults(); // delete results fromBLEScan buffer to release memory
+void _connectBluetooth() {
+  Serial.println("Device name to be connected: ");
+  Serial.println(bluetoothDeviceConnected.c_str());
+  // _scanBluetooth();
+  if (BTnow.connect(bluetoothDeviceConnected)) {
+    Serial.println("Device connected!");
+  }
 }
 
 void setup() {
@@ -100,7 +84,7 @@ void setup() {
 
   // to be passed to Core 1
   setWifi();
-  setWebServer(step);
+  setWebServer(step, bluetoothDeviceConnected);
 
   _setupBluetooth();
 }
@@ -114,7 +98,8 @@ void loop() {
       step = IDLE;
       break;
     case CONNECT_BLUETOOTH:
-      break;
+      _connectBluetooth();
+      step = IDLE;
       break;
     case CONNECTED:
       break;

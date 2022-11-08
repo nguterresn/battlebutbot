@@ -38,16 +38,10 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>RSSI</th>
             <th></th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td id="ble_name">Virus</td>
-            <td id="ble_rssi">-56</td>
-            <td id="ble_connect"><button class="button">Connect</button></td>
-          </tr>
+        <tbody id="scan_list">
         </tbody>
       </table>
     </div>
@@ -57,53 +51,54 @@
 <script>
   window.onload = function () {
     const scanButton = document.getElementById("scan_button");
+    var scanList = document.getElementById('scan_list');
     var consoleLog = document.getElementById("console");
 
     scanButton.addEventListener('click', function(e) {
-
-      consoleLog.innerText = 'SENT';
+      // Clear scan list first (clear all the existing tbody)
+      scanList.innerHTML = '';
       // create an XHR object
+      consoleLog.innerText = 'SENT';
+      _httpRequest('GET', "/scan");
+    });
+
+    if (!!window.EventSource) {
+      var source = new EventSource('/events');
+
+      source.addEventListener('scanned_device', function(e) {
+        consoleLog.innerText = 'Data ' + e.data;
+        var connectButton = document.createElement("button");
+        connectButton.className = "button";
+        connectButton.innerHTML = 'Connect';
+        const deviceName = e.data;
+        const newRow = scanList.insertRow();
+        newRow.insertCell().appendChild(document.createTextNode(deviceName));
+        newRow.insertCell().appendChild(connectButton);
+        consoleLog.innerText = 'Device added';
+
+        connectButton.addEventListener('click', function(e) {
+          consoleLog.innerText = "Connect " + deviceName;
+          _httpRequest('GET', "/connect?device=" + deviceName);
+        });
+      }, false);
+    }
+
+    function _httpRequest(method, path) {
       const xhr = new XMLHttpRequest();
       xhr.onload = () => {
         // process response
         if (xhr.status == 200) {
-          consoleLog.innerText = 'SCANNED';
+          consoleLog.innerText = path + 'OK';
         } else {
           consoleLog.innerText = "404";
         }
       };
       xhr.onerror = () => { consoleLog.innerText = "Error on XML request!"; }
       // create a `GET` request
-      xhr.open('GET', "/scan", true);
+      xhr.open(method, path, true);
       // send request
       xhr.send();
-    });
-
-    // if (!!window.EventSource) {
-    //   var source = new EventSource('/events');
-
-    //   source.addEventListener('open', function(e) {
-    //     console.log("Events Connected");
-    //   }, false);
-
-    //   source.addEventListener('card_number', function(e) {
-    //     var cardNumberText = document.getElementById("table_cn");
-    //     cardNumberText.innerText = e.data;
-    //     console.log("card_number", e.data);
-    //   }, false);
-
-    //   source.addEventListener('card_facility', function(e) {
-    //     var facilityCodeText = document.getElementById("table_fc");
-    //     facilityCodeText.innerText = e.data;
-    //     console.log("card_facility", e.data);
-    //   }, false);
-
-    //   source.addEventListener('card_format', function(e) {
-    //     var cardFormatText = document.getElementById("table_format");
-    //     cardFormatText.innerText = "Wiegand " + e.data + "-bit";
-    //     console.log("card_format", e.data);
-    //   }, false);
-    // }
+    }
   }
 </script>
 </body>

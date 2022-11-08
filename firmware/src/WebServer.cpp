@@ -16,7 +16,7 @@ void setWifi() {
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
 /// @param stateMachineStep passed as reference
-void setWebServer(unsigned char &stateMachineStep) {
+void setWebServer(unsigned char &stateMachineStep, String &bluetoothDeviceName) {
 
   server.addHandler(&events);
 
@@ -30,10 +30,15 @@ void setWebServer(unsigned char &stateMachineStep) {
     request->send(200);
   });
 
-  // server.on("/video", HTTP_GET, [](AsyncWebServerRequest *request){
-  //  Another page. yet to be created!
-  //  request->send(200, "text/html", homePage);
-  // });
+  server.on("/connect", HTTP_GET, [&stateMachineStep, &bluetoothDeviceName](AsyncWebServerRequest *request){
+    if (request->hasParam(HTTP_QUERY_DEVICE)) {
+      bluetoothDeviceName = request->getParam(HTTP_QUERY_DEVICE)->value();
+      // Give main loop a call to connect to the bluetooth device received
+      request->send(200, "text/plain", "OK");
+      stateMachineStep = CONNECT_BLUETOOTH;
+    }
+    request->send(404, "text/plain", "Not found");
+  });
 
   server.onNotFound(notFound);
   server.begin();
@@ -43,9 +48,9 @@ void notFound(AsyncWebServerRequest *request) {
   request->send(404, "text/plain", "Not found");
 }
 
-void sendEvent(const char* type, int value) {
-  // char *buffer = new char[50];
-  // intToConstChar(value, buffer);
-  // events.send(buffer, type, millis());
-  // delete []buffer;
+/// @brief Send an event to web client
+/// @param type type of the event
+/// @param value string to be sent
+void sendEvent(const char* type, char* value) {
+  events.send(value, type, millis());
 }
