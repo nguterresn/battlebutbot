@@ -9,7 +9,15 @@
 
     html {
       background: whitesmoke;
+      width: 100%;
       height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      overflow: hidden;
+      touch-action: auto;
     }
 
     .console {
@@ -70,19 +78,11 @@
 </head>
 <body>
   <div class="container">
-    <br>
-    <h2>BubbleButBot</h2>
-    <hr>
-    <div class="row">
-      <div class="four columns">
-        <div id="joystick" style="position:fixed;width:200px;height:200px;margin:50px"></div>
-      </div>
-      <div class="four columns">
-        <button id="video_button" class="button">Video</button>
-      </div>
-      <div class="four columns">
-        <button id="keypad" class="button">Keypad</button>
-      </div>
+    <div class="left" style="position: fixed; left: 0px; height: 100vh; width: 50vw;">
+      <div id="joystick" style="position: relative; width: 50%; height: 100%; margin: auto"></div>
+    </div>
+    <div class="right" style="position: fixed; right: 0px; height: 100vh; width: 50vw;">
+      <button id="action_button" class="button-primary" style="position: relative; display: block; margin: auto; transform: translateY(-50%); top: 50%;">Action</button>
     </div>
   </div>
   <p class="console" id="console"><small>%%CONSOLE%%</small></p>
@@ -90,9 +90,14 @@
 <script>
   window.onload = function () {
     var consoleLog = document.getElementById("console");
+    const action = document.getElementById("action_button")
 
     var Joy1 = new JoyStick('joystick', { "autoReturnToCenter": true }, function(thumb) {
       _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
+    });
+
+    action.addEventListener('click', function(e) {
+      e.preventDefault();
     });
 
     // if (!!window.EventSource) {
