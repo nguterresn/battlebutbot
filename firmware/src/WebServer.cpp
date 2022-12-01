@@ -1,5 +1,4 @@
 #include "WebServer.h"
-#include "StateMachine.h"
 
 AsyncWebServer server(80);
 AsyncEventSource events("/events");
@@ -15,8 +14,7 @@ void setWifi() {
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-/// @param stateMachineStep passed as reference
-void setWebServer(unsigned char &stateMachineStep, String &bluetoothDeviceName) {
+void setWebServer(Motor &motor) {
 
   server.addHandler(&events);
 
@@ -24,20 +22,15 @@ void setWebServer(unsigned char &stateMachineStep, String &bluetoothDeviceName) 
     request->send(200, "text/html", homePage);
   });
 
-  server.on("/scan", HTTP_GET, [&stateMachineStep](AsyncWebServerRequest *request){
-    // Give main loop a call to scan all the bluetooth devices
-    stateMachineStep = SCAN_BLUETOOTH;
-    request->send(200);
-  });
-
-  server.on("/connect", HTTP_GET, [&stateMachineStep, &bluetoothDeviceName](AsyncWebServerRequest *request){
-    if (request->hasParam(HTTP_QUERY_DEVICE)) {
-      bluetoothDeviceName = request->getParam(HTTP_QUERY_DEVICE)->value();
-      // Give main loop a call to connect to the bluetooth device received
+  server.on("/update", HTTP_GET, [&motor](AsyncWebServerRequest *request) {
+    if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
+      motor.update(
+        request->getParam(HTTP_MOTOR_X)->value().toInt(),
+        request->getParam(HTTP_MOTOR_Y)->value().toInt()
+      );
       request->send(200, "text/plain", "OK");
-      stateMachineStep = CONNECT_BLUETOOTH;
     }
-    request->send(404, "text/plain", "Not found");
+    request->send(404, "text/plain");
   });
 
   server.onNotFound(notFound);
