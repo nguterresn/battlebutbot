@@ -87,7 +87,7 @@ const char homePage[] PROGMEM = R"rawliteral(
     <div class="left" style="position: fixed; left: 0px; height: 100vh; width: 50vw;">
       <div id="joystick" style="position: relative; width: 50%; height: 100%; margin: auto"></div>
     </div>
-    <div class="right" style="position: fixed; right: 0px; height: 100vh; width: 50vw;">
+    <div class="right" style="position: fixed; right: 0px; height: 100vh; width: 200px;">
       <button id="action_button" class="button-primary" style="position: relative; display: block; margin: auto; transform: translateY(-50%); top: 50%;">Action</button>
     </div>
   </div>
@@ -99,12 +99,11 @@ const char homePage[] PROGMEM = R"rawliteral(
     const action = document.getElementById("action_button")
 
     var Joy1 = new JoyStick('joystick', { "autoReturnToCenter": true }, function(thumb) {
-      // _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
+      _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
     });
 
     action.addEventListener('click', function(e) {
       e.preventDefault();
-      console.log("bro")
     });
 
     // if (!!window.EventSource) {

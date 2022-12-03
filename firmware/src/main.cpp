@@ -21,4 +21,8 @@ void setup() {
   setWebServer(motor);
 }
 
-void loop() {}
+void loop() {
+  #if ESP8266
+  MDNS.update();
+  #endif
+}

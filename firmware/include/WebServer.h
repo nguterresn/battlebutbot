@@ -4,8 +4,12 @@
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
 #ifdef ESP32
+#include <WiFi.h>
+#include <AsyncTCP.h>
 #include <ESPmDNS.h>
 #elif ESP8266
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
 #include <ESP8266mDNS.h>
 #endif
 
