@@ -2,8 +2,12 @@
 #define SERVER_H
 
 #include <Arduino.h>
-#include <ESPmDNS.h>
 #include <ESPAsyncWebServer.h>
+#ifdef ESP32
+#include <ESPmDNS.h>
+#elif ESP8266
+#include <ESP8266mDNS.h>
+#endif
 
 #include "html.h"
 #include "Motor.h"
