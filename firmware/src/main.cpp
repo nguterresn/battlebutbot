@@ -8,7 +8,7 @@
 
 #define SERIAL_ENABLED 1
 
-MachineRoom machineRoom(D1, D2, D3, D4);
+MachineRoom machineRoom(D1, D2, D5, D4);
 
 void setup() {
   #ifdef ESP32

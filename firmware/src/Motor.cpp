@@ -10,8 +10,8 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) {
   pinMode(this->xIN2, OUTPUT);
 
   // should be in range from 0 to PWMRANGE, which is 255 by default.
-  analogWrite(this->xIN1, 255);
-  analogWrite(this->xIN2, 255);
+  analogWrite(this->xIN1, MOTOR_PWM_RANGE);
+  analogWrite(this->xIN2, MOTOR_PWM_RANGE);
 }
 
 void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm) {
