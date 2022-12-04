@@ -8,7 +8,7 @@
 
 #define SERIAL_ENABLED 1
 
-Motor motor(D1, D2);
+MachineRoom machineRoom(D1, D2, D3, D4);
 
 void setup() {
   #ifdef ESP32
@@ -18,11 +18,11 @@ void setup() {
   #ifdef SERIAL_ENABLED
   Serial.begin(9600);
   Serial.print("Just initialized...");
-  motor.installLogger(&Serial);
+  machineRoom.installLogger(&Serial);
   #endif
 
   setWifi();
-  setWebServer(motor);
+  setWebServer(machineRoom);
 }
 
 void loop() {

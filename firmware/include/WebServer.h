@@ -14,7 +14,7 @@
 #endif
 
 #include "html.h"
-#include "Motor.h"
+#include "MachineRoom.h"
 
 #define SSID_OF_THE_NETWORK "BubbleButBot"
 #define DNS_NETWORK_NAME    "bot"
@@ -28,7 +28,7 @@
 #define EVENT_SEND_SCANNED_DEVICE "scanned_device"
 
 void notFound(AsyncWebServerRequest *request);
-void setWebServer(Motor &motor);
+void setWebServer(MachineRoom &machineRoom);
 void sendEvent(const char* type, char* value);
 void setWifi();
 

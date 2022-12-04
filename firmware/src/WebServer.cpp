@@ -13,15 +13,15 @@ void setWifi() {
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-void setWebServer(Motor &motor) {
+void setWebServer(MachineRoom &machineRoom) {
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/html", homePage);
   });
 
-  server.on("/update", HTTP_GET, [&motor](AsyncWebServerRequest *request) {
+  server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest *request) {
     if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-      motor.update(
+      machineRoom.update(
         request->getParam(HTTP_MOTOR_X)->value().toInt(),
         request->getParam(HTTP_MOTOR_Y)->value().toInt()
       );
