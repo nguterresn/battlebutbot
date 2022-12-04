@@ -15,24 +15,26 @@ void MachineRoom::installLogger(Stream *serial) {
 
 void MachineRoom::update(int x, int y) {
   int8_t backwards = ((uint32_t) y) >> 31;
-  // int8_t goingLeft = ((uint32_t) x) >> 31;
+  int8_t goingLeft = ((uint32_t) x) >> 31;
   uint8_t filteredY = abs(y) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
   uint8_t filteredX = abs(x) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
-  if (filteredY > 100) {
-    serial->println("Y is out of bounds!");
-    return;
-  }
-  if (filteredX > 100) {
-    serial->println("X is out of bounds!");
-    return;
-  }
 
   if (backwards) {
-    left.update(0, filteredX);
-    right.update(filteredY, 0);
+    if (goingLeft) {
+      left.forward(filteredY);
+      right.reverse(filteredX);
+    } else {
+      left.reverse(filteredX);
+      right.forward(filteredY);
+    }
   } else {
-    left.update(filteredX, 0);
-    right.update(0, filteredY);
+    if (goingLeft) {
+      left.reverse(filteredY);
+      right.forward(filteredX);
+    } else {
+      left.forward(filteredX);
+      right.reverse(filteredY);
+    }
   }
   serial->print("sign: ");
   serial->print(backwards);

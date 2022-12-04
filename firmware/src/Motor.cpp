@@ -18,3 +18,11 @@ void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm) {
   analogWrite(this->xIN1, xIN1pwm);
   analogWrite(this->xIN2, xIN2pwm);
 }
+
+void Motor::forward(uint8_t pwm) {
+  this->update(pwm, 0);
+}
+
+void Motor::reverse(uint8_t pwm) {
+  this->update(0, pwm);
+}
