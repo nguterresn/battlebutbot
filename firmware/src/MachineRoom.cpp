@@ -19,21 +19,33 @@ void MachineRoom::update(int x, int y) {
   uint8_t filteredY = abs(y) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
   uint8_t filteredX = abs(x) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
 
+  uint8_t motionLimit = 30;
+
   if (backwards) {
-    if (goingLeft) {
-      left.forward(filteredY);
-      right.reverse(filteredX);
-    } else {
-      left.reverse(filteredX);
-      right.forward(filteredY);
+    if (filteredX < motionLimit) {
+      left.reverse(filteredY);
+      right.reverse(filteredY);
+    } else if (filteredY > motionLimit) {
+      if (goingLeft) {
+        left.forward(filteredY);
+        right.reverse(filteredX);
+      } else {
+        left.reverse(filteredX);
+        right.forward(filteredY);
+      }
     }
   } else {
-    if (goingLeft) {
-      left.reverse(filteredY);
-      right.forward(filteredX);
-    } else {
-      left.forward(filteredX);
-      right.reverse(filteredY);
+    if (filteredX < motionLimit) {
+      left.forward(filteredY);
+      right.forward(filteredY);
+    } else if (filteredY > motionLimit) {
+      if (goingLeft) {
+        left.reverse(filteredY);
+        right.forward(filteredX);
+      } else {
+        left.forward(filteredX);
+        right.reverse(filteredY);
+      }
     }
   }
   serial->print("sign: ");
