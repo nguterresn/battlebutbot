@@ -1,24 +1,28 @@
 #include <Arduino.h>
 #include "WebServer.h"
 
+#ifdef ESP32
 #define LED_FLASH 4
 #define LED_ON_BOARD 33
+#endif
 
 #define SERIAL_ENABLED 1
 
-Motor motor;
+MachineRoom machineRoom(D1, D2, D5, D4);
 
 void setup() {
-  pinMode(33, OUTPUT);
+  #ifdef ESP32
+  pinMode(LED_ON_BOARD, OUTPUT);
+  #endif
 
   #ifdef SERIAL_ENABLED
   Serial.begin(9600);
   Serial.print("Just initialized...");
-  motor.installLogger(&Serial);
+  machineRoom.installLogger(&Serial);
   #endif
 
   setWifi();
-  setWebServer(motor);
+  setWebServer(machineRoom);
 }
 
 void loop() {

@@ -1,7 +1,6 @@
 #include "WebServer.h"
 
 AsyncWebServer server(80);
-AsyncEventSource events("/events");
 
 /// @brief Initialize ESP as a Access Point. Give it a SSID(name) and a custom DNS domain.
 void setWifi() {
@@ -14,17 +13,15 @@ void setWifi() {
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-void setWebServer(Motor &motor) {
-
-  server.addHandler(&events);
+void setWebServer(MachineRoom &machineRoom) {
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send(200, "text/html", homePage);
   });
 
-  server.on("/update", HTTP_GET, [&motor](AsyncWebServerRequest *request) {
+  server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest *request) {
     if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-      motor.update(
+      machineRoom.update(
         request->getParam(HTTP_MOTOR_X)->value().toInt(),
         request->getParam(HTTP_MOTOR_Y)->value().toInt()
       );
@@ -39,11 +36,4 @@ void setWebServer(Motor &motor) {
 
 void notFound(AsyncWebServerRequest *request) {
   request->send(404, "text/plain", "Not found");
-}
-
-/// @brief Send an event to web client
-/// @param type type of the event
-/// @param value string to be sent
-void sendEvent(const char* type, char* value) {
-  events.send(value, type, millis());
 }
