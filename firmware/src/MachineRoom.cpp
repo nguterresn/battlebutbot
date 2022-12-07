@@ -48,10 +48,4 @@ void MachineRoom::update(int x, int y) {
       }
     }
   }
-  serial->print("sign: ");
-  serial->print(backwards);
-  serial->print(" filterY: ");
-  serial->print(filteredY);
-  serial->print(" filterX: ");
-  serial->println(filteredX);
 }
