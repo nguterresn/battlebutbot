@@ -15,7 +15,7 @@ Kisi's battle bots.
 * **Cheap**: less than 500kr
 * **Weight**: less than 100 miligrams
 * **Acessable**: parts easily available
-* **Flexible**: work over Bluetooth or RF Controller
+* **Flexible**: work over WiFi or RF Controller
 * **Simple**: all the harware must be easy to mount
 * **Portable**: supplied by a lithium battery
 
