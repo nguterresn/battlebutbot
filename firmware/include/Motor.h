@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-#define MOTOR_FORWARD_MASK 0x64 // Limited to 100 and -100;
-#define MOTOR_THRESHOLD 15
+#define MOTOR_MASK 0x64 // Limited to 100;
+#define MOTOR_JOYSTICK_THRESHOLD 20
 
 #define MOTOR_PWM_RANGE 100
 

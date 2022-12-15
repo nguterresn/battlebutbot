@@ -14,12 +14,12 @@ void MachineRoom::installLogger(Stream *serial) {
 }
 
 void MachineRoom::update(int x, int y) {
-  int8_t backwards = ((uint32_t) y) >> 31;
-  int8_t goingLeft = ((uint32_t) x) >> 31;
-  uint8_t filteredY = abs(y) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
-  uint8_t filteredX = abs(x) & MOTOR_FORWARD_MASK; // Limited to 100 and -100;
+  uint8_t backwards = ((uint32_t) y) >> 31;
+  uint8_t goingLeft = ((uint32_t) x) >> 31;
+  uint8_t filteredY = abs(y) & MOTOR_MASK; // Limited to 100;
+  uint8_t filteredX = abs(x) & MOTOR_MASK; // Limited to 100;
 
-  uint8_t motionLimit = 30;
+  uint8_t motionLimit = MOTOR_JOYSTICK_THRESHOLD;
 
   if (backwards) {
     if (filteredX < motionLimit) {
@@ -27,24 +27,33 @@ void MachineRoom::update(int x, int y) {
       right.reverse(filteredY);
     } else if (filteredY > motionLimit) {
       if (goingLeft) {
-        left.forward(filteredY);
-        right.reverse(filteredX);
+        // Turning left.
+        int mappedLeft = filteredY - filteredX;
+        right.reverse(filteredY);
+        mappedLeft > 0 ? left.reverse(abs(mappedLeft)) : left.forward(abs(mappedLeft));
       } else {
-        left.reverse(filteredX);
-        right.forward(filteredY);
+        // Turning right.
+        int mappedRight = filteredY + filteredX;
+        left.reverse(filteredY);
+        mappedRight > 0 ? left.reverse(abs(mappedRight)) : left.reverse(abs(mappedRight));
       }
     }
   } else {
+    // Car is going forward.
     if (filteredX < motionLimit) {
       left.forward(filteredY);
       right.forward(filteredY);
     } else if (filteredY > motionLimit) {
       if (goingLeft) {
-        left.reverse(filteredY);
-        right.forward(filteredX);
+        // Turning left.
+        int mappedLeft = filteredY + filteredX;
+        right.forward(filteredY);
+        mappedLeft > 0 ? left.forward(abs(mappedLeft)) : left.reverse(abs(mappedLeft));
       } else {
-        left.forward(filteredX);
-        right.reverse(filteredY);
+        // Turning right.
+        int mappedRight = filteredY - filteredX;
+        left.forward(filteredY);
+        mappedRight > 0 ? right.forward(abs(mappedRight)) : right.reverse(abs(mappedRight));
       }
     }
   }
