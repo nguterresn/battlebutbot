@@ -5,10 +5,12 @@ MachineRoom::MachineRoom(
   uint8_t leftMotorIN2,
   uint8_t rightMotorIN1,
   uint8_t rightMotorIN2) : left(leftMotorIN1, leftMotorIN2), right(rightMotorIN1, rightMotorIN2) {
+    #ifdef ESP8266
+    // Only available on the ESP8266 Arduino Core
     analogWriteRange(MOTOR_PWM_RANGE);
+    #endif
   }
 
-// TODO: build motor driver
 void MachineRoom::installLogger(Stream *serial) {
   this->serial = serial;
 }
