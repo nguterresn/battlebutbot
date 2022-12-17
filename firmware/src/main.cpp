@@ -1,20 +1,13 @@
 #include <Arduino.h>
 #include "WebServer.h"
 
-#ifdef ESP32
-#define LED_FLASH 4
-#define LED_ON_BOARD 33
-#endif
-
 #define SERIAL_ENABLED 1
 
 MachineRoom machineRoom(D1, D2, D5, D4);
 
-void setup() {
-  #ifdef ESP32
-  pinMode(LED_ON_BOARD, OUTPUT);
-  #endif
+uint8_t initialized = false;
 
+void setup() {
   #ifdef SERIAL_ENABLED
   Serial.begin(9600);
   Serial.print("Just initialized...");
@@ -26,7 +19,7 @@ void setup() {
 }
 
 void loop() {
-  #if ESP8266
+  #ifdef ESP8266
   MDNS.update();
   #endif
 }
