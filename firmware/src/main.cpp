@@ -5,8 +5,6 @@
 
 MachineRoom machineRoom(D1, D2, D5, D4);
 
-uint8_t initialized = false;
-
 void setup() {
   #ifdef SERIAL_ENABLED
   Serial.begin(9600);
