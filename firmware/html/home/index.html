@@ -17,10 +17,18 @@
       touch-action: auto;
     }
 
+    /* For debug purposes! */
+
     .console {
       position: fixed;
       bottom: 10px;
       right: 30px;
+    }
+
+    .border {
+      border-radius: 2px;
+      border-color: black;
+      border-style: solid;
     }
   </style>
   <script>
@@ -74,9 +82,18 @@
   </script>
 </head>
 <body>
-  <div class="container">
-    <div class="left" style="position: fixed; left: 0px; height: 100vh; width: 100vw;">
-      <div id="joystick" style="position: relative; width: 200px; height: 200px; margin: auto; top: 25%;"></div>
+  <div class="container" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; width: 100vw;">
+    <div class="">
+      <h3 style="text-align: center; font-family: Helvetica;">BubbleButBot Controller</h3>
+    </div>
+    <hr>
+    <div class="" style="text-align: center; width: 100vw;;">
+      <!-- Speed-o-meter -->
+      <h2 id="speed" style="font-size: 2em; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">0</h2>
+      <h5>m/s</h5>
+    </div>
+    <div class="" style="position: fixed; top: 0px; height: 100vh; width: 100vw;">
+      <div id="joystick" style="position: relative; width: 200px; height: 200px; margin: auto; top: 50%;"></div>
     </div>
   </div>
   <p class="console" id="console"><small>%%CONSOLE%%</small></p>
@@ -84,29 +101,28 @@
 <script>
   window.onload = function () {
     var consoleLog = document.getElementById("console");
+    var speedOMeter = document.getElementById("speed");
     var busyToken = false;
 
     var Joy1 = new JoyStick('joystick', { "autoReturnToCenter": true }, function(thumb) {
-      if (thumb.x == 0 && thumb.y == 0) {
-        _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
-      } else {
-        if (!busyToken) {
-          busyToken = true;
-          _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
-        }
+      if (thumb.x != 0 && thumb.y != 0 && busyToken) {
+        return;
       }
+      busyToken = true;
+      speedOMeter.innerText = _convertToMetersPerSecond(thumb.y, thumb.x);
+      _httpRequest("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
     });
 
     function _httpRequest(method, path) {
       const xhr = new XMLHttpRequest();
       xhr.onload = () => {
         // process response
-        if (xhr.status == 200) {
-          consoleLog.innerText = path + ' OK';
-        } else {
-          consoleLog.innerText = "404";
-        }
+        consoleLog.innerText = xhr.status == 200 ? path + ' OK' : "404";
         busyToken = false;
+      };
+      xhr.ontimeout = () => {
+        busyToken = false;
+        consoleLog.innerText = "Timeout on XML request!";
       };
       xhr.onerror = () => {
         busyToken = false;
@@ -116,6 +132,12 @@
       xhr.open(method, path, true);
       // send request
       xhr.send();
+    }
+
+    // Not correct. Fix this later on. Great to already have some on screen
+    // feedback.
+    function _convertToMetersPerSecond(pwmSpeed, pwmDirection) {
+      return ((pwmSpeed / (pwmDirection + 0.001)) % 2).toFixed(2);
     }
   }
 </script>
