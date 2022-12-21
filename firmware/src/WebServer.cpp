@@ -7,7 +7,7 @@ void setWifi() {
   // Disable power saving on WiFi to improve responsiveness
   // (https://github.com/espressif/arduino-esp32/issues/1484)
   WiFi.setSleep(false);
-  WiFi.softAP(SSID_OF_THE_NETWORK);
+  WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1);
   MDNS.begin(DNS_NETWORK_NAME);
   MDNS.addService("http", DNS_NETWORK_NAME, 80);
 }
