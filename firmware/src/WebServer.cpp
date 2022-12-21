@@ -26,6 +26,7 @@ void setWebServer(MachineRoom &machineRoom) {
         request->getParam(HTTP_MOTOR_Y)->value().toInt()
       );
       request->send(200, "text/plain", "OK");
+      return;
     }
     request->send(404, "text/plain");
   });
