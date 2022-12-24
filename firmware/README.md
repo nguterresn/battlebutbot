@@ -1,3 +1,3 @@
-There were some issues with the amount of heap memory we had available. It is gone BUT, if you want to debug use:
+Each HTML page can only have up to 14kB of space. We can minimize this bottleneck by minifying the code:
 
-`Serial.println(ESP.getFreeHeap());`
+ - For JavaScript, we can use this [page](https://www.toptal.com/developers/javascript-minifier).

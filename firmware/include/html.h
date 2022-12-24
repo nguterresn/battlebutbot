@@ -85,42 +85,7 @@ const char homePage[] PROGMEM = R"rawliteral(
   </div>
 
 <script>
-  window.onload = function () {
-    var log = document.getElementById("console");
-    var speedOMeter = document.getElementById("speed-o-meter");
-    var token = false;
-
-    var Joy1 = new JoyStick('joystick', { "autoReturnToCenter": true }, function(thumb) {
-      if (thumb.x != 0 && thumb.y != 0 && token) {
-        return;
-      }
-      token = true;
-      speedOMeter.innerText = _convertToMetersPerSecond(thumb.y, thumb.x);
-      _request("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
-    });
-
-    function _request(method, path) {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        log.innerText = xhr.status == 200 ? path + ' OK' : "404";
-        token = false;
-      };
-      xhr.ontimeout = () => {
-        token = false;
-        log.innerText = "Timeout on XML request!";
-      };
-      xhr.onerror = () => {
-        token = false;
-        log.innerText = "Error on XML request!";
-      };
-      xhr.open(method, path, true);
-      xhr.send();
-    }
-
-    function _convertToMetersPerSecond(speed, dir) {
-      return ((speed / (Math.abs(dir) + 0.001)) % 2).toFixed(1);
-    }
-  }
+  window.onload=function(){var e=document.getElementById("console"),n=document.getElementById("speed-o-meter"),t=!1;new JoyStick("joystick",{autoReturnToCenter:!0},function(o){if(0==o.x||0==o.y||!t){var r,i;t=!0,n.innerText=(r=o.y,i=o.x,(r/(Math.abs(i)+.001)%2).toFixed(1)),function n(o,r){let i=new XMLHttpRequest;i.onload=()=>{e.innerText=200==i.status?r+" OK":"404",t=!1},i.ontimeout=()=>{t=!1,e.innerText="Timeout on XML request!"},i.onerror=()=>{t=!1,e.innerText="Error on XML request!"},i.open("GET",r,!0),i.send()}("GET","/update?x="+o.x+"&y="+o.y)}})};
 </script>
 </body>
 </html>
