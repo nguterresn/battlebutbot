@@ -52,7 +52,7 @@ const char homePage[] PROGMEM = R"rawliteral(
     </div>
     <br>
     <div class="row">
-      <button class="button-primary">Action</button>
+      <button id="action" class="button-primary">Action</button>
     </div>
     <div class="row vertical-align-row " id="console-row">
       <div class="six columns">
