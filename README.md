@@ -39,8 +39,20 @@ Connect using WiFi to `BubbleButBot`.
 
 <img src="https://user-images.githubusercontent.com/38976366/205155319-393798c9-7dc4-4a2e-bb77-cfcf4a954b22.PNG" width="30%"/>
 
-Open `bot.local`
+Open `bot.local` on you browser.
 
-<img src="https://user-images.githubusercontent.com/38976366/205155525-a067248f-3179-42cf-8d4d-2a1f86420316.PNG" width="60%"/>
+<img src="https://user-images.githubusercontent.com/38976366/210432287-72701887-a142-48db-ab18-691532257a02.jpg" width="30%"/>
 
+## About the GUI
 
+To control the robot you need to move the **joystick** placed in the middle of the screen. It is possible to **configure** by clicking in the button `⚙️ Config`.
+
+Right above the joystick, there is a speed meter that will show the robot's speed in meters per second.
+
+The **action** button is currently inactive.
+
+At the bottom of the screen there is a console log to ease the development while the robot firmware is unstable or in development. A option will be added in the future to hide the text.
+
+## Robot Controls
+
+The robot can be controlled by the joystick that exist on the GUI. Drag up to go forward or down to go backwards. It essentially works based on a X and Y axis (2 quadrants), where Y is the speed of the robot and X is the direction of the movement (left or right).
