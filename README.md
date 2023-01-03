@@ -56,3 +56,14 @@ At the bottom of the screen there is a console log to ease the development while
 ## Robot Controls
 
 The robot can be controlled by the joystick that exist on the GUI. Drag up to go forward or down to go backwards. It essentially works based on a X and Y axis (2 quadrants), where Y is the speed of the robot and X is the direction of the movement (left or right).
+
+## 3rd Party Libraries
+
+- [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
+- [Joystick 2](https://github.com/bobboteck/JoyStick)
+- [CSS Skeleton Framework](https://skeleton-framework.github.io)
+
+## Tools
+
+- VSCode with PlatformIO
+- Fusion360
