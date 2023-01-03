@@ -1,6 +1,12 @@
 # bubblebutbots
 
-Battle bot.
+A (bubble but) battle bot.
+
+You can search for:
+
+ - [The 3D Model](https://github.com/nguterresn/bubblebutbots/tree/main/body)
+ - [The firmware code (based on Arduino)](https://github.com/nguterresn/bubblebutbots/tree/main/firmware)
+ - The PCB design
 
 ## Goal
 
