@@ -18,7 +18,7 @@ You can search for:
 
 ## List of requirements
 
-* **Cheap**: less than 500kr
+* **Cheap**: less than 50$/500kr
 * **Weight**: less than 150 miligrams
 * **Acessable**: parts easily available
 * **Flexible**: work over WiFi or RF Controller
@@ -31,7 +31,7 @@ You can search for:
 |--------------------------|-----|-------|
 | [N20 Gear Motor 6V 600RPM](https://www.aliexpress.com/item/1005003480074662.html?spm=a2g0o.cart.0.0.66f238dazFIII7&mp=1) | 2   | 90kr  |
 | [DollaTek 5PCS DRV8833 1.5A 2-Channel DC Motor Drive Board](https://www.amazon.se/DollaTek-drivbräda-ultra-liten-drivmodul-ingångsspänning/dp/B07ML2RDNY/ref=sr_1_1?crid=39VO6618PX6XD&keywords=DRV8833&qid=1667334481&qu=eyJxc2MiOiIyLjI4IiwicXNhIjoiMS43NiIsInFzcCI6IjAuOTIifQ%3D%3D&sprefix=drv8833%2Caps%2C115&sr=8-1)              | 1   | 17kr  |
-| [Wemos D1 Mini ESP8266](https://www.aliexpress.com/item/1005003480074662.html?spm=a2g0o.cart.0.0.66f238dazFIII7&mp=1](https://www.amazon.se/-/en/dp/B01N9RXGHY/ref=twister_B08BY192W7?_encoding=UTF8&psc=1) | 1   | 87k  |
+| [Wemos D1 Mini ESP8266](https://www.amazon.se/-/en/dp/B01N9RXGHY/ref=twister_B08BY192W7?_encoding=UTF8&psc=1) | 1   | 87kr  |
 
 ## How to open the GUI
 
