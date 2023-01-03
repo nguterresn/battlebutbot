@@ -35,7 +35,7 @@ You can search for:
 
 ## How to open the GUI
 
-Connect using WiFi to `BattleButBot`.
+Connect using WiFi to `BubbleButBot`.
 
 <img src="https://user-images.githubusercontent.com/38976366/205155319-393798c9-7dc4-4a2e-bb77-cfcf4a954b22.PNG" width="30%"/>
 
