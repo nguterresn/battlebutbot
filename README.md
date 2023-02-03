@@ -33,6 +33,10 @@ You can search for:
 | [DollaTek 5PCS DRV8833 1.5A 2-Channel DC Motor Drive Board](https://www.amazon.se/DollaTek-drivbräda-ultra-liten-drivmodul-ingångsspänning/dp/B07ML2RDNY/ref=sr_1_1?crid=39VO6618PX6XD&keywords=DRV8833&qid=1667334481&qu=eyJxc2MiOiIyLjI4IiwicXNhIjoiMS43NiIsInFzcCI6IjAuOTIifQ%3D%3D&sprefix=drv8833%2Caps%2C115&sr=8-1)              | 1   | 17kr  |
 | [Wemos D1 Mini ESP8266](https://www.amazon.se/-/en/dp/B01N9RXGHY/ref=twister_B08BY192W7?_encoding=UTF8&psc=1) | 1   | 87kr  |
 
+## Pinout
+
+![pinout-diagram](https://user-images.githubusercontent.com/38976366/216715656-edc0af38-324e-40f0-a209-d9a60cee573b.svg)
+
 ## How to open the GUI
 
 Connect using WiFi to `BubbleButBot`.
