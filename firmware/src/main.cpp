@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "WebServer.h"
 
-#define SERIAL_ENABLED 1
+// #define SERIAL_ENABLED 1
 
 MachineRoom machineRoom(D1, D2, D5, D4);
 
