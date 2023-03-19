@@ -27,6 +27,15 @@ void MachineRoom::installLogger(Stream* serial)
 	this->serial = serial;
 }
 
+void MachineRoom::connect()
+{
+	this->forward(50);
+	delay(150);
+	this->backwards(50);
+	delay(150);
+	this->brake();
+}
+
 /// @brief Whenever the car needs to just go forward
 /// @param pwm as an unsigned char from 0 to 100
 void MachineRoom::forward(uint8_t pwm)
