@@ -65,41 +65,36 @@ void MachineRoom::update(int x, int y)
 
 	// The Y axis informs us the power we should provide to the motors, whereas
 	// the X axis informs us about the direction the car should go.
-	uint8_t absoluteY = abs(y) & MOTOR_MASK;             // Limited to 100;
-	uint8_t absoluteX = abs(x) & MOTOR_MASK;             // Limited to 100;
-	uint8_t pwmY      = absoluteY * 2.55;
+	double radian     = atan2(abs(y), abs(x));
+	uint8_t module    = min(sqrt((float)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
+	uint8_t pwmY      = module * sin(radian) * 2.55;
+	// uint8_t pwmX      = module * cos(radian) * 2.55;
+	uint8_t pwmModule = module * 2.55;
 
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
-	if (absoluteX < MOTOR_JOYSTICK_THRESHOLD) {
+	if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
 		y > 0 ? this->forward(pwmY) : this->backwards(pwmY);
 		return;
 	}
 
-	// We split the quadrant in two halfs using `absoluteY > absoluteX`.
-	// First half is the one closer to the X axis and the second to the Y axis.
-	int diff = absoluteY > absoluteX ?
-	           abs(absoluteY - absoluteX) * 2.55 :
-	           abs(absoluteX - absoluteY) * 2.55;
+	if (abs(y) < MOTOR_JOYSTICK_THRESHOLD) {
+		return;
+	}
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		left.forward(pwmY);
-		absoluteY > absoluteX ? right.forward(diff) : right.reverse(diff);
+		right.forward(pwmY);
+		left.forward(pwmModule);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward(pwmY);
-		absoluteY > absoluteX ? left.forward(diff) : left.reverse(diff);
+		right.forward((pwmModule));
+		left.forward(pwmY);
 	}
-	else if (x < 0 && y < 0) {
+	else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
 		// 3rd quandrant - backwards and left.
-		right.reverse(pwmY);
-		absoluteY > absoluteX ? left.reverse(diff) : left.forward(diff);
-	}
-	else if (x > 0 && y < 0) {
-		// 4th quadrant - backwards and right.
-		left.reverse(pwmY);
-		absoluteY > absoluteX ? right.reverse(diff) : right.forward(diff);
+		right.reverse(pwmModule);
+		left.reverse(pwmModule);
 	}
 }

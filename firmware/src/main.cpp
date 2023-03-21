@@ -5,19 +5,21 @@
 
 MachineRoom machineRoom(D1, D2, D5, D4);
 
-void setup() {
-  #ifdef SERIAL_ENABLED
-  Serial.begin(9600);
-  Serial.print(F("Just initialized..."));
-  machineRoom.installLogger(&Serial);
-  #endif
+void setup()
+{
+#ifdef SERIAL_ENABLED
+	Serial.begin(9600);
+	Serial.print(F("Just initialized..."));
+	machineRoom.installLogger(&Serial);
+#endif
 
-  setWifi();
-  setWebServer(machineRoom);
+	setWifi();
+	setWebServer(machineRoom);
 }
 
-void loop() {
-  #ifdef ESP8266
-  MDNS.update();
-  #endif
+void loop()
+{
+#ifdef ESP8266
+	MDNS.update();
+#endif
 }
