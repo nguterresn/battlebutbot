@@ -9,10 +9,14 @@ MachineRoom::MachineRoom(
 	uint8_t leftMotorIN1,
 	uint8_t leftMotorIN2,
 	uint8_t rightMotorIN1,
-	uint8_t rightMotorIN2) :
+	uint8_t rightMotorIN2,
+	uint8_t feedbackLed) :
 	left(leftMotorIN1, leftMotorIN2),
-	right(rightMotorIN1, rightMotorIN2)
+	right(rightMotorIN1, rightMotorIN2),
+	ledPin(feedbackLed)
 {
+	pinMode(ledPin, OUTPUT);
+	digitalWrite(ledPin, LOW);
 }
 
 /// @brief Store the stream object so it can be used to debug code
@@ -27,6 +31,7 @@ void MachineRoom::connect()
 {
 	// Add an LED to show the web control page is open.
 	this->brake();
+	digitalWrite(ledPin, HIGH);
 }
 
 /// @brief Whenever the car needs to just go forward

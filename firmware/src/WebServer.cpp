@@ -17,9 +17,9 @@ void setWifi()
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
 void setWebServer(MachineRoom& machineRoom)
 {
-	server.on("/", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request){
-		request->send(200, "text/html", homePage);
+	server.on("/", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {
 		machineRoom.connect();
+		request->send(200, "text/html", homePage);
 	});
 
 	server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {

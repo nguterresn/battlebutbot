@@ -3,6 +3,7 @@
 - [x] Add action to GUI without breaking motion.
 - [x] Change Joystick value area from a square to a circle (radius = 100).
 - [x] Improve GUI responsiveness: prevent sporadic failures.
-- [ ] Create a small hardware feedback once someone is connected.
+- [x] Create a small hardware feedback once someone is connected.
 - [x] Prevent more than one WiFi connection to the board.
 - [ ] Adapt and simplify the CSS Skeleton framework for embedded.
+- [ ] Verify if the user has the web session open.

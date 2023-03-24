@@ -3,7 +3,14 @@
 
 #define SERIAL_ENABLED 1
 
-MachineRoom machineRoom(D1, D2, D5, D4);
+#define LEFT1 D1
+#define LEFT2 D2
+#define RIGHT1 D5
+#define RIGHT2 D4
+
+#define FEEDBACK_LED D7
+
+MachineRoom machineRoom(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED);
 
 void setup()
 {

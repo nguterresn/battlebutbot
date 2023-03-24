@@ -12,6 +12,6 @@ public:
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
 	void forward(uint8_t pwm);
 	void reverse(uint8_t pwm);
-private:
+protected:
 	uint8_t xIN1, xIN2;
 };
