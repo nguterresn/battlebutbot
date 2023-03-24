@@ -75,7 +75,7 @@ const char homePage[] PROGMEM = R"rawliteral(
     var token = false;
 
     document.addEventListener('touchstart', e => { e.preventDefault(); })
-    document.addEventListener('click', e => {
+    action.addEventListener('click', e => {
       if (token) {
         return;
       }

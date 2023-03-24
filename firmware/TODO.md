@@ -7,3 +7,4 @@
 - [x] Prevent more than one WiFi connection to the board.
 - [ ] Adapt and simplify the CSS Skeleton framework for embedded.
 - [ ] Verify if the user has the web session open.
+- [ ] Add config page.
