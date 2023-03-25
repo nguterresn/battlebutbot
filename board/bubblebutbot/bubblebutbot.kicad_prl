@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 44,
+    "active_layer": 37,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_nets": [],
@@ -61,7 +61,7 @@
       35,
       36
     ],
-    "visible_layers": "ffcbfff_ffffffff",
+    "visible_layers": "ffcbfff_7fffffff",
     "zone_display_mode": 0
   },
   "meta": {
@@ -80,6 +80,18 @@
           "pos_y": 144,
           "size_x": 1840,
           "size_y": 1069
+        }
+      },
+      {
+        "name": "bubblebutbot.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 1,
+          "maximized": false,
+          "pos_x": -2560,
+          "pos_y": 25,
+          "size_x": 1280,
+          "size_y": 1415
         }
       }
     ]
