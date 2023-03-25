@@ -2,3 +2,4 @@ firmware/.pio
 firmware/.gitignore
 *.vscode
 *.DS_Store
+fp-lib-cache
