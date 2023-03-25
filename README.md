@@ -1,12 +1,12 @@
-# BattleButBot: Your Ultimate Fighting Robot Companion
+# BattleButBot: Your Ultimate Antweight Fighting Robot Companion
 
-BattleButBot is a small and powerful robot designed to help you win your battles with ease. With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
+BattleButBot is a small and powerful robot designed specifically for the Antweight class of robot combat events. With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
 
 ## Features
 
 - **Intuitive Web-based Control**: BattleButBot can be easily controlled from any device with a web browser, allowing you to take full control of your robot in real-time.
 - **Powerful Motors**: BattleButBot's high-torque motors provide superior performance and speed, allowing your robot to deliver powerful punches and moves.
-- **Durable Build**: BattleButBot is built to withstand the toughest battles. Its rugged construction and impact-resistant design ensure that your robot stays in one piece, no matter how intense the fight gets.
+- **Durable Build**: BattleButBot is built to withstand the toughest battles in Antweight robot combat events. Its rugged construction and impact-resistant design ensure that your robot stays in one piece, no matter how intense the fight gets.
 - **Customizable Weapons**: BattleButBot's weapons can be customized to suit your fighting style. With a range of weapons and attachments available, you can build your robot to be the ultimate fighting machine.
 - **Easy to Use**: BattleButBot is easy to use and requires no special skills or training. With its intuitive controls and simple setup process, you can start battling right away.
 
@@ -75,11 +75,9 @@ The robot can be controlled by the joystick that exist on the GUI. Drag up to go
 
 ## Tools
 
-(TBA)
+- VSCode with PlatformIO
+- Fusion360
 
 ## Support
 
 If you have any questions or issues with BattleButBot, please contact guterresnogueira@gmail.com. We're always here to help you get the most out of your robot.
-
-- VSCode with PlatformIO
-- Fusion360
