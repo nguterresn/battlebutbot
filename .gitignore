@@ -3,3 +3,8 @@ firmware/.gitignore
 *.vscode
 *.DS_Store
 fp-lib-cache
+*.gbr
+*.gbrjob
+*.ps
+*.drl
+board/bubblebutbot/gerber/.csv
