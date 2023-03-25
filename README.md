@@ -12,20 +12,20 @@ BattleButBot is a small and powerful robot designed specifically for the Antweig
 
 ## Goal
 
-* Create the skeleton of a battle bot and list all the required hardware.
-* Mount.
-* Battle.
-* ?
-* Profit.
+* Design the skeleton of the battle bot and list all the required hardware components.
+* Assemble the battle bot by mounting all the necessary parts.
+* Compete in battles to test the performance of the battle bot.
+* Iterate and improve the design based on the performance results.
+* Profit from your successful battle bot design.
 
 ## List of requirements
 
-* **Cheap**: less than 50$/500kr
-* **Weight**: less than 150 miligrams
-* **Acessable**: parts easily available
-* **Flexible**: work over WiFi or RF Controller
-* **Simple**: all the hardware must be easy to assemble
-* **Portable**: powered by a lithium battery
+* **Cheap**: Priced under $50/500kr
+* **Weight**: Weighs less than 150 milligrams
+* **Acessable**: All parts are easily available
+* **Flexible**: Can be controlled over WiFi or using an RF controller
+* **Simple**: All hardware components are easy to assemble
+* **Portable**: Powered by a lithium battery
 
 ## List of hardware:
 
@@ -51,17 +51,17 @@ Open `bot.local` on you browser.
 
 ## About the GUI
 
-To control the robot you need to move the **joystick** placed in the middle of the screen. It is possible to **configure** by clicking in the button `⚙️ Config`.
+To control BattleButBot, simply use the **joystick** located in the center of the screen. To configure your joystick settings, click the `⚙️ Config` button.
 
-Right above the joystick, there is a speed meter that will show the robot's speed in meters per second.
+You can monitor your robot's speed with the speed meter located above the joystick, which displays your robot's speed in meters per second.
 
-The **action** button is currently inactive.
+Although the **action** button is currently inactive, it will be available in the near future.
 
-At the bottom of the screen there is a console log to ease the development while the robot firmware is unstable or in development. A option will be added in the future to hide the text.
+For ease of development while the robot firmware is unstable or in development, a console log is located at the bottom of the screen. In the future, an option will be added to hide this log.
 
 ## Robot Controls
 
-The robot can be controlled by the joystick that exist on the GUI. Drag up to go forward or down to go backwards. It essentially works based on a X and Y axis (2 quadrants), where Y is the speed of the robot and X is the direction of the movement (left or right).
+You can control BattleButBot using the joystick on the graphical user interface (GUI). To move forward, drag the joystick upwards, and to move backward, drag the joystick downwards. The joystick works on an X and Y axis, with Y controlling the speed of the robot and X controlling the direction of movement (left or right).
 
 ## Technical Details
 
