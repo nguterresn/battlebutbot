@@ -1,12 +1,14 @@
-# bubblebutbots
+# BattleButBot: Your Ultimate Fighting Robot Companion
 
-A (bubble but) battle bot.
+BattleButBot is a small and powerful robot designed to help you win your battles with ease. With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
 
-You can search for:
+## Features
 
- - [The 3D Model](https://github.com/nguterresn/bubblebutbots/tree/main/body)
- - [The firmware code (based on Arduino)](https://github.com/nguterresn/bubblebutbots/tree/main/firmware)
- - The PCB design
+- **Intuitive Web-based Control**: BattleButBot can be easily controlled from any device with a web browser, allowing you to take full control of your robot in real-time.
+- **Powerful Motors**: BattleButBot's high-torque motors provide superior performance and speed, allowing your robot to deliver powerful punches and moves.
+- **Durable Build**: BattleButBot is built to withstand the toughest battles. Its rugged construction and impact-resistant design ensure that your robot stays in one piece, no matter how intense the fight gets.
+- **Customizable Weapons**: BattleButBot's weapons can be customized to suit your fighting style. With a range of weapons and attachments available, you can build your robot to be the ultimate fighting machine.
+- **Easy to Use**: BattleButBot is easy to use and requires no special skills or training. With its intuitive controls and simple setup process, you can start battling right away.
 
 ## Goal
 
@@ -61,6 +63,10 @@ At the bottom of the screen there is a console log to ease the development while
 
 The robot can be controlled by the joystick that exist on the GUI. Drag up to go forward or down to go backwards. It essentially works based on a X and Y axis (2 quadrants), where Y is the speed of the robot and X is the direction of the movement (left or right).
 
+## Technical Details
+
+(TBA)
+
 ## 3rd Party Libraries
 
 - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
@@ -68,6 +74,12 @@ The robot can be controlled by the joystick that exist on the GUI. Drag up to go
 - [CSS Skeleton Framework](https://skeleton-framework.github.io)
 
 ## Tools
+
+(TBA)
+
+## Support
+
+If you have any questions or issues with BattleButBot, please contact guterresnogueira@gmail.com. We're always here to help you get the most out of your robot.
 
 - VSCode with PlatformIO
 - Fusion360
