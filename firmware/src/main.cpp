@@ -3,21 +3,30 @@
 
 #define SERIAL_ENABLED 1
 
-MachineRoom machineRoom(D1, D2, D5, D4);
+#define LEFT1 D1
+#define LEFT2 D2
+#define RIGHT1 D5
+#define RIGHT2 D4
 
-void setup() {
-  #ifdef SERIAL_ENABLED
-  Serial.begin(9600);
-  Serial.print(F("Just initialized..."));
-  machineRoom.installLogger(&Serial);
-  #endif
+#define FEEDBACK_LED D7
 
-  setWifi();
-  setWebServer(machineRoom);
+MachineRoom machineRoom(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED);
+
+void setup()
+{
+#ifdef SERIAL_ENABLED
+	Serial.begin(9600);
+	Serial.print(F("Just initialized..."));
+	machineRoom.installLogger(&Serial);
+#endif
+
+	setWifi();
+	setWebServer(machineRoom);
 }
 
-void loop() {
-  #ifdef ESP8266
-  MDNS.update();
-  #endif
+void loop()
+{
+#ifdef ESP8266
+	MDNS.update();
+#endif
 }

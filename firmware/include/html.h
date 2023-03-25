@@ -50,7 +50,6 @@ const char homePage[] PROGMEM = R"rawliteral(
         <h6 id="speed-o-meter-label">(m/s)</h6>
       </div>
     </div>
-    <br>
     <div class="row">
       <button id="action" class="button-primary">Action</button>
     </div>
@@ -64,11 +63,56 @@ const char homePage[] PROGMEM = R"rawliteral(
     </div>
   </div>
   <div style="position: fixed; top: 0px; left: 0px; right: 0px; height: 100vh;">
-    <div id="joystick" style="position: relative; width: 200px; height: 200px; margin: auto; top: 50%;"></div>
+    <div id="joystick" style="position: relative; width: 300px; height: 300px; margin: auto; top: 35%;"></div>
   </div>
 
 <script>
-  let StickStatus={xPosition:0,yPosition:0,x:0,y:0,cardinalDirection:"C"};var JoyStick=function(t,e,i){var n=void 0===(e=e||{}).title?"joystick":e.title,o=void 0===e.width?0:e.width,a=void 0===e.height?0:e.height,r=void 0===e.internalFillColor?"#0096FF":e.internalFillColor,s=void 0===e.internalLineWidth?2:e.internalLineWidth,c=void 0===e.internalStrokeColor?"#FFFFFF":e.internalStrokeColor,d=void 0===e.externalLineWidth?2:e.externalLineWidth,u=void 0===e.externalStrokeColor?"#000000":e.externalStrokeColor,$=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var h=document.getElementById(t);h.style.touchAction="none";var l=document.createElement("canvas");l.id=n,0===o&&(o=h.clientWidth),0===a&&(a=h.clientHeight),l.width=o,l.height=a,h.appendChild(l);var S=l.getContext("2d"),f=0,_=2*Math.PI,k=(l.width-(l.width/2+10))/2,x=k+5,g=k+30,v=l.width/2,y=l.height/2,p=l.width/10,F=-1*p,P=l.height/10,E=-1*P,C=v,L=y;function T(){S.beginPath(),S.arc(v,y,g,0,_,!1),S.lineWidth=d,S.strokeStyle=u,S.stroke()}function m(){S.beginPath(),C<k&&(C=x),C+k>l.width&&(C=l.width-x),L<k&&(L=x),L+k>l.height&&(L=l.height-x),S.arc(C,L,k,0,_,!1);var t=S.createRadialGradient(v,y,5,v,y,200);t.addColorStop(0,r),t.addColorStop(1,c),S.fillStyle=t,S.fill(),S.lineWidth=s,S.strokeStyle=c,S.stroke()}"ontouchstart"in document.documentElement?(l.addEventListener("touchstart",function t(e){f=1,w=e.targetTouches[0].identifier},!1),document.addEventListener("touchmove",function t(e){1===f&&e.targetTouches[0].target===l&&(C=e.targetTouches[0].pageX,L=e.targetTouches[0].pageY,"BODY"===l.offsetParent.tagName.toUpperCase()?(C-=l.offsetLeft,L-=l.offsetTop):(C-=l.offsetParent.offsetLeft,L-=l.offsetParent.offsetTop),S.clearRect(0,0,l.width,l.height),T(),m(),StickStatus.xPosition=C,StickStatus.yPosition=L,StickStatus.x=(100*((C-v)/x)).toFixed(),StickStatus.y=(-(100*((L-y)/x)*1)).toFixed(),StickStatus.cardinalDirection=W(),i(StickStatus))},!1),document.addEventListener("touchend",function t(e){e.changedTouches[0].identifier===w&&(f=0,$&&(C=v,L=y),S.clearRect(0,0,l.width,l.height),T(),m(),StickStatus.xPosition=C,StickStatus.yPosition=L,StickStatus.x=(100*((C-v)/x)).toFixed(),StickStatus.y=(-(100*((L-y)/x)*1)).toFixed(),StickStatus.cardinalDirection=W(),i(StickStatus))},!1)):(l.addEventListener("mousedown",G,!1),document.addEventListener("mousemove",function t(e){1===f&&(C=e.pageX,L=e.pageY,"BODY"===l.offsetParent.tagName.toUpperCase()?(C-=l.offsetLeft,L-=l.offsetTop):(C-=l.offsetParent.offsetLeft,L-=l.offsetParent.offsetTop),S.clearRect(0,0,l.width,l.height),T(),m(),StickStatus.xPosition=C,StickStatus.yPosition=L,StickStatus.x=(100*((C-v)/x)).toFixed(),StickStatus.y=(-(100*((L-y)/x)*1)).toFixed(),StickStatus.cardinalDirection=W(),i(StickStatus))},!1),document.addEventListener("mouseup",function t(e){f=0,$&&(C=v,L=y),S.clearRect(0,0,l.width,l.height),T(),m(),StickStatus.xPosition=C,StickStatus.yPosition=L,StickStatus.x=(100*((C-v)/x)).toFixed(),StickStatus.y=(-(100*((L-y)/x)*1)).toFixed(),StickStatus.cardinalDirection=W(),i(StickStatus)},!1)),T(),m();let w=null;function G(t){f=1}function W(){let t="",e=C-v,i=L-y;return i>=E&&i<=P&&(t="C"),i<E&&(t="N"),i>P&&(t="S"),e<F&&("C"===t?t="W":t+="W"),e>p&&("C"===t?t="E":t+="E"),t}this.GetWidth=function(){return l.width},this.GetHeight=function(){return l.height},this.GetPosX=function(){return C},this.GetPosY=function(){return L},this.GetX=function(){return(100*((C-v)/x)).toFixed()},this.GetY=function(){return(-(100*((L-y)/x)*1)).toFixed()},this.GetDir=function(){return W()}};window.onload=function(){var t=document.getElementById("console"),e=document.getElementById("speed-o-meter");document.getElementById("action");var i=!1;function n(e,n){let o=new XMLHttpRequest;o.onload=()=>{t.innerText=200==o.status?n+" OK":"404",i=!1},o.ontimeout=()=>{i=!1,t.innerText="Timeout on XML request!"},o.onerror=()=>{i=!1,t.innerText="Error on XML request!"},o.open(e,n,!0),o.send()}document.addEventListener("touchstart",t=>{t.preventDefault()}),document.addEventListener("click",t=>{!i&&n("GET","/action")}),new JoyStick("joystick",{},function(t){if(0==t.x||0==t.y||!i){var o,a;i=!0,e.innerText=(o=t.y,a=t.x,(o/(Math.abs(a)+.001)%2).toFixed(1)),n("GET","/update?x="+t.x+"&y="+t.y)}})};
+  let StickStatus={xPosition:0,yPosition:0,x:0,y:0,cardinalDirection:"C"};var JoyStick=function(t,e,i){var o=void 0===(e=e||{}).title?"joystick":e.title,n=void 0===e.width?0:e.width,a=void 0===e.height?0:e.height,r=void 0===e.internalFillColor?"#0096FF":e.internalFillColor,c=void 0===e.internalLineWidth?2:e.internalLineWidth,s=void 0===e.internalStrokeColor?"#FFFFFF":e.internalStrokeColor,d=void 0===e.externalLineWidth?2:e.externalLineWidth,$=void 0===e.externalStrokeColor?"#000000":e.externalStrokeColor,u=void 0===e.autoReturnToCenter||e.autoReturnToCenter;i=i||function(t){};var h=document.getElementById(t);h.style.touchAction="none";var S=document.createElement("canvas");S.id=o,0===n&&(n=h.clientWidth),0===a&&(a=h.clientHeight),S.width=n,S.height=a,h.appendChild(S);var l=S.getContext("2d"),f=0,k=2*Math.PI,_=(S.width-(S.width/2+10))/2,g=_+5,x=_+30,v=S.width/2,P=S.height/2,C=S.width/10,p=-1*C,y=S.height/10,w=-1*y,L=v,F=P;function m(){l.beginPath(),l.arc(v,P,x,0,k,!1),l.lineWidth=d,l.strokeStyle=$,l.stroke()}function E(){l.beginPath(),L<_&&(L=g),L+_>S.width&&(L=S.width-g),F<_&&(F=g),F+_>S.height&&(F=S.height-g),l.arc(L,F,_,0,k,!1);var t=l.createRadialGradient(v,P,5,v,P,200);t.addColorStop(0,r),t.addColorStop(1,s),l.fillStyle=t,l.fill(),l.lineWidth=c,l.strokeStyle=s,l.stroke()}"ontouchstart"in document.documentElement?(S.addEventListener("touchstart",function t(e){f=1,T=e.targetTouches[0].identifier},!1),document.addEventListener("touchmove",function t(e){1===f&&e.targetTouches[0].target===S&&(L=e.targetTouches[0].pageX,F=e.targetTouches[0].pageY,"BODY"===S.offsetParent.tagName.toUpperCase()?(L-=S.offsetLeft,F-=S.offsetTop):(L-=S.offsetParent.offsetLeft,F-=S.offsetParent.offsetTop),l.clearRect(0,0,S.width,S.height),m(),E(),StickStatus.xPosition=L,StickStatus.yPosition=F,StickStatus.x=(100*((L-v)/g)).toFixed(),StickStatus.y=(-(100*((F-P)/g)*1)).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus))},!1),document.addEventListener("touchend",function t(e){e.changedTouches[0].identifier===T&&(f=0,u&&(L=v,F=P),l.clearRect(0,0,S.width,S.height),m(),E(),StickStatus.xPosition=L,StickStatus.yPosition=F,StickStatus.x=(100*((L-v)/g)).toFixed(),StickStatus.y=(-(100*((F-P)/g)*1)).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus))},!1)):(S.addEventListener("mousedown",W,!1),document.addEventListener("mousemove",function t(e){1===f&&(L=e.pageX,F=e.pageY,"BODY"===S.offsetParent.tagName.toUpperCase()?(L-=S.offsetLeft,F-=S.offsetTop):(L-=S.offsetParent.offsetLeft,F-=S.offsetParent.offsetTop),l.clearRect(0,0,S.width,S.height),m(),E(),StickStatus.xPosition=L,StickStatus.yPosition=F,StickStatus.x=(100*((L-v)/g)).toFixed(),StickStatus.y=(-(100*((F-P)/g)*1)).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus))},!1),document.addEventListener("mouseup",function t(e){f=0,u&&(L=v,F=P),l.clearRect(0,0,S.width,S.height),m(),E(),StickStatus.xPosition=L,StickStatus.yPosition=F,StickStatus.x=(100*((L-v)/g)).toFixed(),StickStatus.y=(-(100*((F-P)/g)*1)).toFixed(),StickStatus.cardinalDirection=D(),i(StickStatus)},!1)),m(),E();let T=null;function W(t){f=1}function D(){let t="",e=L-v,i=F-P;return i>=w&&i<=y&&(t="C"),i<w&&(t="N"),i>y&&(t="S"),e<p&&("C"===t?t="W":t+="W"),e>C&&("C"===t?t="E":t+="E"),t}this.GetWidth=function(){return S.width},this.GetHeight=function(){return S.height},this.GetPosX=function(){return L},this.GetPosY=function(){return F},this.GetX=function(){return(100*((L-v)/g)).toFixed()},this.GetY=function(){return(-(100*((F-P)/g)*1)).toFixed()},this.GetDir=function(){return D()}};
+  window.onload = function () {
+    var log = document.getElementById("console");
+    var speedOMeter = document.getElementById("speed-o-meter");
+    var action = document.getElementById("action");
+    var token = false;
+
+    document.addEventListener('touchstart', e => { e.preventDefault(); })
+    action.addEventListener('click', e => {
+      if (token) {
+        return;
+      }
+      _request("GET", "/action");
+    });
+
+    var Joy = new JoyStick('joystick', {}, function(thumb) {
+      if (thumb.x != 0 && thumb.y != 0 && token) {
+        return;
+      }
+      token = true;
+      speedOMeter.innerText = _convertToMetersPerSecond(thumb.y, thumb.x);
+      _request("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
+    });
+
+    function _request(method, path) {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        log.innerText = xhr.status == 200 ? path + ' OK' : "404";
+        token = false;
+      };
+      xhr.ontimeout = () => {
+        token = false;
+        log.innerText = "Timeout on XML request!";
+      };
+      xhr.onerror = () => {
+        token = false;
+        log.innerText = "Error on XML request!";
+      };
+      xhr.open(method, path, true);
+      xhr.send();
+    }
+
+    function _convertToMetersPerSecond(speed, dir) {
+      return ((speed / (Math.abs(dir) + 0.001)) % 2).toFixed(1);
+    }
+  }
 </script>
 </body>
 </html>
