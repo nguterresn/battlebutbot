@@ -16,7 +16,7 @@
 #include "html.h"
 #include "MachineRoom.h"
 
-#define SSID_OF_THE_NETWORK "BubbleButBot"
+#define SSID_OF_THE_NETWORK "BattleButBot"
 #define DNS_NETWORK_NAME    "bot"
 
 // HTTP QUERY
