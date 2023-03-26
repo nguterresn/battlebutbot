@@ -19,7 +19,8 @@ void setWebServer(MachineRoom& machineRoom)
 {
 	server.on("/", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {
 		machineRoom.connect();
-		request->send(200, "text/html", homePage);
+		// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
+		request->send(SPIFFS, "/home.html", "text/html");
 	});
 
 	server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {

@@ -20,6 +20,7 @@ void setup()
 	machineRoom.installLogger(&Serial);
 #endif
 
+	SPIFFS.begin();
 	setWifi();
 	setWebServer(machineRoom);
 }
