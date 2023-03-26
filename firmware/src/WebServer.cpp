@@ -35,6 +35,10 @@ void setWebServer(MachineRoom& machineRoom)
 		request->send(404, "text/plain");
 	});
 
+	server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request){
+		request->send(SPIFFS, "/config.html", "text/html");
+	});
+
 	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){
 		// Do something later on, need to add the hardware first.
 		request->send(200, "text/plain", "OK");
@@ -46,5 +50,5 @@ void setWebServer(MachineRoom& machineRoom)
 
 void notFound(AsyncWebServerRequest* request)
 {
-	request->send(404, "text/plain", "Not found");
+	request->send(404, "text/plain", "Not found " + request->url());
 }

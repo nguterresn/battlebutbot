@@ -1,6 +1,6 @@
 ## Run with
 
-`platformio run --target uploadfs --environment d1_mini && platformio run --target size --environment d1_mini`
+`platformio run --target uploadfs --environment d1_mini && platformio run --target upload --upload-port /dev/cu.usbserial-A50285BI`
 
 You can replace `d1_mini` with your env/board.
 We need both commands because the first will save any `.html` file into the ESP file system and the second will flash the code.

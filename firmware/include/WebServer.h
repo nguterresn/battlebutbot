@@ -13,7 +13,6 @@
 #include <ESP8266mDNS.h>
 #endif
 
-#include "html.h"
 #include "MachineRoom.h"
 
 #define SSID_OF_THE_NETWORK "BattleButBot"
