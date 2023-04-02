@@ -23,6 +23,14 @@ void setWebServer(MachineRoom& machineRoom)
 		request->send(SPIFFS, "/home.html", "text/html");
 	});
 
+	server.on("/index.css", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(SPIFFS, "/index.css", "text/css");
+	});
+
+	server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request){
+		request->send(SPIFFS, "/config.html", "text/html");
+	});
+
 	server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
 			machineRoom.update(
@@ -33,10 +41,6 @@ void setWebServer(MachineRoom& machineRoom)
 			return;
 		}
 		request->send(404, "text/plain");
-	});
-
-	server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request){
-		request->send(SPIFFS, "/config.html", "text/html");
 	});
 
 	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){

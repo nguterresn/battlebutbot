@@ -13,4 +13,6 @@ This is no longer a constraint. Now we use the ESP file system to pass the html 
 
  - For JavaScript, we can use this [page](https://www.toptal.com/developers/javascript-minifier).
 
+## Icons
 
+Icon pack from [ikonate.com](https://ikonate.com/).

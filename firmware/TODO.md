@@ -5,6 +5,6 @@
 - [x] Improve GUI responsiveness: prevent sporadic failures.
 - [x] Create a small hardware feedback once someone is connected.
 - [x] Prevent more than one WiFi connection to the board.
-- [ ] Adapt and simplify the CSS Skeleton framework for embedded.
+- [x] Adapt and simplify the CSS Skeleton framework for embedded.
 - [ ] Verify if the user has the web session open.
-- [ ] Add config page.
+- [ ] Add config page and add config fields to the EEPROM.
