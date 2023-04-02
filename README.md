@@ -47,7 +47,7 @@ Connect using WiFi to `BattleButBot`.
 
 Open `bot.local` on you browser.
 
-<img src="https://user-images.githubusercontent.com/38976366/210432287-72701887-a142-48db-ab18-691532257a02.jpg" width="30%"/>
+<img src="https://user-images.githubusercontent.com/38976366/229373820-6bef6aad-05de-4926-8b85-3b51f318f65f.jpeg" width="30%"/>
 
 ## About the GUI
 
