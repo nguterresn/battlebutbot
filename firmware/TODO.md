@@ -7,4 +7,6 @@
 - [x] Prevent more than one WiFi connection to the board.
 - [x] Adapt and simplify the CSS Skeleton framework for embedded.
 - [ ] Verify if the user has the web session open.
-- [ ] Add config page and add config fields to the EEPROM.
+- [x] Add config page and add config fields to the EEPROM.
+- [ ] Update web page according to EEPROM
+- [ ] Merge WebServer code into Robot's class

@@ -28,6 +28,21 @@ html {
   align-items: center;
 }
 
+.distribute-box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.config-box {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.config-box > div {
+  padding: 5px;
+}
+
 .footer-box {
   display: flex;
   justify-content: space-between;

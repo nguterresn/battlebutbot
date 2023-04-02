@@ -7,8 +7,7 @@
 
 class Motor {
 public:
-	Motor();
-	Motor(uint8_t xIN1, uint8_t xIN2);
+	Motor(uint8_t xIN1 = 0, uint8_t xIN2 = 0);
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
 	void forward(uint8_t pwm);
 	void reverse(uint8_t pwm);

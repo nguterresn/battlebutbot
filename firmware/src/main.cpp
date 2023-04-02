@@ -10,19 +10,18 @@
 
 #define FEEDBACK_LED D7
 
-MachineRoom machineRoom(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED);
+Robot robot(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED, &Serial);
 
 void setup()
 {
 #ifdef SERIAL_ENABLED
 	Serial.begin(9600);
 	Serial.print(F("Just initialized..."));
-	machineRoom.installLogger(&Serial);
 #endif
 
 	SPIFFS.begin();
 	setWifi();
-	setWebServer(machineRoom);
+	setWebServer(robot);
 }
 
 void loop()

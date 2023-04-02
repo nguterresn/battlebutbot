@@ -1,5 +1,9 @@
 #include "MachineRoom.h"
 
+MachineRoom::MachineRoom()
+{
+}
+
 /// @brief Initializes the Machine Room (aka Wheels Controller)
 /// @param leftMotorIN1 as digital enabled PWM forward pin
 /// @param leftMotorIN2 as digital enabled PWM reverse pin
@@ -9,29 +13,10 @@ MachineRoom::MachineRoom(
 	uint8_t leftMotorIN1,
 	uint8_t leftMotorIN2,
 	uint8_t rightMotorIN1,
-	uint8_t rightMotorIN2,
-	uint8_t feedbackLed) :
+	uint8_t rightMotorIN2) :
 	left(leftMotorIN1, leftMotorIN2),
-	right(rightMotorIN1, rightMotorIN2),
-	ledPin(feedbackLed)
+	right(rightMotorIN1, rightMotorIN2)
 {
-	pinMode(ledPin, OUTPUT);
-	digitalWrite(ledPin, LOW);
-}
-
-/// @brief Store the stream object so it can be used to debug code
-/// whenever needed.
-/// @param serial Serial object of stream type
-void MachineRoom::installLogger(Stream* serial)
-{
-	this->serial = serial;
-}
-
-void MachineRoom::connect()
-{
-	// Add an LED to show the web control page is open.
-	this->brake();
-	digitalWrite(ledPin, HIGH);
 }
 
 /// @brief Whenever the car needs to just go forward

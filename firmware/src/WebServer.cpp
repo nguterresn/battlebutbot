@@ -15,25 +15,29 @@ void setWifi()
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-void setWebServer(MachineRoom& machineRoom)
+void setWebServer(Robot& robot)
 {
-	server.on("/", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {
-		machineRoom.connect();
+	server.on("/", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
+		if (request->hasParam(HTTP_CONFIG)) {
+			robot.saveConfiguration(request->getParam(HTTP_CONFIG)->value().toInt());
+		}
+		robot.connect();
 		// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
 		request->send(SPIFFS, "/home.html", "text/html");
 	});
 
-	server.on("/index.css", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(SPIFFS, "/index.css", "text/css");
+	server.on("/index.css", HTTP_GET, [](AsyncWebServerRequest* request){
+		request->send(SPIFFS, "/index.css", "text/css");
 	});
 
 	server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request){
+		// TODO: update switcheries according to the robot configuration.
 		request->send(SPIFFS, "/config.html", "text/html");
 	});
 
-	server.on("/update", HTTP_GET, [&machineRoom](AsyncWebServerRequest* request) {
+	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-			machineRoom.update(
+			robot.pMachineRoom.update(
 				request->getParam(HTTP_MOTOR_X)->value().toInt(),
 				request->getParam(HTTP_MOTOR_Y)->value().toInt()
 				);

@@ -1,9 +1,5 @@
 #include "Motor.h"
 
-Motor::Motor()
-{
-}
-
 Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
 {
 	pinMode(this->xIN1, OUTPUT);
