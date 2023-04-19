@@ -1610,7 +1610,7 @@
     (uuid 6f53c8ea-b3ea-4334-9d88-17db557fc3f2)
     (property "Reference" "L1" (id 0) (at 140.97 117.7122 90))
     (property "Value" "2.2u" (id 1) (at 140.97 120.2491 90))
-    (property "Footprint" "Inductor_SMD:L_Coilcraft_LPS4018" (id 2) (at 140.97 121.92 0)
+    (property "Footprint" "Diode_SMD:D_SMA" (id 2) (at 140.97 121.92 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://datasheet.lcsc.com/lcsc/2201121400_SHOU-HAN-CY43-2-2UH_C2929416.pdf" (id 3) (at 140.97 121.92 0)
@@ -2112,7 +2112,7 @@
       (reference "J6") (unit 1) (value "Screw_Terminal_01x02") (footprint "TerminalBlock:TerminalBlock_bornier-2_P5.08mm")
     )
     (path "/6f53c8ea-b3ea-4334-9d88-17db557fc3f2"
-      (reference "L1") (unit 1) (value "2.2u") (footprint "Inductor_SMD:L_Coilcraft_LPS4018")
+      (reference "L1") (unit 1) (value "2.2u") (footprint "Diode_SMD:D_SMA")
     )
     (path "/b38694ef-806e-41de-844a-63249bc387ea"
       (reference "Q1") (unit 1) (value "FDN336P") (footprint "Package_TO_SOT_SMD:SOT-23")
