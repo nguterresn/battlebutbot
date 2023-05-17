@@ -381,7 +381,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "",
-      "step": "",
+      "step": "bubblebutbot.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""

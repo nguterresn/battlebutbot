@@ -3,12 +3,12 @@
 
 #define SERIAL_ENABLED 1
 
-#define LEFT1 D1
-#define LEFT2 D2
-#define RIGHT1 D5
-#define RIGHT2 D4
+#define LEFT1          D1
+#define LEFT2          D2
+#define RIGHT1         D5
+#define RIGHT2         D4
 
-#define FEEDBACK_LED D7
+#define FEEDBACK_LED   D7
 
 Robot robot(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED, &Serial);
 
