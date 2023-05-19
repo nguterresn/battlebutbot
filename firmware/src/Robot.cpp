@@ -7,9 +7,9 @@ Robot::Robot(uint8_t leftMotorIN1,
              uint8_t feedbackLed,
              Stream* serial) :
 	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2),
-	ledPin(feedbackLed),
 	serial(serial)
 {
+	ledPin = feedbackLed;
 	pinMode(ledPin, OUTPUT);
 	EEPROM.begin(EEPROM_SIZE);
 	this->configuration = loadConfiguration();
@@ -30,11 +30,6 @@ void Robot::connect()
 		digitalWrite(ledPin, HIGH);
 	}
 }
-
-// uint8_t Robot::isConsoleEnabled()
-// {
-// 	return configuration && ENABLE_CONSOLE_TEXT;
-// }
 
 uint8_t Robot::isFeedbackLedEnabled()
 {

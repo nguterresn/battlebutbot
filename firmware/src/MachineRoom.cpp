@@ -13,9 +13,11 @@ MachineRoom::MachineRoom(
 	uint8_t leftMotorIN1,
 	uint8_t leftMotorIN2,
 	uint8_t rightMotorIN1,
-	uint8_t rightMotorIN2) :
+	uint8_t rightMotorIN2,
+	uint8_t step) :
 	left(leftMotorIN1, leftMotorIN2),
-	right(rightMotorIN1, rightMotorIN2)
+	right(rightMotorIN1, rightMotorIN2),
+	step(step)
 {
 }
 
@@ -23,16 +25,36 @@ MachineRoom::MachineRoom(
 /// @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
 void MachineRoom::forward(uint8_t pwm)
 {
-	right.forward(pwm);
-	left.forward(pwm);
+	if (!wasForward) {
+		friction = MOTOR_PWM_RANGE;
+	}
+	if (step < friction) {
+		friction -= step;
+	}
+	else {
+		friction = 0;
+	}
+	wasForward = true;
+	right.forward(pwm, friction);
+	left.forward(pwm, friction);
 }
 
 /// @brief Whenever the car needs to just go backward
 /// @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
 void MachineRoom::backward(uint8_t pwm)
 {
-	right.backward(pwm);
-	left.backward(pwm);
+	if (wasForward) {
+		friction = MOTOR_PWM_RANGE;
+	}
+	if (step < friction) {
+		friction -= step;
+	}
+	else {
+		friction = 0;
+	}
+	wasForward = false;
+	right.backward(pwm, friction);
+	left.backward(pwm, friction);
 }
 
 /// @brief Whenever the car needs to break
@@ -74,17 +96,27 @@ void MachineRoom::update(int x, int y)
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		right.forward(pwmY);
-		left.forward(pwmModule);
+		right.forward(pwmY, friction);
+		left.forward(pwmModule, friction);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward((pwmModule));
-		left.forward(pwmY);
+		right.forward(pwmModule, friction);
+		left.forward(pwmY, friction);
 	}
 	else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
 		// 3rd quandrant - backward and left.
-		right.backward(pwmModule);
-		left.backward(pwmModule);
+		right.backward(pwmModule, friction);
+		left.backward(pwmModule, friction);
 	}
 }
+
+// void MachineRoom::changeLeftMotorFriction(uint8_t step)
+// {
+// 	left.step = step;
+// }
+
+// void MachineRoom::changeRightMotorFriction(uint8_t step)
+// {
+// 	right.step = step;
+// }

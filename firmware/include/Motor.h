@@ -9,8 +9,8 @@ class Motor {
 public:
 	Motor(uint8_t xIN1 = 0, uint8_t xIN2 = 0);
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
-	void forward(uint8_t pwm);
-	void backward(uint8_t pwm);
-protected:
+	void forward(uint8_t pwm, uint8_t friction);
+	void backward(uint8_t pwm, uint8_t friction);
+private:
 	uint8_t xIN1, xIN2;
 };
