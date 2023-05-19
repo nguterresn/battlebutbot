@@ -20,7 +20,7 @@ public:
 	uint8_t isFeedbackLedEnabled();
 	uint8_t isServoEnabled();
 
-	MachineRoom pMachineRoom;
+	MachineRoom oMachineRoom;
 private:
 	Stream* serial;
 	uint8_t configuration = 0;

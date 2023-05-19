@@ -6,7 +6,7 @@ Robot::Robot(uint8_t leftMotorIN1,
              uint8_t rightMotorIN2,
              uint8_t feedbackLed,
              Stream* serial) :
-	pMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2),
+	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2),
 	ledPin(feedbackLed),
 	serial(serial)
 {
@@ -25,7 +25,7 @@ void Robot::update()
 void Robot::connect()
 {
 	// Add an LED to show the web control page is open.
-	pMachineRoom.brake();
+	oMachineRoom.brake();
 	if (isFeedbackLedEnabled()) {
 		digitalWrite(ledPin, HIGH);
 	}

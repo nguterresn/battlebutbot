@@ -21,7 +21,7 @@ void Motor::forward(uint8_t pwm)
 	this->update(pwm, 0);
 }
 
-void Motor::reverse(uint8_t pwm)
+void Motor::backward(uint8_t pwm)
 {
 	this->update(0, pwm);
 }

@@ -6,9 +6,9 @@ MachineRoom::MachineRoom()
 
 /// @brief Initializes the Machine Room (aka Wheels Controller)
 /// @param leftMotorIN1 as digital enabled PWM forward pin
-/// @param leftMotorIN2 as digital enabled PWM reverse pin
+/// @param leftMotorIN2 as digital enabled PWM backward pin
 /// @param rightMotorIN1 as digital enabled PWM forward pin
-/// @param rightMotorIN2 as digital enabled PWM reverse pin
+/// @param rightMotorIN2 as digital enabled PWM backward pin
 MachineRoom::MachineRoom(
 	uint8_t leftMotorIN1,
 	uint8_t leftMotorIN2,
@@ -27,12 +27,12 @@ void MachineRoom::forward(uint8_t pwm)
 	left.forward(pwm);
 }
 
-/// @brief Whenever the car needs to just go backwards
+/// @brief Whenever the car needs to just go backward
 /// @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
-void MachineRoom::backwards(uint8_t pwm)
+void MachineRoom::backward(uint8_t pwm)
 {
-	right.reverse(pwm);
-	left.reverse(pwm);
+	right.backward(pwm);
+	left.backward(pwm);
 }
 
 /// @brief Whenever the car needs to break
@@ -64,7 +64,7 @@ void MachineRoom::update(int x, int y)
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
 	if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
-		y > 0 ? this->forward(pwmY) : this->backwards(pwmY);
+		y > 0 ? this->forward(pwmY) : this->backward(pwmY);
 		return;
 	}
 
@@ -83,8 +83,8 @@ void MachineRoom::update(int x, int y)
 		left.forward(pwmY);
 	}
 	else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
-		// 3rd quandrant - backwards and left.
-		right.reverse(pwmModule);
-		left.reverse(pwmModule);
+		// 3rd quandrant - backward and left.
+		right.backward(pwmModule);
+		left.backward(pwmModule);
 	}
 }

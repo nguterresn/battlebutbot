@@ -37,7 +37,7 @@ void setWebServer(Robot& robot)
 
 	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-			robot.pMachineRoom.update(
+			robot.oMachineRoom.update(
 				request->getParam(HTTP_MOTOR_X)->value().toInt(),
 				request->getParam(HTTP_MOTOR_Y)->value().toInt()
 				);
