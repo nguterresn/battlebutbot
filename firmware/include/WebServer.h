@@ -15,20 +15,22 @@
 
 #include "Robot.h"
 
-#define SSID_OF_THE_NETWORK "BattleButBot"
-#define DNS_NETWORK_NAME    "bot"
+#define SSID_OF_THE_NETWORK       "BattleButBot"
+#define DNS_NETWORK_NAME          "bot"
 
 // HTTP QUERY
-#define HTTP_QUERY_DEVICE "update"
-#define HTTP_MOTOR_X "x"
-#define HTTP_MOTOR_Y "y"
-#define HTTP_CONFIG "config"
+#define HTTP_QUERY_DEVICE         "update"
+#define HTTP_MOTOR_X              "x"
+#define HTTP_MOTOR_Y              "y"
+#define HTTP_CONFIG               "config"
+#define HTTP_SPEED                "speed"
+#define HTTP_FRICTION             "friction"
 
 // EVENTS TYPES
 #define EVENT_SEND_SCANNED_DEVICE "scanned_device"
 
-void notFound(AsyncWebServerRequest *request);
-void setWebServer(Robot &robot);
+void notFound(AsyncWebServerRequest* request);
+void setWebServer(Robot& robot);
 void sendEvent(const char* type, char* value);
 void setWifi();
 
