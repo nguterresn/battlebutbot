@@ -13,12 +13,13 @@ MachineRoom::MachineRoom(
 	uint8_t leftMotorIN1,
 	uint8_t leftMotorIN2,
 	uint8_t rightMotorIN1,
-	uint8_t rightMotorIN2,
-	uint8_t step) :
+	uint8_t rightMotorIN2) :
 	left(leftMotorIN1, leftMotorIN2),
-	right(rightMotorIN1, rightMotorIN2),
-	step(step)
+	right(rightMotorIN1, rightMotorIN2)
 {
+	this->changeFriction(FRICTION_DEFAULT);
+	this->changeSpeed(SPEED_DEFAULT);
+	wasForward = false;
 }
 
 /// @brief Whenever the car needs to just go forward
@@ -26,17 +27,17 @@ MachineRoom::MachineRoom(
 void MachineRoom::forward(uint8_t pwm)
 {
 	if (!wasForward) {
-		friction = MOTOR_PWM_RANGE;
+		frictionCountdown = MOTOR_PWM_RANGE;
 	}
-	if (step < friction) {
-		friction -= step;
+	if (frictionStep < frictionCountdown) {
+		frictionCountdown -= frictionStep;
 	}
 	else {
-		friction = 0;
+		frictionCountdown = 0;
 	}
 	wasForward = true;
-	right.forward(pwm, friction);
-	left.forward(pwm, friction);
+	right.forward(pwm, frictionCountdown);
+	left.forward(pwm, frictionCountdown);
 }
 
 /// @brief Whenever the car needs to just go backward
@@ -44,17 +45,17 @@ void MachineRoom::forward(uint8_t pwm)
 void MachineRoom::backward(uint8_t pwm)
 {
 	if (wasForward) {
-		friction = MOTOR_PWM_RANGE;
+		frictionCountdown = MOTOR_PWM_RANGE;
 	}
-	if (step < friction) {
-		friction -= step;
+	if (frictionStep < frictionCountdown) {
+		frictionCountdown -= frictionStep;
 	}
 	else {
-		friction = 0;
+		frictionCountdown = 0;
 	}
 	wasForward = false;
-	right.backward(pwm, friction);
-	left.backward(pwm, friction);
+	right.backward(pwm, frictionCountdown);
+	left.backward(pwm, frictionCountdown);
 }
 
 /// @brief Whenever the car needs to break
@@ -78,10 +79,10 @@ void MachineRoom::update(int x, int y)
 	// The Y axis informs us the power we should provide to the motors, whereas
 	// the X axis informs us about the direction the car should go.
 	double radian     = atan2(abs(y), abs(x));
-	uint8_t module    = min(sqrt((float)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
-	uint8_t pwmY      = module * sin(radian) * 2.55;
-	// uint8_t pwmX      = module * cos(radian) * 2.55;
-	uint8_t pwmModule = module * 2.55;
+	uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
+	uint8_t pwmY      = module * sin(radian) * speed;
+	// uint8_t pwmX      = module * cos(radian) * speed;
+	uint8_t pwmModule = module * speed;
 
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
@@ -96,27 +97,32 @@ void MachineRoom::update(int x, int y)
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		right.forward(pwmY, friction);
-		left.forward(pwmModule, friction);
+		right.forward(pwmY, frictionCountdown);
+		left.forward(pwmModule, frictionCountdown);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward(pwmModule, friction);
-		left.forward(pwmY, friction);
+		right.forward(pwmModule, frictionCountdown);
+		left.forward(pwmY, frictionCountdown);
 	}
 	else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
 		// 3rd quandrant - backward and left.
-		right.backward(pwmModule, friction);
-		left.backward(pwmModule, friction);
+		right.backward(pwmModule, frictionCountdown);
+		left.backward(pwmModule, frictionCountdown);
 	}
 }
 
-// void MachineRoom::changeLeftMotorFriction(uint8_t step)
-// {
-// 	left.step = step;
-// }
+/// @brief change friction to a proper step value
+/// @param friction
+void MachineRoom::changeFriction(uint8_t friction)
+{
+	this->frictionCountdown = MOTOR_PWM_RANGE;
+	this->frictionStep      = MOTOR_PWM_RANGE / friction;
+}
 
-// void MachineRoom::changeRightMotorFriction(uint8_t step)
-// {
-// 	right.step = step;
-// }
+/// @brief change speed to a proper float value
+/// @param speed
+void MachineRoom::changeSpeed(uint8_t speed)
+{
+	this->speed = (float)speed / 100;
+}
