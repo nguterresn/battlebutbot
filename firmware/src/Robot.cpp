@@ -12,13 +12,17 @@ Robot::Robot(uint8_t leftMotorIN1,
 	ledPin = feedbackLed;
 	pinMode(ledPin, OUTPUT);
 	EEPROM.begin(EEPROM_SIZE);
-	this->configuration = loadConfiguration();
+
+	loadConfiguration();
 }
 
 /// @brief Update capabilities according to the configuration saved on the EEPROM
 void Robot::update()
 {
 	digitalWrite(ledPin, isFeedbackLedEnabled());
+
+	oMachineRoom.changeSpeed(this->speed);
+	oMachineRoom.changeFriction(this->friction);
 }
 
 /// @brief Method feedback when a client connects to the webpage
@@ -36,28 +40,36 @@ uint8_t Robot::isFeedbackLedEnabled()
 	return configuration && ENABLE_FEEDBACK_LED;
 }
 
-// uint8_t Robot::isServoEnabled()
-// {
-// 	return configuration && ENABLE_SERVO;
-// }
-
 /// @brief Save new configuration on the EEPROM
 /// @param configuration as a byte
-void Robot::saveConfiguration(int configuration)
+void Robot::saveConfiguration(int configuration, int speed, int friction)
 {
-	if (this->configuration == configuration) {
+	// Confirm all of them are the same and return.
+	if (this->configuration == configuration &&
+	    this->speed == speed &&
+	    this->friction == friction) {
 		return;
 	}
 	// Save on EEPROM
-	EEPROM.put(EEPROM_CONFIGURATION_ADDRESS, (uint8_t)configuration);
+	EEPROM.put(CONFIGURATION, (uint8_t)configuration);
+	EEPROM.put(SPEED, (uint8_t)speed);
+	EEPROM.put(FRICTION, (uint8_t)friction);
 	EEPROM.commit();
+	// Save on RAM
 	this->configuration = configuration;
+	this->speed         = speed;
+	this->friction      = friction;
+
 	update();
 }
 
-uint8_t Robot::loadConfiguration()
+void Robot::loadConfiguration(void)
 {
-	this->configuration = EEPROM.read(EEPROM_CONFIGURATION_ADDRESS);
+	this->configuration = EEPROM.read(CONFIGURATION);
+	uint8_t eepromSpeed    = EEPROM.read(SPEED);
+	this->speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
+	uint8_t eepromFriction = EEPROM.read(FRICTION);
+	this->friction      = !eepromFriction ? FRICTION_DEFAULT : eepromFriction;
+
 	update();
-	return this->configuration;
 }
