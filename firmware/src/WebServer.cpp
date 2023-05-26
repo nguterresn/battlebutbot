@@ -35,8 +35,11 @@ void setWebServer(Robot& robot)
 	});
 
 	server.on("/config", HTTP_GET, [](AsyncWebServerRequest* request){
-		// TODO: update switcheries according to the robot configuration.
 		request->send(SPIFFS, "/config.html", "text/html");
+	});
+
+	server.on("/load-configuration", HTTP_GET, [&robot](AsyncWebServerRequest* request){
+		request->send(200, "text/plain", robot.serializeForRequest());
 	});
 
 	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {

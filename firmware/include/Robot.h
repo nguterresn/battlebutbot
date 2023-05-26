@@ -10,8 +10,8 @@ typedef enum {
 	CONFIGURATION,
 	SPEED,
 	FRICTION,
-	EEPROM_SIZE
-} eepromAddress;
+	CONFIGURATION_SIZE
+} configuration;
 
 class Robot {
 public:
@@ -23,6 +23,7 @@ public:
 	uint8_t isConsoleEnabled();
 	uint8_t isFeedbackLedEnabled();
 	uint8_t isServoEnabled();
+	const char* serializeForRequest(void);
 
 	MachineRoom oMachineRoom;
 private:

@@ -11,8 +11,9 @@ Robot::Robot(uint8_t leftMotorIN1,
 {
 	ledPin = feedbackLed;
 	pinMode(ledPin, OUTPUT);
-	EEPROM.begin(EEPROM_SIZE);
+	EEPROM.begin(CONFIGURATION_SIZE);
 
+	// Load the configuration as soon as the robot boots.
 	loadConfiguration();
 }
 
@@ -28,16 +29,12 @@ void Robot::update()
 /// @brief Method feedback when a client connects to the webpage
 void Robot::connect()
 {
-	// Add an LED to show the web control page is open.
 	oMachineRoom.brake();
-	if (isFeedbackLedEnabled()) {
-		digitalWrite(ledPin, HIGH);
-	}
 }
 
 uint8_t Robot::isFeedbackLedEnabled()
 {
-	return configuration && ENABLE_FEEDBACK_LED;
+	return configuration & ENABLE_FEEDBACK_LED;
 }
 
 /// @brief Save new configuration on the EEPROM
@@ -51,9 +48,9 @@ void Robot::saveConfiguration(int configuration, int speed, int friction)
 		return;
 	}
 	// Save on EEPROM
-	EEPROM.put(CONFIGURATION, (uint8_t)configuration);
-	EEPROM.put(SPEED, (uint8_t)speed);
-	EEPROM.put(FRICTION, (uint8_t)friction);
+	EEPROM.put(CONFIGURATION, configuration);
+	EEPROM.put(SPEED, speed);
+	EEPROM.put(FRICTION, friction);
 	EEPROM.commit();
 	// Save on RAM
 	this->configuration = configuration;
@@ -72,4 +69,14 @@ void Robot::loadConfiguration(void)
 	this->friction      = !eepromFriction ? FRICTION_DEFAULT : eepromFriction;
 
 	update();
+}
+
+/// @brief
+/// @return event as an integer. configuration on the first byte.
+const char* Robot::serializeForRequest(void)
+{
+	return "hahahah";
+	// return (configuration << (CONFIGURATION * 8)) |
+	//        (speed << (SPEED * 8)) |
+	//        (friction << (FRICTION * 8));
 }

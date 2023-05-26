@@ -75,6 +75,22 @@
       window.location.href =  '/?config=' + config + '&speed=' + speed.value +
                               '&friction=' + friction.value;
     });
+
+    _request('load-configuration', (response) => {
+      // Change Switcheries and slides here!
+      alert(response);
+    });
+  }
+
+  function _request(path, callback) {
+    const xhr = new XMLHttpRequest();
+    xhr.onload = () => {
+      if (xhr.status == 200) {
+        callback(xhr.response);
+      }
+    };
+    xhr.open("GET", path, true);
+    xhr.send();
   }
 </script>
 </body>
