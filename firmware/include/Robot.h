@@ -23,7 +23,7 @@ public:
 	uint8_t isConsoleEnabled();
 	uint8_t isFeedbackLedEnabled();
 	uint8_t isServoEnabled();
-	const char* serializeForRequest(void);
+	int serializeForRequest(char* buffer);
 
 	MachineRoom oMachineRoom;
 private:

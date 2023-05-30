@@ -71,12 +71,7 @@ void Robot::loadConfiguration(void)
 	update();
 }
 
-/// @brief
-/// @return event as an integer. configuration on the first byte.
-const char* Robot::serializeForRequest(void)
+int Robot::serializeForRequest(char* buffer)
 {
-	return "hahahah";
-	// return (configuration << (CONFIGURATION * 8)) |
-	//        (speed << (SPEED * 8)) |
-	//        (friction << (FRICTION * 8));
+	return sprintf(buffer, "%02x%02x%02x", configuration, speed, friction);
 }

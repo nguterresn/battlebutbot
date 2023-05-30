@@ -39,7 +39,11 @@ void setWebServer(Robot& robot)
 	});
 
 	server.on("/load-configuration", HTTP_GET, [&robot](AsyncWebServerRequest* request){
-		request->send(200, "text/plain", robot.serializeForRequest());
+		char* buffer = (char*)malloc(sizeof(char) * 10);
+		if (robot.serializeForRequest(buffer)) {
+			request->send(200, "text/plain", buffer);
+		}
+		free(buffer);
 	});
 
 	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
