@@ -55,12 +55,26 @@
 
   window.onload = function () {
     const button = document.getElementById("save_config");
-    const speed = document.getElementById("speed");
-    const friction = document.getElementById("friction");
+    var speed = document.getElementById("speed");
+    var friction = document.getElementById("friction");
 
-    // Initialize the switches
-    Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html) {
-      var switchery = new Switchery(html, {color: '#0096FF' });
+    _request('load-configuration', (response) => {
+      // Change Switcheries and slides here!
+      const _configuration = parseInt(response.slice(0, 2), 16);
+      const _speed = parseInt(response.slice(2, 4), 16);
+      const _friction = parseInt(response.slice(4, 6), 16);
+
+      // Initialize the switches
+      Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html, index) {
+        var switchery = new Switchery(html, {color: '#0096FF' });
+        if (_configuration & (1 << index)) {
+          switchery.checked = true;
+          switchery.bindClick();
+        }
+      });
+
+      speed.value = _speed;
+      friction.value = _friction;
     });
 
     button.addEventListener('click', e => {
@@ -74,11 +88,6 @@
       }
       window.location.href =  '/?config=' + config + '&speed=' + speed.value +
                               '&friction=' + friction.value;
-    });
-
-    _request('load-configuration', (response) => {
-      // Change Switcheries and slides here!
-      alert(response);
     });
   }
 
