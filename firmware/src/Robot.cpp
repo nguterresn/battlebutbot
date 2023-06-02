@@ -6,7 +6,7 @@ Robot::Robot(uint8_t leftMotorIN1,
              uint8_t rightMotorIN2,
              uint8_t feedbackLed,
              Stream* serial) :
-	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2),
+	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2, serial),
 	serial(serial)
 {
 	ledPin = feedbackLed;
