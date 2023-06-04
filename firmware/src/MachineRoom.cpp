@@ -14,52 +14,33 @@ MachineRoom::MachineRoom(
 	uint8_t leftMotorIN2,
 	uint8_t rightMotorIN1,
 	uint8_t rightMotorIN2,
+	uint8_t servoPin,
 	Stream* serial) :
 	left(leftMotorIN1, leftMotorIN2),
 	right(rightMotorIN1, rightMotorIN2),
 	serial(serial)
 {
+	servo.attach(servoPin);
+	servo.write(0);
+
 	this->changeFriction(FRICTION_DEFAULT);
 	this->changeSpeed(SPEED_DEFAULT);
-	wasForward = false;
 }
 
 /// @brief Whenever the car needs to just go forward
 /// @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
 void MachineRoom::forward(uint8_t pwm)
 {
-	// if (!wasForward) {
-	// 	friction = MOTOR_PWM_RANGE;
-	// }
-	// if (frictionStep < friction) {
-	// 	friction -= frictionStep;
-	// }
-	// else {
-	// 	friction = 0;
-	// }
-	// wasForward = true;
-	friction = 0;
-	right.forward(pwm, friction);
-	left.forward(pwm, friction);
+	right.forward(pwm, 0);
+	left.forward(pwm, 0);
 }
 
 /// @brief Whenever the car needs to just go backward
 /// @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
 void MachineRoom::backward(uint8_t pwm)
 {
-	// if (wasForward) {
-	// 	friction = MOTOR_PWM_RANGE;
-	// }
-	// if (frictionStep < friction) {
-	// 	friction -= frictionStep;
-	// }
-	// else {
-	// 	friction = 0;
-	// }
-	// wasForward = false;
-	friction = 0;
-	right.backward(pwm, friction);
-	left.backward(pwm, friction);
+	right.backward(pwm, 0);
+	left.backward(pwm, 0);
 }
 
 /// @brief Whenever the car needs to break
@@ -67,8 +48,6 @@ void MachineRoom::backward(uint8_t pwm)
 /// pull-down.
 void MachineRoom::brake()
 {
-	// friction = MOTOR_PWM_RANGE;
-
 	right.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
 	left.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
 }
@@ -108,22 +87,22 @@ void MachineRoom::update(int x, int y)
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		right.forward(pwmModule, friction);
-		left.forward(pwmY, friction);
+		right.forward(pwmModule, 0);
+		left.forward(pwmY, 0);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward(pwmY, friction);
-		left.forward(pwmModule, friction);
+		right.forward(pwmY, 0);
+		left.forward(pwmModule, 0);
 	}
 	else if (x < 0 && y < 0) {
 		// 3rd & 4th quandrant - backwards.
-		right.backward(pwmY, friction);
-		left.backward(pwmModule, friction);
+		right.backward(pwmY, 0);
+		left.backward(pwmModule, 0);
 	}
 	else if (x > 0 && y < 0) {
-		right.backward(pwmModule, friction);
-		left.backward(pwmY, friction);
+		right.backward(pwmModule, 0);
+		left.backward(pwmY, 0);
 	}
 }
 

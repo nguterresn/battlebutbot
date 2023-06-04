@@ -4,12 +4,13 @@ Robot::Robot(uint8_t leftMotorIN1,
              uint8_t leftMotorIN2,
              uint8_t rightMotorIN1,
              uint8_t rightMotorIN2,
-             uint8_t feedbackLed,
+             uint8_t servoPin,
+             uint8_t feedbackLedPin,
              Stream* serial) :
-	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2, serial),
+	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2, servoPin, serial),
 	serial(serial)
 {
-	ledPin = feedbackLed;
+	ledPin = feedbackLedPin;
 	pinMode(ledPin, OUTPUT);
 	EEPROM.begin(CONFIGURATION_SIZE);
 

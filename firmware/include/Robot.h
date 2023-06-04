@@ -1,4 +1,5 @@
 #include <Arduino.h>
+// https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM
 #include <EEPROM.h>
 #include "MachineRoom.h"
 
@@ -15,7 +16,7 @@ typedef enum {
 
 class Robot {
 public:
-	Robot(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, uint8_t feedbackLed, Stream* serial = nullptr);
+	Robot(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, uint8_t servoPin, uint8_t feedbackLedPin, Stream* serial = nullptr);
 	void update();
 	void connect();
 	void loadConfiguration(void);

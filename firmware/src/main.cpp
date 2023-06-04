@@ -8,9 +8,10 @@
 #define RIGHT1         D5
 #define RIGHT2         D4
 
+#define SERVO          D6
 #define FEEDBACK_LED   D7
 
-Robot robot(LEFT1, LEFT2, RIGHT1, RIGHT2, FEEDBACK_LED, &Serial);
+Robot robot(LEFT1, LEFT2, RIGHT1, RIGHT2, SERVO, FEEDBACK_LED, &Serial);
 
 void setup()
 {

@@ -1,4 +1,6 @@
 #include "Motor.h"
+// https://github.com/esp8266/Arduino/tree/master/libraries/Servo
+#include <Servo.h>
 
 // Theorectically speaking with a CPU_FREQ of 80Mhz, each tick would be executed
 // every 0.0125 ms. This leaves us with a non-blocking friction window
@@ -9,7 +11,7 @@
 class MachineRoom {
 public:
 	MachineRoom();
-	MachineRoom(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, Stream* serial = nullptr);
+	MachineRoom(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, uint8_t servoPin, Stream* serial = nullptr);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
 	void brake();
@@ -19,7 +21,8 @@ public:
 private:
 	Stream* serial;
 	Motor left, right;
+	Servo servo;
+
 	uint8_t frictionStep, friction;
 	float speedRatio;
-	bool wasForward;
 };
