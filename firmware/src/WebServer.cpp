@@ -39,7 +39,7 @@ void setWebServer(Robot& robot)
 	});
 
 	server.on("/load-configuration", HTTP_GET, [&robot](AsyncWebServerRequest* request){
-		char buffer[10] = {0};
+		char buffer[10] = { 0 };
 		if (robot.serializeForRequest(buffer)) {
 			request->send(200, "text/plain", buffer);
 		}
@@ -57,9 +57,10 @@ void setWebServer(Robot& robot)
 		request->send(404, "text/plain");
 	});
 
-	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){
+	server.on("/action", HTTP_GET, [&robot](AsyncWebServerRequest* request){
 		// Do something later on, need to add the hardware first.
 		request->send(200, "text/plain", "OK");
+		robot.oMachineRoom.flip();
 	});
 
 	server.onNotFound(notFound);

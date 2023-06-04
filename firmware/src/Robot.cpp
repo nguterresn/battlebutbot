@@ -30,7 +30,7 @@ void Robot::update()
 /// @brief Method feedback when a client connects to the webpage
 void Robot::connect()
 {
-	oMachineRoom.brake();
+	oMachineRoom.reset();
 }
 
 uint8_t Robot::isFeedbackLedEnabled()

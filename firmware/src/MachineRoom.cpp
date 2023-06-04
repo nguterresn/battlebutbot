@@ -21,10 +21,18 @@ MachineRoom::MachineRoom(
 	serial(serial)
 {
 	servo.attach(servoPin);
-	servo.write(0);
+	servo.writeMicroseconds(DEFAULT_NEUTRAL_PULSE_WIDTH);
+	isServoFlipped = false;
 
 	this->changeFriction(FRICTION_DEFAULT);
 	this->changeSpeed(SPEED_DEFAULT);
+}
+
+void MachineRoom::reset(void)
+{
+	this->brake();
+	servo.writeMicroseconds(DEFAULT_NEUTRAL_PULSE_WIDTH);
+	isServoFlipped = false;
 }
 
 /// @brief Whenever the car needs to just go forward
@@ -46,7 +54,7 @@ void MachineRoom::backward(uint8_t pwm)
 /// @brief Whenever the car needs to break
 /// @note Not quite sure this is the right way to do it: either pull-up or
 /// pull-down.
-void MachineRoom::brake()
+void MachineRoom::brake(void)
 {
 	right.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
 	left.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
@@ -104,6 +112,12 @@ void MachineRoom::update(int x, int y)
 		right.backward(pwmModule, 0);
 		left.backward(pwmY, 0);
 	}
+}
+
+void MachineRoom::flip(void)
+{
+	servo.writeMicroseconds(isServoFlipped ? DEFAULT_NEUTRAL_PULSE_WIDTH : DEFAULT_MIN_PULSE_WIDTH);
+	isServoFlipped = !isServoFlipped;
 }
 
 /// @brief change friction to a proper step value
