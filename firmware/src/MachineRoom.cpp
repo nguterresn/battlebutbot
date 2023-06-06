@@ -1,9 +1,5 @@
 #include "MachineRoom.h"
 
-MachineRoom::MachineRoom()
-{
-}
-
 /// @brief Initializes the Machine Room (aka Wheels Controller)
 /// @param leftMotorIN1 as digital enabled PWM forward pin
 /// @param leftMotorIN2 as digital enabled PWM backward pin
@@ -18,12 +14,9 @@ MachineRoom::MachineRoom(
 	Stream* serial) :
 	left(leftMotorIN1, leftMotorIN2),
 	right(rightMotorIN1, rightMotorIN2),
+	servo(servoPin),
 	serial(serial)
 {
-	servo.attach(servoPin);
-	servo.writeMicroseconds(DEFAULT_NEUTRAL_PULSE_WIDTH);
-	isServoFlipped = false;
-
 	this->changeFriction(FRICTION_DEFAULT);
 	this->changeSpeed(SPEED_DEFAULT);
 }
@@ -31,8 +24,7 @@ MachineRoom::MachineRoom(
 void MachineRoom::reset(void)
 {
 	this->brake();
-	servo.writeMicroseconds(DEFAULT_NEUTRAL_PULSE_WIDTH);
-	isServoFlipped = false;
+	servo.reset();
 }
 
 /// @brief Whenever the car needs to just go forward
@@ -95,29 +87,28 @@ void MachineRoom::update(int x, int y)
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		right.forward(pwmModule, 0);
-		left.forward(pwmY, 0);
-	}
-	else if (x < 0 && y > 0) {
-		// 2nd quadrant - forward and left.
 		right.forward(pwmY, 0);
 		left.forward(pwmModule, 0);
 	}
+	else if (x < 0 && y > 0) {
+		// 2nd quadrant - forward and left.
+		right.forward(pwmModule, 0);
+		left.forward(pwmY, 0);
+	}
 	else if (x < 0 && y < 0) {
 		// 3rd & 4th quandrant - backwards.
-		right.backward(pwmY, 0);
-		left.backward(pwmModule, 0);
-	}
-	else if (x > 0 && y < 0) {
 		right.backward(pwmModule, 0);
 		left.backward(pwmY, 0);
+	}
+	else if (x > 0 && y < 0) {
+		right.backward(pwmY, 0);
+		left.backward(pwmModule, 0);
 	}
 }
 
 void MachineRoom::flip(void)
 {
-	servo.writeMicroseconds(isServoFlipped ? DEFAULT_NEUTRAL_PULSE_WIDTH : DEFAULT_MIN_PULSE_WIDTH);
-	isServoFlipped = !isServoFlipped;
+	servo.flip();
 }
 
 /// @brief change friction to a proper step value
