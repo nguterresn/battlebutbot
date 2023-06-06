@@ -72,6 +72,7 @@ void Robot::loadConfiguration(void)
 	update();
 }
 
+/// @brief Returns battery level in percentage based on a 10-bit ADC read.
 uint8_t Robot::getBatteryLevel(void)
 {
 	int digitalValueRead = analogRead(A0);
