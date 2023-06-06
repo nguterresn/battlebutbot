@@ -72,7 +72,19 @@ void Robot::loadConfiguration(void)
 	update();
 }
 
+uint8_t Robot::getBatteryLevel(void)
+{
+	int digitalValueRead = analogRead(A0);
+
+	int level            = 0.3417 * digitalValueRead - 250;
+
+	if (level < 0) {
+		return 0;
+	}
+	return level;
+}
+
 int Robot::serializeForRequest(char* buffer)
 {
-	return sprintf(buffer, "%02x%02x%02x", configuration, speed, friction);
+	return sprintf(buffer, "%02x%02x%02x%02x", configuration, speed, friction, getBatteryLevel());
 }

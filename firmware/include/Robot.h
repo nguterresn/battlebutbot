@@ -24,6 +24,7 @@ public:
 	uint8_t isConsoleEnabled();
 	uint8_t isFeedbackLedEnabled();
 	uint8_t isServoEnabled();
+	uint8_t getBatteryLevel(void);
 	int serializeForRequest(char* buffer);
 
 	MachineRoom oMachineRoom;
