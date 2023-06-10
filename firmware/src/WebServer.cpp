@@ -25,7 +25,9 @@ void setWebServer(Robot& robot)
 			                        request->getParam(HTTP_SPEED)->value().toInt(),
 			                        request->getParam(HTTP_FRICTION)->value().toInt());
 		}
-		robot.connect();
+		else {
+			robot.connect();
+		}
 		// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
 		request->send(SPIFFS, "/home.html", "text/html");
 	});

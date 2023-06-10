@@ -2,11 +2,11 @@
 <html>
 <head>
   <title>BattleButBot</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-  <div class="container">
+  <div class="container disable-double-tap-zoom">
     <br>
     <div class="row">
       <h5 style="text-align: center;">&#x1F579; BattleButBot Controller</h5>
@@ -52,15 +52,13 @@
     const arrowBack = '<svg role="img" xmlns="http://www.w3.org/2000/svg" width="56px" height="56px" viewBox="0 0 24 24" aria-labelledby="arrowDownIconTitle" stroke="#3CA0FA" stroke-width="2.142857142857143" stroke-linecap="round" stroke-linejoin="miter" fill="none" color="#3CA0FA"> <title id="arrowDownIconTitle">Arrow Down</title> <path d="M6 15l6 6 6-6"/> <path d="M12 3v17"/> <path stroke-linecap="round" d="M12 21v-1"/> </svg>';
 
     // Prevent tap and hold text selection.
-    ['touchstart', 'touchend', 'touchmove', 'touchcancel'].forEach(function(e){
-      joystick.addEventListener(e, ev => { ev.preventDefault(); });
-    });
+    // ['touchstart', 'touchend', 'touchmove', 'touchcancel'].forEach(function(e){
+    //   joystick.addEventListener(e, ev => { ev.preventDefault(); });
+    // });
 
     action.addEventListener('click', e => {
-      if (token) {
-        return;
-      }
-      _request("GET", "/action");
+      token = false;
+      _request("/action");
     });
     config.addEventListener('click', e => {
       if (token) {
@@ -76,10 +74,10 @@
       token = true;
       _updateArrowContainer(thumb.y, thumb.x)
       _updateSpeedMeter(thumb.y, thumb.x);
-      _request("GET", "/update?x=" + thumb.x + "&y=" + thumb.y);
+      _request("/update?x=" + thumb.x + "&y=" + thumb.y);
     });
 
-    function _request(method, path) {
+    function _request(path) {
       const xhr = new XMLHttpRequest();
       xhr.onload = () => {
         log.innerText = xhr.status == 200 ? path + ' OK' : "404";
@@ -93,7 +91,7 @@
         token = false;
         log.innerText = "Error on XML request!";
       };
-      xhr.open(method, path, true);
+      xhr.open("GET", path, true);
       xhr.send();
     }
 

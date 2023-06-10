@@ -279,3 +279,7 @@ html {
   margin-left: 20px;
   margin-right: 20px;
 }
+
+.disable-double-tap-zoom {
+  touch-action: manipulation;
+}
