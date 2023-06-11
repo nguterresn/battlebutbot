@@ -55,8 +55,8 @@ void MachineRoom::backward(uint8_t pwm)
  */
 void MachineRoom::brake(void)
 {
-	right.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
-	left.update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
+	right.brake();
+	left.brake();
 }
 
 /**

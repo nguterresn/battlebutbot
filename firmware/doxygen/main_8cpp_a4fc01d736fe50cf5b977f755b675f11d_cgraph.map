@@ -1,40 +1,37 @@
 <map id="setup" name="setup">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,59,130"/>
-<area shape="rect" id="Node000002" href="$main_8cpp.html#af3dc18daa59d7c75ede0e3577c62ae2c" title=" " alt="" coords="323,5,373,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,105,106,89,257,40,308,25,309,31,259,45,108,94,60,110"/>
-<area shape="rect" id="Node000003" href="$_web_server_8cpp.html#a94d0cb0714288d533b30827bfe9e0c72" title="Function to create all the endpoints and respective handlers for the WebServer." alt="" coords="107,104,210,130"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="59,114,92,114,92,119,59,119"/>
-<area shape="rect" id="Node000017" href="$_web_server_8cpp.html#a0688dc00cec11acd44362ba620e659e1" title="Initialize ESP as a Access Point. Give it a SSID(name) and a custom DNS domain." alt="" coords="127,153,190,179"/>
-<area shape="poly" id="edge21_Node000001_Node000017" title=" " alt="" coords="60,125,114,146,112,151,58,130"/>
-<area shape="poly" id="edge6_Node000003_Node000002" title=" " alt="" coords="171,102,208,71,257,40,308,23,309,28,259,45,211,75,175,106"/>
-<area shape="rect" id="Node000004" href="$class_machine_room.html#a3db87976893a3a97398a27614bc0f4ba" title="Toggle the servo motor action." alt="" coords="283,55,413,80"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="210,101,282,82,283,87,211,106"/>
-<area shape="rect" id="Node000006" href="$_web_server_8cpp.html#a560c0d3d00745871e826b96a6cac3aee" title=" " alt="" coords="311,104,386,130"/>
-<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="210,114,296,114,296,119,210,119"/>
-<area shape="rect" id="Node000007" href="$class_robot.html#acbe1be1097dfb8056dfc1d6b88ed607a" title="Serializes the configuration, speed and friction into hex." alt="" coords="258,153,438,179"/>
-<area shape="poly" id="edge7_Node000003_Node000007" title=" " alt="" coords="211,128,283,147,282,152,210,133"/>
-<area shape="rect" id="Node000009" href="$_web_server_8cpp.html#a85f30d66aa1231313c8553fd485b22b1" title=" " alt="" coords="320,203,377,228"/>
-<area shape="poly" id="edge9_Node000003_Node000009" title=" " alt="" coords="193,128,212,139,226,152,236,165,245,178,259,189,282,200,305,207,304,212,280,205,257,194,241,181,231,169,222,156,208,143,191,132"/>
-<area shape="rect" id="Node000010" href="$class_machine_room.html#ab28a519f64268bb501cca5d2d0be6fba" title="Update motors according to web&#39;s joystick incoming data." alt="" coords="272,253,424,279"/>
-<area shape="poly" id="edge10_Node000003_Node000010" title=" " alt="" coords="197,128,212,139,229,166,236,191,242,216,260,239,266,244,263,248,256,243,237,218,230,193,224,168,208,143,194,132"/>
-<area shape="rect" id="Node000005" href="$class_servo_motor.html#a465a2f4ce91f157cdcbb1b6f3bf4e441" title="Flip the servo motor." alt="" coords="514,55,628,80"/>
-<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="414,65,500,65,500,70,414,70"/>
-<area shape="rect" id="Node000008" href="$class_robot.html#a446fa072b6259e4a8f0c3b32e428954b" title="Returns battery level in percentage based on a 10&#45;bit ADC read." alt="" coords="493,128,649,154"/>
-<area shape="poly" id="edge8_Node000007_Node000008" title=" " alt="" coords="438,153,478,149,479,154,439,159"/>
-<area shape="rect" id="Node000011" href="$class_machine_room.html#a6d4240a56472a6ac30f1b078057da6bc" title="Whenever the car needs to just go backward." alt="" coords="486,177,656,203"/>
-<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="399,250,437,238,485,220,520,206,522,211,487,225,439,243,400,255"/>
-<area shape="rect" id="Node000012" href="$class_motor.html#a2ca9cb6c0238759326bb174bbfd73391" title="Motor goes backwards based on how big is the pwm argument." alt="" coords="717,228,836,254"/>
-<area shape="poly" id="edge14_Node000010_Node000012" title=" " alt="" coords="424,259,702,242,703,248,425,264"/>
-<area shape="rect" id="Node000014" href="$class_machine_room.html#acb3f504a2754f853c038b72cdd18fae7" title="Whenever the car needs to break." alt="" coords="704,279,849,304"/>
-<area shape="poly" id="edge15_Node000010_Node000014" title=" " alt="" coords="425,268,689,284,688,289,424,273"/>
-<area shape="rect" id="Node000015" href="$class_machine_room.html#a2bad548a3cc09718f8002f78d062d541" title="Whenever the car needs to just go forward." alt="" coords="493,329,649,355"/>
-<area shape="poly" id="edge17_Node000010_Node000015" title=" " alt="" coords="389,277,518,322,517,327,387,282"/>
-<area shape="rect" id="Node000016" href="$class_motor.html#a2e409051c03379d1d1912657c3af7578" title="Motor goes forward based on how big is the pwm argument." alt="" coords="724,329,829,355"/>
-<area shape="poly" id="edge20_Node000010_Node000016" title=" " alt="" coords="363,277,414,323,449,347,487,365,548,377,611,377,670,369,720,357,721,362,671,374,611,382,548,382,486,370,446,352,410,328,360,281"/>
-<area shape="poly" id="edge12_Node000011_Node000012" title=" " alt="" coords="627,201,708,221,707,227,625,206"/>
-<area shape="rect" id="Node000013" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="897,279,998,304"/>
-<area shape="poly" id="edge13_Node000012_Node000013" title=" " alt="" coords="823,252,889,271,887,277,822,257"/>
-<area shape="poly" id="edge16_Node000014_Node000013" title=" " alt="" coords="849,289,882,289,882,294,849,294"/>
-<area shape="poly" id="edge18_Node000015_Node000016" title=" " alt="" coords="650,339,708,339,708,345,650,345"/>
-<area shape="poly" id="edge19_Node000016_Node000013" title=" " alt="" coords="822,326,887,306,889,312,823,331"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,129,59,155"/>
+<area shape="rect" id="Node000002" href="$_web_server_8cpp.html#a94d0cb0714288d533b30827bfe9e0c72" title="Function to create all the endpoints and respective handlers for the WebServer." alt="" coords="107,104,210,130"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="58,134,92,128,93,133,59,140"/>
+<area shape="rect" id="Node000016" href="$_web_server_8cpp.html#a0688dc00cec11acd44362ba620e659e1" title="Initialize ESP as a Access Point. Give it a SSID(name) and a custom DNS domain." alt="" coords="127,153,190,179"/>
+<area shape="poly" id="edge19_Node000001_Node000016" title=" " alt="" coords="59,145,113,155,112,160,58,150"/>
+<area shape="rect" id="Node000003" href="$class_machine_room.html#a3db87976893a3a97398a27614bc0f4ba" title="Toggle the servo motor action." alt="" coords="283,5,413,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="171,102,208,71,257,40,270,34,272,39,259,45,211,75,175,106"/>
+<area shape="rect" id="Node000005" href="$_web_server_8cpp.html#a560c0d3d00745871e826b96a6cac3aee" title=" " alt="" coords="311,55,386,80"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="210,101,296,78,297,83,211,106"/>
+<area shape="rect" id="Node000006" href="$class_robot.html#acbe1be1097dfb8056dfc1d6b88ed607a" title="Serializes the configuration, speed and friction into hex." alt="" coords="258,104,438,130"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="210,114,243,114,243,120,210,120"/>
+<area shape="rect" id="Node000008" href="$_web_server_8cpp.html#a85f30d66aa1231313c8553fd485b22b1" title=" " alt="" coords="320,153,377,179"/>
+<area shape="poly" id="edge7_Node000002_Node000008" title=" " alt="" coords="211,128,306,153,305,158,210,133"/>
+<area shape="rect" id="Node000009" href="$class_machine_room.html#ab28a519f64268bb501cca5d2d0be6fba" title="Update motors according to web&#39;s joystick incoming data." alt="" coords="272,204,424,230"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="193,128,212,139,226,152,236,165,245,178,259,189,272,196,269,200,257,194,241,181,231,169,222,156,208,143,191,132"/>
+<area shape="rect" id="Node000004" href="$class_servo_motor.html#a465a2f4ce91f157cdcbb1b6f3bf4e441" title="Flip the servo motor." alt="" coords="514,5,628,31"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="414,16,500,16,500,21,414,21"/>
+<area shape="rect" id="Node000007" href="$class_robot.html#a446fa072b6259e4a8f0c3b32e428954b" title="Returns battery level in percentage based on a 10&#45;bit ADC read." alt="" coords="493,79,649,104"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="438,104,478,99,479,105,439,109"/>
+<area shape="rect" id="Node000010" href="$class_machine_room.html#a6d4240a56472a6ac30f1b078057da6bc" title="Whenever the car needs to just go backward." alt="" coords="486,128,656,154"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="399,201,437,189,485,170,520,157,522,162,487,175,439,194,400,206"/>
+<area shape="rect" id="Node000011" href="$class_motor.html#a2ca9cb6c0238759326bb174bbfd73391" title="Motor goes backwards based on how big is the pwm argument." alt="" coords="717,179,836,204"/>
+<area shape="poly" id="edge12_Node000009_Node000011" title=" " alt="" coords="424,210,702,193,703,198,425,215"/>
+<area shape="rect" id="Node000013" href="$class_machine_room.html#acb3f504a2754f853c038b72cdd18fae7" title="Whenever the car needs to break." alt="" coords="704,229,849,255"/>
+<area shape="poly" id="edge13_Node000009_Node000013" title=" " alt="" coords="425,219,689,234,688,240,424,224"/>
+<area shape="rect" id="Node000014" href="$class_machine_room.html#a2bad548a3cc09718f8002f78d062d541" title="Whenever the car needs to just go forward." alt="" coords="493,280,649,306"/>
+<area shape="poly" id="edge15_Node000009_Node000014" title=" " alt="" coords="389,228,518,272,517,277,387,233"/>
+<area shape="rect" id="Node000015" href="$class_motor.html#a2e409051c03379d1d1912657c3af7578" title="Motor goes forward based on how big is the pwm argument." alt="" coords="724,280,829,306"/>
+<area shape="poly" id="edge18_Node000009_Node000015" title=" " alt="" coords="363,228,414,274,449,298,487,316,548,327,611,327,670,319,720,308,721,313,671,324,611,333,548,333,486,321,446,303,410,278,360,232"/>
+<area shape="poly" id="edge10_Node000010_Node000011" title=" " alt="" coords="627,152,708,172,707,177,625,157"/>
+<area shape="rect" id="Node000012" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="897,229,998,255"/>
+<area shape="poly" id="edge11_Node000011_Node000012" title=" " alt="" coords="823,202,889,222,887,227,822,207"/>
+<area shape="poly" id="edge14_Node000013_Node000012" title=" " alt="" coords="849,240,882,240,882,245,849,245"/>
+<area shape="poly" id="edge16_Node000014_Node000015" title=" " alt="" coords="650,290,708,290,708,296,650,296"/>
+<area shape="poly" id="edge17_Node000015_Node000012" title=" " alt="" coords="822,277,887,257,889,262,823,282"/>
 </map>

@@ -9,6 +9,7 @@ class Motor {
 public:
 	Motor(uint8_t xIN1 = 0, uint8_t xIN2 = 0);
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
+	void brake(void);
 	void forward(uint8_t pwm, uint8_t friction);
 	void backward(uint8_t pwm, uint8_t friction);
 private:

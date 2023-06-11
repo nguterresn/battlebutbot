@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['enable_5fconsole_5ftext_0',['ENABLE_CONSOLE_TEXT',['../_robot_8h.html#a5a87581f081beb5297d1342c5484919f',1,'Robot.h']]],
-  ['enable_5ffeedback_5fled_1',['ENABLE_FEEDBACK_LED',['../_robot_8h.html#a99c9fe07c220d4169f38995dc9cd441d',1,'Robot.h']]],
-  ['enable_5fservo_2',['ENABLE_SERVO',['../_robot_8h.html#ad825ce45a05b0e80e8d97f8cebd1ee76',1,'Robot.h']]],
-  ['event_5fconfiguration_3',['EVENT_CONFIGURATION',['../_web_server_8h.html#a19d98f3973169307b6e551252798ac1d',1,'WebServer.h']]]
+  ['feedback_5fled_0',['FEEDBACK_LED',['../main_8cpp.html#a2a86fc1377158a446bf9bfb570d0a7d6',1,'main.cpp']]],
+  ['friction_5fdefault_1',['FRICTION_DEFAULT',['../_machine_room_8h.html#af3b10f2fcd15e3c3c2d92d136ea7438b',1,'MachineRoom.h']]]
 ];

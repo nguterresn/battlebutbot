@@ -28,6 +28,11 @@ void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
 	analogWrite(this->xIN2, xIN2pwm);
 }
 
+void Motor::brake(void)
+{
+	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
+}
+
 /**
  * @brief Motor goes forward based on how big is the pwm argument.
  *
