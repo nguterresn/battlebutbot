@@ -1,0 +1,7 @@
+<map id="notFound" name="notFound">
+<area shape="rect" id="Node000001" title=" " alt="" coords="258,5,333,31"/>
+<area shape="rect" id="Node000002" href="$_web_server_8cpp.html#a94d0cb0714288d533b30827bfe9e0c72" title="Function to create all the endpoints and respective handlers for the WebServer." alt="" coords="107,5,210,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,21,211,21,211,16,243,16"/>
+<area shape="rect" id="Node000003" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,5,59,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="92,21,59,21,59,16,92,16"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="Motor::backward" name="Motor::backward">
+<area shape="rect" id="Node000001" title="Motor goes backwards based on how big is the pwm argument." alt="" coords="5,5,124,31"/>
+<area shape="rect" id="Node000002" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="172,5,273,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,16,157,16,157,21,124,21"/>
+</map>

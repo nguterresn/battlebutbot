@@ -1,5 +1,16 @@
 #include "Robot.h"
 
+/**
+ * @brief Construct a new Robot:: Robot object
+ *
+ * @param leftMotorIN1
+ * @param leftMotorIN2
+ * @param rightMotorIN1
+ * @param rightMotorIN2
+ * @param servoPin
+ * @param feedbackLedPin
+ * @param serial
+ */
 Robot::Robot(uint8_t leftMotorIN1,
              uint8_t leftMotorIN2,
              uint8_t rightMotorIN1,
@@ -18,7 +29,10 @@ Robot::Robot(uint8_t leftMotorIN1,
 	loadConfiguration();
 }
 
-/// @brief Update capabilities according to the configuration saved on the EEPROM
+/**
+ * @brief Update capabilities according to the configuration saved on the EEPROM.
+ *
+ */
 void Robot::update()
 {
 	digitalWrite(ledPin, isFeedbackLedEnabled());
@@ -27,19 +41,33 @@ void Robot::update()
 	oMachineRoom.changeFriction(this->friction);
 }
 
-/// @brief Method feedback when a client connects to the webpage
+/**
+ * @brief Method feedback when a client connects to the webpage
+ *
+ */
 void Robot::connect()
 {
 	oMachineRoom.reset();
 }
 
+
+/**
+ * @brief Checks if the feedback led is enable
+ *
+ * @return uint8_t
+ */
 uint8_t Robot::isFeedbackLedEnabled()
 {
 	return configuration & ENABLE_FEEDBACK_LED;
 }
 
-/// @brief Save new configuration on the EEPROM
-/// @param configuration as a byte
+/**
+ * @brief Save new configuration on the EEPROM
+ *
+ * @param configuration as a byte
+ * @param speed as a byte
+ * @param friction as a byte
+ */
 void Robot::saveConfiguration(int configuration, int speed, int friction)
 {
 	// Confirm all of them are the same and return.
@@ -61,6 +89,10 @@ void Robot::saveConfiguration(int configuration, int speed, int friction)
 	update();
 }
 
+/**
+ * @brief Load configuration from EEPROM
+ *
+ */
 void Robot::loadConfiguration(void)
 {
 	this->configuration = EEPROM.read(CONFIGURATION);
@@ -72,7 +104,11 @@ void Robot::loadConfiguration(void)
 	update();
 }
 
-/// @brief Returns battery level in percentage based on a 10-bit ADC read.
+/**
+ * @brief Returns battery level in percentage based on a 10-bit ADC read.
+ *
+ * @return uint8_t as the battery level (0-100)
+ */
 uint8_t Robot::getBatteryLevel(void)
 {
 	int digitalValueRead = analogRead(A0);
@@ -85,6 +121,12 @@ uint8_t Robot::getBatteryLevel(void)
 	return level;
 }
 
+/**
+ * @brief Serializes the configuration, speed and friction into hex
+ *
+ * @param buffer of 10 bytes (set on `WebServer.cpp`)
+ * @return int
+ */
 int Robot::serializeForRequest(char* buffer)
 {
 	return sprintf(buffer, "%02x%02x%02x%02x", configuration, speed, friction, getBatteryLevel());

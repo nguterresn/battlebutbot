@@ -1,0 +1,11 @@
+<map id="Robot::loadConfiguration" name="Robot::loadConfiguration">
+<area shape="rect" id="Node000001" title="Load configuration from EEPROM." alt="" coords="5,55,171,80"/>
+<area shape="rect" id="Node000002" href="$class_robot.html#adc34eec22821c2dce23904a5ea75cf13" title="Update capabilities according to the configuration saved on the EEPROM." alt="" coords="219,55,322,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,65,204,65,204,70,171,70"/>
+<area shape="rect" id="Node000003" href="$class_machine_room.html#a8ee02be19bb1c215efb09ceba22f9c92" title="Change the friction and the friction step of the robot according to an incoming parameter." alt="" coords="371,5,569,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="322,52,369,40,398,32,399,38,371,45,323,57"/>
+<area shape="rect" id="Node000004" href="$class_machine_room.html#a4e8afbd0939ebe92b9b9d4e93f27b2b6" title="change speed to a proper float value" alt="" coords="374,55,566,80"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="322,65,359,65,359,70,322,70"/>
+<area shape="rect" id="Node000005" href="$class_robot.html#abd9ea374bfe157891a25c1a674ac945a" title="Checks if the feedback led is enable." alt="" coords="370,104,569,130"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="323,78,371,90,399,97,398,103,369,95,322,83"/>
+</map>

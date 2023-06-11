@@ -1,0 +1,5 @@
+<map id="MachineRoom::reset" name="MachineRoom::reset">
+<area shape="rect" id="Node000001" title="Resets machine room by stopping the motors or returning them to initial position." alt="" coords="164,5,306,31"/>
+<area shape="rect" id="Node000002" href="$class_robot.html#ad9387cd3c56aff10e7b3febd8d2ccad1" title="Method feedback when a client connects to the webpage." alt="" coords="5,5,116,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,21,116,21,116,16,149,16"/>
+</map>

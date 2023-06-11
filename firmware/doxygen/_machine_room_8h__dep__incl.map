@@ -1,0 +1,15 @@
+<map id="include/MachineRoom.h" name="include/MachineRoom.h">
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,369,31"/>
+<area shape="rect" id="Node000002" href="$_robot_8h.html" title=" " alt="" coords="155,79,267,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,43,226,81,222,77,263,39"/>
+<area shape="rect" id="Node000007" href="$_machine_room_8cpp.html" title=" " alt="" coords="291,79,443,105"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="314,39,356,77,352,81,310,43"/>
+<area shape="rect" id="Node000003" href="$_web_server_8h.html" title=" " alt="" coords="69,153,209,178"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="191,117,153,154,149,150,187,113"/>
+<area shape="rect" id="Node000006" href="$_robot_8cpp.html" title=" " alt="" coords="233,153,336,178"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="235,113,274,150,270,154,232,117"/>
+<area shape="rect" id="Node000004" href="$_web_server_8cpp.html" title=" " alt="" coords="5,226,137,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="120,191,84,228,81,224,116,187"/>
+<area shape="rect" id="Node000005" href="$main_8cpp.html" title=" " alt="" coords="160,226,257,252"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="162,187,199,224,195,228,159,191"/>
+</map>

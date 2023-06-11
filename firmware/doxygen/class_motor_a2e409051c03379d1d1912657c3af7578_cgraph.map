@@ -1,0 +1,5 @@
+<map id="Motor::forward" name="Motor::forward">
+<area shape="rect" id="Node000001" title="Motor goes forward based on how big is the pwm argument." alt="" coords="5,5,111,31"/>
+<area shape="rect" id="Node000002" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="159,5,260,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,16,144,16,144,21,111,21"/>
+</map>

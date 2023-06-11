@@ -1,0 +1,12 @@
+<map id="Motor::forward" name="Motor::forward">
+<area shape="rect" id="Node000001" title="Motor goes forward based on how big is the pwm argument." alt="" coords="663,31,768,56"/>
+<area shape="rect" id="Node000002" href="$class_machine_room.html#a2bad548a3cc09718f8002f78d062d541" title="Whenever the car needs to just go forward." alt="" coords="458,5,615,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="647,37,614,32,615,27,648,31"/>
+<area shape="rect" id="Node000003" href="$class_machine_room.html#ab28a519f64268bb501cca5d2d0be6fba" title="Update motors according to web&#39;s joystick incoming data." alt="" coords="258,31,410,56"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="648,46,411,46,411,41,648,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="444,32,411,37,410,31,443,27"/>
+<area shape="rect" id="Node000004" href="$_web_server_8cpp.html#a94d0cb0714288d533b30827bfe9e0c72" title="Function to create all the endpoints and respective handlers for the WebServer." alt="" coords="107,31,210,56"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="243,46,210,46,210,41,243,41"/>
+<area shape="rect" id="Node000005" href="$main_8cpp.html#a4fc01d736fe50cf5b977f755b675f11d" title=" " alt="" coords="5,31,59,56"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="92,46,59,46,59,41,92,41"/>
+</map>
