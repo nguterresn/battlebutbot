@@ -3,7 +3,6 @@
 /**
  * @brief Construct a new Robot:: Robot object
  *
- * @param feedbackLedPin
  * @param serial
  */
 Robot::Robot(Stream* serial) : oMachineRoom(serial)
@@ -42,6 +41,16 @@ void Robot::connect()
 uint8_t Robot::isFeedbackLedEnabled()
 {
 	return configuration & ENABLE_FEEDBACK_LED;
+}
+
+/**
+ * @brief Checks if the servo is enable
+ *
+ * @return uint8_t
+ */
+uint8_t Robot::isServoEnabled()
+{
+	return configuration & ENABLE_SERVO;
 }
 
 /**
