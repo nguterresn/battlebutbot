@@ -3,26 +3,11 @@
 /**
  * @brief Construct a new Robot:: Robot object
  *
- * @param leftMotorIN1
- * @param leftMotorIN2
- * @param rightMotorIN1
- * @param rightMotorIN2
- * @param servoPin
  * @param feedbackLedPin
  * @param serial
  */
-Robot::Robot(uint8_t leftMotorIN1,
-             uint8_t leftMotorIN2,
-             uint8_t rightMotorIN1,
-             uint8_t rightMotorIN2,
-             uint8_t servoPin,
-             uint8_t feedbackLedPin,
-             Stream* serial) :
-	oMachineRoom(leftMotorIN1, leftMotorIN2, rightMotorIN1, rightMotorIN2, servoPin, serial),
-	serial(serial)
+Robot::Robot(Stream* serial) : oMachineRoom(serial)
 {
-	ledPin = feedbackLedPin;
-	pinMode(ledPin, OUTPUT);
 	EEPROM.begin(CONFIGURATION_SIZE);
 
 	// Load the configuration as soon as the robot boots.
@@ -35,8 +20,7 @@ Robot::Robot(uint8_t leftMotorIN1,
  */
 void Robot::update()
 {
-	digitalWrite(ledPin, isFeedbackLedEnabled());
-
+	oMachineRoom.changeFeedback(isFeedbackLedEnabled());
 	oMachineRoom.changeSpeed(this->speed);
 	oMachineRoom.changeFriction(this->friction);
 }
@@ -49,7 +33,6 @@ void Robot::connect()
 {
 	oMachineRoom.reset();
 }
-
 
 /**
  * @brief Checks if the feedback led is enable

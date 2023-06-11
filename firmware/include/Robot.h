@@ -16,7 +16,7 @@ typedef enum {
 
 class Robot {
 public:
-	Robot(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, uint8_t servoPin, uint8_t feedbackLedPin, Stream* serial = nullptr);
+	Robot(Stream* serial = nullptr);
 	void update();
 	void connect();
 	void loadConfiguration(void);
@@ -29,6 +29,5 @@ public:
 
 	MachineRoom oMachineRoom;
 private:
-	Stream* serial;
-	uint8_t configuration, speed, friction, ledPin;
+	uint8_t configuration, speed, friction;
 };

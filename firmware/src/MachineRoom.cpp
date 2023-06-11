@@ -3,25 +3,16 @@
 /**
  * @brief Construct a new Machine Room:: Machine Room object
  *
- * @param leftMotorIN1 as digital enabled PWM forward pin
- * @param leftMotorIN2 as digital enabled PWM backward pin
- * @param rightMotorIN1 as digital enabled PWM forward pin
- * @param rightMotorIN2 as digital enabled PWM backward pin
- * @param servoPin as digital enabled PWM servo pin
  * @param serial optional reference to Arduino's Serial library
  */
-MachineRoom::MachineRoom(
-	uint8_t leftMotorIN1,
-	uint8_t leftMotorIN2,
-	uint8_t rightMotorIN1,
-	uint8_t rightMotorIN2,
-	uint8_t servoPin,
-	Stream* serial) :
-	left(leftMotorIN1, leftMotorIN2),
-	right(rightMotorIN1, rightMotorIN2),
-	servo(servoPin),
+MachineRoom::MachineRoom(Stream* serial) :
+	left(LEFT1, LEFT2),
+	right(RIGHT1, RIGHT2),
+	servo(SERVO),
 	serial(serial)
 {
+	pinMode(FEEDBACK_LED, OUTPUT);
+
 	this->changeFriction(FRICTION_DEFAULT);
 	this->changeSpeed(SPEED_DEFAULT);
 }
@@ -147,9 +138,6 @@ void MachineRoom::changeFriction(uint8_t friction)
 	this->frictionStep = MOTOR_PWM_RANGE / friction;
 }
 
-/// @brief change speed to a proper float value
-/// @param speed
-
 /**
  * @brief Change the speed ratio of the robot according to an incoming parameter.
  *
@@ -158,4 +146,14 @@ void MachineRoom::changeFriction(uint8_t friction)
 void MachineRoom::changeSpeed(uint8_t speed)
 {
 	this->speedRatio = (float)speed / 100.0;
+}
+
+/**
+ * @brief Change the state of the feedback led
+ *
+ * @param level as a boolean
+ */
+void MachineRoom::changeFeedback(bool level)
+{
+	digitalWrite(FEEDBACK_LED, level);
 }

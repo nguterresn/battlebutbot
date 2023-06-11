@@ -7,9 +7,22 @@
 #define FRICTION_DEFAULT 1               // Ascending friction (1 -> 5)
 #define SPEED_DEFAULT    MOTOR_PWM_RANGE // Descending speed (255 -> 1)
 
+#ifdef ESP8266
+#define LEFT1            D1
+#define LEFT2            D2
+#define RIGHT1           D5
+#define RIGHT2           D4
+
+#define SERVO            D6
+#define BATTERY_SENSOR   A0
+#define FEEDBACK_LED     D7
+#elif ESP32
+// include it later.
+#endif
+
 class MachineRoom {
 public:
-	MachineRoom(uint8_t leftMotorIN1, uint8_t leftMotorIN2, uint8_t rightMotorIN1, uint8_t rightMotorIN2, uint8_t servoPin, Stream* serial = nullptr);
+	MachineRoom(Stream* serial = nullptr);
 	void reset(void);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
@@ -18,6 +31,7 @@ public:
 	void flip(void);
 	void changeFriction(uint8_t step);
 	void changeSpeed(uint8_t speed);
+	void changeFeedback(bool level);
 private:
 	Stream* serial;
 	Motor left, right;
