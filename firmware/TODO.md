@@ -9,4 +9,8 @@
 - [ ] Verify if the user has the web session open.
 - [x] Add config page and add config fields to the EEPROM.
 - [ ] Update web page according to EEPROM
-- [ ] Merge WebServer code into Robot's class
+- [ ] Add Automatic Mode
+- [ ] Improve Motor's feedback
+- [ ] Add support for another wireless protocol
+- [ ] Add OTA update support
+<!-- - [] Merge WebServer code into Robot's class -->
