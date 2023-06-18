@@ -1,5 +1,0 @@
-<map id="Robot::loadConfiguration" name="Robot::loadConfiguration">
-<area shape="rect" id="Node000001" title="Load configuration from EEPROM." alt="" coords="153,5,318,31"/>
-<area shape="rect" id="Node000002" href="$class_robot.html#ae97bb5368d6a32a3b3527f224777a450" title="Construct a new Robot:: Robot object." alt="" coords="5,5,105,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,21,105,21,105,16,138,16"/>
-</map>

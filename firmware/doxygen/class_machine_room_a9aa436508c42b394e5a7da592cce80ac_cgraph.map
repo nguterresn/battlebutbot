@@ -1,9 +1,0 @@
-<map id="MachineRoom::reset" name="MachineRoom::reset">
-<area shape="rect" id="Node000001" title="Resets machine room by stopping the motors or returning them to initial position." alt="" coords="5,31,148,56"/>
-<area shape="rect" id="Node000002" href="$class_machine_room.html#acb3f504a2754f853c038b72cdd18fae7" title="Whenever the car needs to break." alt="" coords="196,5,341,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,31,181,27,181,32,149,37"/>
-<area shape="rect" id="Node000004" href="$class_servo_motor.html#a111a9823930975603c44de78995ae0c7" title="Reset the servo to its initial state/angle." alt="" coords="206,55,331,80"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="149,50,191,55,190,60,148,55"/>
-<area shape="rect" id="Node000003" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="389,5,490,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,16,374,16,374,21,341,21"/>
-</map>

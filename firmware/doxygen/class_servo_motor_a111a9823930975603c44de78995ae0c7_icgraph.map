@@ -1,7 +1,0 @@
-<map id="ServoMotor::reset" name="ServoMotor::reset">
-<area shape="rect" id="Node000001" title="Reset the servo to its initial state/angle." alt="" coords="354,5,479,31"/>
-<area shape="rect" id="Node000002" href="$class_machine_room.html#a9aa436508c42b394e5a7da592cce80ac" title="Resets machine room by stopping the motors or returning them to initial position." alt="" coords="164,5,306,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="339,21,307,21,307,16,339,16"/>
-<area shape="rect" id="Node000003" href="$class_robot.html#ad9387cd3c56aff10e7b3febd8d2ccad1" title="Method feedback when a client connects to the webpage." alt="" coords="5,5,116,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="149,21,116,21,116,16,149,16"/>
-</map>

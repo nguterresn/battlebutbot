@@ -1,7 +1,0 @@
-<map id="MachineRoom::forward" name="MachineRoom::forward">
-<area shape="rect" id="Node000001" title="Whenever the car needs to just go forward." alt="" coords="5,5,162,31"/>
-<area shape="rect" id="Node000002" href="$class_motor.html#a2e409051c03379d1d1912657c3af7578" title="Motor goes forward based on how big is the pwm argument." alt="" coords="210,5,315,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,16,195,16,195,21,162,21"/>
-<area shape="rect" id="Node000003" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="363,5,464,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="316,16,348,16,348,21,316,21"/>
-</map>

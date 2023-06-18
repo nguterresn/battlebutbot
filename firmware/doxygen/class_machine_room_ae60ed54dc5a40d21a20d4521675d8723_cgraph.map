@@ -1,7 +1,0 @@
-<map id="MachineRoom::MachineRoom" name="MachineRoom::MachineRoom">
-<area shape="rect" id="Node000001" title="Construct a new Machine Room:: Machine Room object." alt="" coords="5,31,203,56"/>
-<area shape="rect" id="Node000002" href="$class_machine_room.html#a8ee02be19bb1c215efb09ceba22f9c92" title="Change the friction and the friction step of the robot according to an incoming parameter." alt="" coords="251,5,449,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,31,236,27,236,33,203,36"/>
-<area shape="rect" id="Node000003" href="$class_machine_room.html#a4e8afbd0939ebe92b9b9d4e93f27b2b6" title="change speed to a proper float value" alt="" coords="254,55,446,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,51,239,54,239,59,203,56"/>
-</map>

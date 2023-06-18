@@ -1,5 +1,0 @@
-<map id="MachineRoom::flip" name="MachineRoom::flip">
-<area shape="rect" id="Node000001" title="Toggle the servo motor action." alt="" coords="5,5,136,31"/>
-<area shape="rect" id="Node000002" href="$class_servo_motor.html#a465a2f4ce91f157cdcbb1b6f3bf4e441" title="Flip the servo motor." alt="" coords="184,5,297,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,16,169,16,169,21,136,21"/>
-</map>

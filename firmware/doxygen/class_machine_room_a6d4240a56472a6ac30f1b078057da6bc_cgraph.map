@@ -1,7 +1,0 @@
-<map id="MachineRoom::backward" name="MachineRoom::backward">
-<area shape="rect" id="Node000001" title="Whenever the car needs to just go backward." alt="" coords="5,5,175,31"/>
-<area shape="rect" id="Node000002" href="$class_motor.html#a2ca9cb6c0238759326bb174bbfd73391" title="Motor goes backwards based on how big is the pwm argument." alt="" coords="223,5,341,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,16,208,16,208,21,175,21"/>
-<area shape="rect" id="Node000003" href="$class_motor.html#aba6a49a551dfa82f5fc7e457cb0bf2ea" title="Update motor pwm pins." alt="" coords="389,5,490,31"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="341,16,374,16,374,21,341,21"/>
-</map>

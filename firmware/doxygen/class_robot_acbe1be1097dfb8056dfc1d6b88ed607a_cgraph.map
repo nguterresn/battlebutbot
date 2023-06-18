@@ -1,5 +1,0 @@
-<map id="Robot::serializeForRequest" name="Robot::serializeForRequest">
-<area shape="rect" id="Node000001" title="Serializes the configuration, speed and friction into hex." alt="" coords="5,5,186,31"/>
-<area shape="rect" id="Node000002" href="$class_robot.html#a446fa072b6259e4a8f0c3b32e428954b" title="Returns battery level in percentage based on a 10&#45;bit ADC read." alt="" coords="234,5,389,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="186,16,219,16,219,21,186,21"/>
-</map>
