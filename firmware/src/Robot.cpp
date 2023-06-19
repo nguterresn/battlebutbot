@@ -21,7 +21,6 @@ void Robot::update()
 {
 	oMachineRoom.changeFeedback(isFeedbackLedEnabled());
 	oMachineRoom.changeSpeed(this->speed);
-	oMachineRoom.changeFriction(this->friction);
 }
 
 /**
@@ -60,23 +59,19 @@ uint8_t Robot::isServoEnabled()
  * @param speed as a byte
  * @param friction as a byte
  */
-void Robot::saveConfiguration(int configuration, int speed, int friction)
+void Robot::saveConfiguration(int configuration, int speed)
 {
 	// Confirm all of them are the same and return.
-	if (this->configuration == configuration &&
-	    this->speed == speed &&
-	    this->friction == friction) {
+	if (this->configuration == configuration && this->speed == speed) {
 		return;
 	}
 	// Save on EEPROM
 	EEPROM.put(CONFIGURATION, configuration);
 	EEPROM.put(SPEED, speed);
-	EEPROM.put(FRICTION, friction);
 	EEPROM.commit();
 	// Save on RAM
 	this->configuration = configuration;
 	this->speed         = speed;
-	this->friction      = friction;
 
 	update();
 }
@@ -88,10 +83,8 @@ void Robot::saveConfiguration(int configuration, int speed, int friction)
 void Robot::loadConfiguration(void)
 {
 	this->configuration = EEPROM.read(CONFIGURATION);
-	uint8_t eepromSpeed    = EEPROM.read(SPEED);
+	uint8_t eepromSpeed = EEPROM.read(SPEED);
 	this->speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
-	uint8_t eepromFriction = EEPROM.read(FRICTION);
-	this->friction      = !eepromFriction ? FRICTION_DEFAULT : eepromFriction;
 
 	update();
 }
@@ -114,12 +107,12 @@ uint8_t Robot::getBatteryLevel(void)
 }
 
 /**
- * @brief Serializes the configuration, speed and friction into hex
+ * @brief Serializes the configuration, speed and mode into hex
  *
  * @param buffer of 10 bytes (set on `WebServer.cpp`)
  * @return int
  */
 int Robot::serializeForRequest(char* buffer)
 {
-	return sprintf(buffer, "%02x%02x%02x%02x", configuration, speed, friction, getBatteryLevel());
+	return sprintf(buffer, "%02x%02x%02x", configuration, speed, getBatteryLevel());
 }

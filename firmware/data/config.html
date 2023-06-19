@@ -19,32 +19,31 @@
     <div class="row border shadow config-box">
       <div class="distribute-box">
         <h5>Battery level</h5>
-        <p id="battery-level" class="tiny-text">%</p>
+        <p id="battery-level">%</p>
       </div>
       <div class="distribute-box">
         <h5>Console text</h5>
         <input type="checkbox" class="js-switch" />
       </div>
       <div class="distribute-box">
-        <h5>LED Enabled</h5>
+        <h5>LED</h5>
         <input type="checkbox" class="js-switch" />
       </div>
       <div class="distribute-box">
-        <h5>Servo Enabled</h5>
+        <h5>Servo</h5>
         <input type="checkbox" class="js-switch" />
       </div>
+      <!-- <div class="distribute-box">
+        <h5>Low Power</h5>
+        <input type="checkbox" class="js-switch" />
+      </div> -->
       <div class="center-box">
         <h5>Speed</h5>
       </div>
       <div class="center-box">
         <input type="range" min="1" max="255" value="255" step="1" id="speed" class="range-slider">
       </div>
-      <div class="center-box">
-        <h5>Wheel friction</h5>
-      </div>
-      <div class="center-box">
-        <input type="range" min="1" max="5" value="1" step="1" id="friction" class="range-slider">
-      </div>
+
       <div class="center-box">
       </div>
     </div>
@@ -61,15 +60,13 @@
   window.onload = function () {
     const button = document.getElementById("save_config");
     var speed = document.getElementById("speed");
-    var friction = document.getElementById("friction");
     var battery = document.getElementById("battery-level");
 
     _request('load-configuration', (response) => {
       // Change Switcheries and slides here!
       const _configuration = parseInt(response.slice(0, 2), 16);
       const _speed = parseInt(response.slice(2, 4), 16);
-      const _friction = parseInt(response.slice(4, 6), 16);
-      const _battery = parseInt(response.slice(6, 8), 16);
+      const _battery = parseInt(response.slice(4, 6), 16);
 
       // Initialize the switches
       Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html, index) {
@@ -81,7 +78,6 @@
       });
 
       speed.value = _speed;
-      friction.value = _friction;
       battery.innerText = _battery + "%";
     });
 
@@ -94,8 +90,7 @@
           config = config | (1 << index);
         }
       }
-      window.location.href =  '/?config=' + config + '&speed=' + speed.value +
-                              '&friction=' + friction.value;
+      window.location.href =  '/?config=' + config + '&speed=' + speed.value;
     });
   }
 

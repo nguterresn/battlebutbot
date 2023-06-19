@@ -1,5 +1,7 @@
 #include "Motor.h"
 
+// To improve brushed motors:
+// https://learn.adafruit.com/improve-brushed-dc-motor-performance?view=all
 /**
  * @brief Construct a new Motor:: Motor object
  *
@@ -17,7 +19,7 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
 }
 
 /**
- * @brief Update motor pwm pins
+ * @brief Update motor pwm pins (slow decay)
  *
  * @param xIN1pwm
  * @param xIN2pwm
@@ -34,23 +36,29 @@ void Motor::brake(void)
 }
 
 /**
- * @brief Motor goes forward based on how big is the pwm argument.
+ * @brief Motor goes forward based on how big is the pwm argument (slow decay).
  *
  * @param pwm
- * @param friction not being used atm, default is 0.
  */
-void Motor::forward(uint8_t pwm, uint8_t friction)
+void Motor::forward(uint8_t pwm)
 {
-	this->update(pwm, friction);
+	#ifdef HIGH_PERFORMANCE
+	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm);
+	#elif LOW_POWER
+	this->update(pwm, 0);
+	#endif
 }
 
 /**
- * @brief Motor goes backwards based on how big is the pwm argument.
+ * @brief Motor goes backwards based on how big is the pwm argument (slow decay).
  *
  * @param pwm
- * @param friction not being used atm, default is 0.
  */
-void Motor::backward(uint8_t pwm, uint8_t friction)
+void Motor::backward(uint8_t pwm)
 {
-	this->update(friction, pwm);
+	#ifdef HIGH_PERFORMANCE
+	this->update(MOTOR_PWM_RANGE - pwm, MOTOR_PWM_RANGE);
+	#elif LOW_POWER
+	this->update(0, pwm);
+	#endif
 }

@@ -11,9 +11,11 @@ MachineRoom::MachineRoom(Stream* serial) :
 	servo(SERVO),
 	serial(serial)
 {
+#ifdef ESP8266
+	analogWriteFreq(PWM_DEFAULT_FREQUENCY);
+#endif
 	pinMode(FEEDBACK_LED, OUTPUT);
 
-	this->changeFriction(FRICTION_DEFAULT);
 	this->changeSpeed(SPEED_DEFAULT);
 }
 
@@ -34,8 +36,8 @@ void MachineRoom::reset(void)
  */
 void MachineRoom::forward(uint8_t pwm)
 {
-	right.forward(pwm, 0);
-	left.forward(pwm, 0);
+	right.forward(pwm);
+	left.forward(pwm);
 }
 
 /**
@@ -45,8 +47,8 @@ void MachineRoom::forward(uint8_t pwm)
  */
 void MachineRoom::backward(uint8_t pwm)
 {
-	right.backward(pwm, 0);
-	left.backward(pwm, 0);
+	right.backward(pwm);
+	left.backward(pwm);
 }
 
 /**
@@ -73,11 +75,6 @@ void MachineRoom::update(int x, int y)
 		return;
 	}
 
-	serial->print("x=");
-	serial->print(x);
-	serial->print("y=");
-	serial->println(y);
-
 	// The Y axis informs us the power we should provide to the motors, whereas
 	// the X axis informs us about the direction the car should go.
 	double radian     = atan2(abs(y), abs(x));
@@ -99,22 +96,22 @@ void MachineRoom::update(int x, int y)
 
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
-		right.forward(pwmY, 0);
-		left.forward(pwmModule, 0);
+		right.forward(pwmY);
+		left.forward(pwmModule);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward(pwmModule, 0);
-		left.forward(pwmY, 0);
+		right.forward(pwmModule);
+		left.forward(pwmY);
 	}
 	else if (x < 0 && y < 0) {
 		// 3rd & 4th quandrant - backwards.
-		right.backward(pwmModule, 0);
-		left.backward(pwmY, 0);
+		right.backward(pwmModule);
+		left.backward(pwmY);
 	}
 	else if (x > 0 && y < 0) {
-		right.backward(pwmY, 0);
-		left.backward(pwmModule, 0);
+		right.backward(pwmY);
+		left.backward(pwmModule);
 	}
 }
 
@@ -125,17 +122,6 @@ void MachineRoom::update(int x, int y)
 void MachineRoom::flip(void)
 {
 	servo.flip();
-}
-
-/**
- * @brief Change the friction and the friction step of the robot according to an incoming parameter.
- *
- * @param friction unsigned char but limited between 1-5
- */
-void MachineRoom::changeFriction(uint8_t friction)
-{
-	this->friction     = MOTOR_PWM_RANGE;
-	this->frictionStep = MOTOR_PWM_RANGE / friction;
 }
 
 /**

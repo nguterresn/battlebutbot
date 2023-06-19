@@ -18,12 +18,9 @@ void setWifi()
 void setWebServer(Robot& robot)
 {
 	server.on("/", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
-		if (request->hasParam(HTTP_CONFIG) &&
-		    request->hasParam(HTTP_SPEED) &&
-		    request->hasParam(HTTP_FRICTION)) {
+		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
 			robot.saveConfiguration(request->getParam(HTTP_CONFIG)->value().toInt(),
-			                        request->getParam(HTTP_SPEED)->value().toInt(),
-			                        request->getParam(HTTP_FRICTION)->value().toInt());
+			                        request->getParam(HTTP_SPEED)->value().toInt());
 		}
 		else {
 			robot.connect();
