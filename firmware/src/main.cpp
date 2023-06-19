@@ -12,6 +12,9 @@ void setup()
 #ifdef SERIAL_ENABLED
 	Serial.begin(9600);
 	Serial.print(F("Just initialized..."));
+	#ifdef ESP8266
+	Serial.print(F("ESP8266 defined."));
+	#endif
 #endif
 
 	SPIFFS.begin();

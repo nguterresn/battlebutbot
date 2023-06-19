@@ -10,8 +10,10 @@ void setWifi()
 	WiFi.setSleep(false);
 	// Limit the amount of connections to the same web server.  One user per device.
 	WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1);
-	MDNS.begin(DNS_NETWORK_NAME);
-	MDNS.addService("http", DNS_NETWORK_NAME, 80);
+	bool result = MDNS.begin(DNS_NETWORK_NAME);
+	Serial.printf("MDNS %d\n", result);
+	result = MDNS.addService("http", DNS_NETWORK_NAME, 80);
+	Serial.printf("addservice %d\n", result);
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
@@ -23,6 +25,7 @@ void setWebServer(Robot& robot)
 			                        request->getParam(HTTP_SPEED)->value().toInt());
 		}
 		else {
+			Serial.printf("robot connect\n");
 			robot.connect();
 		}
 		// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
