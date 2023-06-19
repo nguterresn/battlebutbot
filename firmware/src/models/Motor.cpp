@@ -1,4 +1,4 @@
-#include "Motor.h"
+#include "models/Motor.h"
 
 // To improve brushed motors:
 // https://learn.adafruit.com/improve-brushed-dc-motor-performance?view=all

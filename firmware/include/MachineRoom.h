@@ -1,6 +1,6 @@
-#include "Motor.h"
-#include "ServoMotor.h"
-#include "PinList.h"
+#include "models/Motor.h"
+#include "models/ServoMotor.h"
+#include "constants/PinList.h"
 
 #define SPEED_DEFAULT         MOTOR_PWM_RANGE // Descending speed (255 -> 1)
 #define PWM_DEFAULT_FREQUENCY 500

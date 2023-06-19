@@ -1,4 +1,4 @@
-#include "ServoMotor.h"
+#include "models/ServoMotor.h"
 
 /**
  * @brief Construct a new Servo Motor:: Servo Motor object
