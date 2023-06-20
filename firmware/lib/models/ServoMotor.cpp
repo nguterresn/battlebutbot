@@ -1,4 +1,4 @@
-#include "models/ServoMotor.h"
+#include "ServoMotor.h"
 
 /**
  * @brief Construct a new Servo Motor:: Servo Motor object
@@ -42,4 +42,9 @@ void ServoMotor::flip(void)
 	}
 	_servo.writeMicroseconds(flipped ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
 	flipped = !flipped;
+}
+
+bool ServoMotor::isFlipped(void)
+{
+	return flipped == true;
 }

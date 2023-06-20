@@ -18,6 +18,7 @@ public:
 	void update(bool enable);
 	void reset(void);
 	void flip(void);
+	bool isFlipped(void);
 
 private:
 	Servo _servo;

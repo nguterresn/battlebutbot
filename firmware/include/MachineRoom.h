@@ -1,5 +1,5 @@
-#include "models/Motor.h"
-#include "models/ServoMotor.h"
+#include "Motor.h"
+#include "ServoMotor.h"
 #include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
 
