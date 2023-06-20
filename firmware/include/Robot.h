@@ -2,18 +2,14 @@
 // https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM
 #include <EEPROM.h>
 #include "MachineRoom.h"
-#include "constants/ConfigurationFields.h"
 
 class Robot {
 public:
 	Robot(Stream* serial = nullptr);
-	void update();
-	void connect();
+	void update(void);
+	void connect(void);
 	void loadConfiguration(void);
 	void saveConfiguration(int configuration, int speed);
-	uint8_t isConsoleEnabled();
-	uint8_t isFeedbackLedEnabled();
-	uint8_t isServoEnabled();
 	uint8_t getBatteryLevel(void);
 	int serializeForRequest(char* buffer);
 

@@ -15,10 +15,11 @@
 class ServoMotor {
 public:
 	ServoMotor(uint8_t pin);
+	void update(bool enable);
 	void reset(void);
 	void flip(void);
 
-	bool isFlipped;
 private:
 	Servo _servo;
+	bool enabled, flipped;
 };

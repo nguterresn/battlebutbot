@@ -7,7 +7,18 @@
  */
 ServoMotor::ServoMotor(uint8_t pin)
 {
+	enabled = false;
 	_servo.attach(pin, MIN_ANGLE_IN_US, MAX_ANGLE_IN_US, NEG_90_ANGLE_IN_US);
+}
+
+/**
+ * @brief Toggle the servo enable variable
+ *
+ * @param enable
+ */
+void ServoMotor::update(bool enable)
+{
+	this->enabled = enable;
 }
 
 /**
@@ -17,7 +28,7 @@ ServoMotor::ServoMotor(uint8_t pin)
 void ServoMotor::reset(void)
 {
 	_servo.writeMicroseconds(NEG_90_ANGLE_IN_US);
-	isFlipped = false;
+	flipped = false;
 }
 
 /**
@@ -26,6 +37,9 @@ void ServoMotor::reset(void)
  */
 void ServoMotor::flip(void)
 {
-	_servo.writeMicroseconds(isFlipped ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
-	isFlipped = !isFlipped;
+	if (!enabled) {
+		return;
+	}
+	_servo.writeMicroseconds(flipped ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
+	flipped = !flipped;
 }

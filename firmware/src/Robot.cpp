@@ -17,9 +17,9 @@ Robot::Robot(Stream* serial) : oMachineRoom(serial)
  * @brief Update capabilities according to the configuration saved on the EEPROM.
  *
  */
-void Robot::update()
+void Robot::update(void)
 {
-	oMachineRoom.changeFeedback(isFeedbackLedEnabled());
+	oMachineRoom.change(this->configuration);
 	oMachineRoom.changeSpeed(this->speed);
 }
 
@@ -27,29 +27,9 @@ void Robot::update()
  * @brief Method feedback when a client connects to the webpage
  *
  */
-void Robot::connect()
+void Robot::connect(void)
 {
 	oMachineRoom.reset();
-}
-
-/**
- * @brief Checks if the feedback led is enable
- *
- * @return uint8_t
- */
-uint8_t Robot::isFeedbackLedEnabled()
-{
-	return configuration & ENABLE_FEEDBACK_LED;
-}
-
-/**
- * @brief Checks if the servo is enable
- *
- * @return uint8_t
- */
-uint8_t Robot::isServoEnabled()
-{
-	return configuration & ENABLE_SERVO;
 }
 
 /**

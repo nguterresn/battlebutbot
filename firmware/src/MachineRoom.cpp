@@ -135,11 +135,32 @@ void MachineRoom::changeSpeed(uint8_t speed)
 }
 
 /**
- * @brief Change the state of the feedback led
+ * @brief Change the configuration fields according to its bit value
  *
- * @param level as a boolean
+ * @param configuration as a bit field configuration
  */
-void MachineRoom::changeFeedback(bool level)
+void MachineRoom::change(uint8_t configuration)
 {
-	digitalWrite(FEEDBACK_LED, level);
+	digitalWrite(FEEDBACK_LED, this->isFeedbackLedEnabled(configuration));
+	servo.update(isServoEnabled(configuration));
+}
+
+/**
+ * @brief Checks if the feedback led is enable
+ *
+ * @return bool
+ */
+bool MachineRoom::isFeedbackLedEnabled(uint8_t configuration)
+{
+	return configuration & ENABLE_FEEDBACK_LED ? true : false;
+}
+
+/**
+ * @brief Checks if the servo is enable
+ *
+ * @return bool
+ */
+bool MachineRoom::isServoEnabled(uint8_t configuration)
+{
+	return configuration & ENABLE_SERVO ? true : false;
 }
