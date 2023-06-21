@@ -21,7 +21,7 @@
 #include <ESP8266WiFi.h>
 #include <espnow.h>
 
-// #define TRANSMITTER
+#define TRANSMITTER
 
 // REPLACE WITH THE MAC Address of your receiver 
 
@@ -79,7 +79,7 @@ unsigned long ms;
 unsigned long incomingMillis;
 
 // Updates DHT readings every 10 seconds
-const long interval = 2; 
+const long interval = 10; 
 unsigned long previousMillis = 0;    // will store last time DHT was updated 
 
 // Variable to store if sending data was successful
@@ -87,22 +87,22 @@ String success;
 
 //Structure example to send data
 //Must match the receiver structure
-typedef struct struct_message {
-    unsigned long millis;
-    float ypr[3];
-} struct_message;
+typedef struct esp_now_data {
+    int roll;
+    int pitch;
+} esp_now_data;
 
 // Create a struct_message called DHTReadings to hold sensor readings
-struct_message foo;
+esp_now_data foo;
 
 // Create a struct_message to hold incoming sensor readings
-struct_message incomingFoo;
+esp_now_data incomingFoo;
 
 float incomingYPR[3];
 
 void sendMillis(unsigned long ms) {
-  foo.millis = ms;
-  Serial.printf("millis send: %lu\n", foo.millis);
+  // foo.millis = ms;
+  // Serial.printf("millis send: %lu\n", foo.millis);
   // Send message via ESP-NOW
   esp_now_send(broadcastAddress, (uint8_t *) &foo, sizeof(foo));
 }
@@ -260,15 +260,27 @@ void mpu_loop()
     mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    Serial.print("ypr\t");
-    // Serial.print(ypr[0] * 180/M_PI);
+    // Serial.print("ypr\t");
+    // // Serial.print(ypr[0] * 180/M_PI);
+    // // Serial.print("\t");
+    // Serial.print(ypr[1] * 180/M_PI);
     // Serial.print("\t");
-    Serial.print(ypr[1] * 180/M_PI);
+    // Serial.println(ypr[2] * 180/M_PI);
+
+    int p = map((int) (ypr[1] * 180/M_PI), -30, 30, -100, 100);
+    int r = map((int) (ypr[2] * 180/M_PI), -30, 30, -100, 100);
+    p = constrain(p, -100, 100);
+    r = constrain(r, -100, 100);
+    if (abs(p) < 30) p = 0;
+    if (abs(r) < 30) r = 0;
+
+    foo.pitch = p;
+    foo.roll = r;
+    Serial.print("pr\t");
+    Serial.print(foo.pitch);
     Serial.print("\t");
-    Serial.println(ypr[2] * 180/M_PI);
-
-
-    esp_now_send(broadcastAddress, (uint8_t *) &ypr, sizeof(ypr));
+    Serial.println(foo.roll);
+    esp_now_send(broadcastAddress, (uint8_t *) &foo, sizeof(foo));
 #endif
 
   }
