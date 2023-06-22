@@ -33,11 +33,15 @@ void initEspNow() {
 }
 
 void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
+  if (len < sizeof(recEspNowData)) {
+    // error
+  }
   memcpy(&recEspNowData, incomingData, sizeof(recEspNowData));
-  Serial.print("pr\t");
-  Serial.print(recEspNowData.pitch);
-  Serial.print("\t");
-  Serial.println(recEspNowData.roll);
+  // Serial.print("pr\t");
+  // Serial.print(recEspNowData.pitch);
+  // Serial.print("\t");
+  // Serial.println(recEspNowData.roll);
+  // Serial.flush();
   // Handle data received.
-  // robot.oMachineRoom.update(recEspNowData.pitch, recEspNowData.roll);
+  robot.oMachineRoom.update(recEspNowData.pitch, recEspNowData.roll);
 }

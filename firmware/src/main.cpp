@@ -15,7 +15,7 @@ Robot robot(&Serial);
 void setup()
 {
 #ifdef SERIAL_ENABLED
-	Serial.begin(9600);
+	Serial.begin(115200);
 	Serial.print(F("Just initialized..."));
 	#ifdef ESP8266
 	Serial.print(F("ESP8266 defined."));
