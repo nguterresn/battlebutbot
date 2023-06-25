@@ -10,30 +10,8 @@
 
 <s> Each HTML page can only have up to 14kB of space. We can reduce it by minifying the code: </s>
 
-This is no longer a constraint. Now we use the ESP file system (littleFS) to pass the html page (limit size not tested yet).
-
- - For JavaScript, we can use this [page](https://www.toptal.com/developers/javascript-minifier).
+This is no longer a constraint. Now we use the ESP file system (littleFS) to pass the html page. The limit is related to the SPIFFS partition, 0x20000 bytes.
 
 ## Icons
 
 Icon pack from [ikonate.com](https://ikonate.com/).
-
-<!-- ## Models
-
-- Models
-  - (A - Expert)
-      - (Provided CAD design)
-      - (Provided PCB design)
-      - (No hardware provided)
-  - (B - Advanced)
-      - (Provided CAD design)
-      - (Provided PCB)
-      - (No hardware provided)
-  - (C - Medium)
-      - (Provided CAD design)
-      - (Provided PCB)
-      - (Provided hardware)
-  - (D - Beginner)
-      - (Provided CAD)
-      - (Provided PCB)
-      - (Provided hardware) -->

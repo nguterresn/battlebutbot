@@ -3,8 +3,6 @@
 
 #define SERIAL_ENABLED 1
 
-#define FEEDBACK_LED   D7
-
 Robot robot(&Serial);
 
 void setup()

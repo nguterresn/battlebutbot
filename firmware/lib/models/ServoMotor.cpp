@@ -8,7 +8,8 @@
 ServoMotor::ServoMotor(uint8_t pin)
 {
 	enabled = false;
-	_servo.attach(pin, MIN_ANGLE_IN_US, MAX_ANGLE_IN_US, NEG_90_ANGLE_IN_US);
+	_servo.attach(pin, MIN_ANGLE_IN_US, MAX_ANGLE_IN_US);
+	_servo.writeMicroseconds(NEG_90_ANGLE_IN_US);
 }
 
 /**
@@ -40,7 +41,7 @@ void ServoMotor::flip(void)
 	if (!enabled) {
 		return;
 	}
-	_servo.writeMicroseconds(flipped ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
+	_servo.writeMicroseconds(isFlipped() ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
 	flipped = !flipped;
 }
 

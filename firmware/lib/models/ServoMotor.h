@@ -1,5 +1,9 @@
 // https://github.com/esp8266/Arduino/tree/master/libraries/Servo
+#ifdef ESP32
+#include <ESP32Servo.h>
+#elif ESP8266
 #include <Servo.h>
+#endif
 
 // Include others if needed.
 #define SERVO_SG90         // http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf
