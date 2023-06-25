@@ -17,7 +17,7 @@ void setWifi()
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
 void setWebServer(Robot &robot)
 {
-	server.on("/", HTTP_GET, [&](AsyncWebServerRequest* request) {
+	server.on("/", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
 			robot.saveConfiguration(request->getParam(HTTP_CONFIG)->value().toInt(),
 			                        request->getParam(HTTP_SPEED)->value().toInt());
@@ -37,14 +37,14 @@ void setWebServer(Robot &robot)
 		request->send(SPIFFS, "/config.html", "text/html");
 	});
 
-	server.on("/load-configuration", HTTP_GET, [&](AsyncWebServerRequest* request){
+	server.on("/load-configuration", HTTP_GET, [&robot](AsyncWebServerRequest* request){
 		char buffer[10] = { 0 };
 		if (robot.serializeForRequest(buffer)) {
 			request->send(200, "text/plain", buffer);
 		}
 	});
 
-	server.on("/update", HTTP_GET, [&](AsyncWebServerRequest* request) {
+	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
 			robot.oMachineRoom.update(
 				request->getParam(HTTP_MOTOR_X)->value().toInt(),
@@ -56,7 +56,7 @@ void setWebServer(Robot &robot)
 		request->send(404, "text/plain");
 	});
 
-	server.on("/action", HTTP_GET, [&](AsyncWebServerRequest* request){
+	server.on("/action", HTTP_GET, [&robot](AsyncWebServerRequest* request){
 		// Do something later on, need to add the hardware first.
 		request->send(200, "text/plain", "OK");
 		robot.oMachineRoom.flip();
