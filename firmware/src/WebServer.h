@@ -1,17 +1,11 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPmDNS.h>
-#include <SPIFFS.h>
-#elif ESP8266
-#include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
-#include <ESP8266mDNS.h>
-#endif
 #include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
 
 #include "Robot.h"
 
@@ -29,7 +23,7 @@
 #define EVENT_CONFIGURATION "configuration"
 
 void notFound(AsyncWebServerRequest* request);
-void setWebServer(Robot& robot);
+void setWebServer(Robot &robot);
 void sendEvent(const char* type, int value);
 void setWifi();
 

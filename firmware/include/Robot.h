@@ -5,7 +5,7 @@
 
 class Robot {
 public:
-	Robot(Stream* serial = nullptr);
+	Robot();
 	void update(void);
 	void connect(void);
 	void loadConfiguration(void);

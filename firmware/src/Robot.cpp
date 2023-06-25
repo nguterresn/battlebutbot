@@ -3,9 +3,8 @@
 /**
  * @brief Construct a new Robot:: Robot object
  *
- * @param serial
  */
-Robot::Robot(Stream* serial) : oMachineRoom(serial)
+Robot::Robot() : oMachineRoom()
 {
 	EEPROM.begin(CONFIGURATION_SIZE);
 
@@ -41,15 +40,15 @@ void Robot::connect(void)
  */
 void Robot::saveConfiguration(int configuration, int speed)
 {
-	// Confirm all of them are the same and return.
+	// // Confirm all of them are the same and return.
 	if (this->configuration == configuration && this->speed == speed) {
 		return;
 	}
-	// Save on EEPROM
+	// // Save on EEPROM
 	EEPROM.put(CONFIGURATION, configuration);
 	EEPROM.put(SPEED, speed);
 	EEPROM.commit();
-	// Save on RAM
+	// // Save on RAM
 	this->configuration = configuration;
 	this->speed         = speed;
 

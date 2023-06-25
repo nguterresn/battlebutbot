@@ -10,7 +10,7 @@
 
 <s> Each HTML page can only have up to 14kB of space. We can reduce it by minifying the code: </s>
 
-This is no longer a constraint. Now we use the ESP file system (littleFS) to pass the html page. The limit is related to the SPIFFS partition, 0x20000 bytes.
+This is no longer a constraint. Now we use the ESP file system (littleFS) to pass the html page. The limit is related to the SPIFFS partition, 0x30000 bytes.
 
 ## Icons
 
