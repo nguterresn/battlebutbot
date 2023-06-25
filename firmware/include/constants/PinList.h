@@ -6,7 +6,7 @@
 
 #define SERVO          21
 // ADC2 pins cannot be used when Wi-Fi is used.
-#define BATTERY_SENSOR ADC1_CH6
+#define BATTERY_SENSOR ADC1_CH6 // GPIO 36
 #define FEEDBACK_LED   22
 #elif ESP8266
 #define LEFT1          D1
