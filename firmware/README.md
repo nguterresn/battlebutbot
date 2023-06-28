@@ -4,8 +4,6 @@
 
 <!-- - We need both commands because the first will save any `.html` file into the ESP file system and the second will flash the code. -->
 
-- You can replace `d1_mini` with your env/board inside `platformio.ini`.
-
 ## Web Page
 
 <s> Each HTML page can only have up to 14kB of space. We can reduce it by minifying the code: </s>
