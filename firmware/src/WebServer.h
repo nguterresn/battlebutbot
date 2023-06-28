@@ -1,6 +1,3 @@
-#ifndef SERVER_H
-#define SERVER_H
-
 #include <WiFi.h>
 #include <AsyncTCP.h>
 #include <ESPmDNS.h>
@@ -26,5 +23,3 @@ void notFound(AsyncWebServerRequest* request);
 void setWebServer(Robot &robot);
 void sendEvent(const char* type, int value);
 void setWifi();
-
-#endif

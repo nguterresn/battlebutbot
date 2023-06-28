@@ -15,3 +15,9 @@ This is no longer a constraint. Now we use the ESP file system (littleFS) to pas
 ## Icons
 
 Icon pack from [ikonate.com](https://ikonate.com/).
+
+---
+
+### Note
+
+For some reason I haven't figured, the `WebServer.h` needs to be inside the `src` folder.

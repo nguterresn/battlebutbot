@@ -1,3 +1,9 @@
-[submodule "firmware/components/arduino"]
-	path = firmware/components/arduino
+[submodule "firmware/components/arduino-esp32"]
+	path = firmware/components/arduino-esp32
 	url = https://github.com/espressif/arduino-esp32.git
+[submodule "firmware/components/ESPAsyncWebServer"]
+	path = firmware/components/ESPAsyncWebServer
+	url = https://github.com/me-no-dev/ESPAsyncWebServer.git
+[submodule "firmware/components/AsyncTCP"]
+	path = firmware/components/AsyncTCP
+	url = https://github.com/me-no-dev/AsyncTCP.git

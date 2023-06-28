@@ -8,9 +8,6 @@ extern "C" void app_main();
 void app_main(void) {
 	initArduino();
 
-	Serial.begin(9600);
-	Serial.print(F("Just initialized..."));
-
 	SPIFFS.begin();
 	setWifi();
 	setWebServer(robot);
