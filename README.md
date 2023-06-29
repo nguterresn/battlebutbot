@@ -10,6 +10,17 @@ BattleButBot is a small and powerful robot designed specifically for the Antweig
 - **Customizable Weapons**: BattleButBot's weapons can be customized to suit your fighting style. With a range of weapons and attachments available, you can build your robot to be the ultimate fighting machine.
 - **Easy to Use**: BattleButBot is easy to use and requires no special skills or training. With its intuitive controls and simple setup process, you can start battling right away.
 
+## Clone
+
+Clone the project by running the following command:
+
+```bash
+git clone --recurse-submodules -j8 git@github.com:nguterresn/battlebutbot.git
+```
+
+The option `-j8` will allow the command to download up to 8 sumodules in parallel. 
+
+
 ## Goal
 
 * Design the skeleton of the battle bot and list all the required hardware components.

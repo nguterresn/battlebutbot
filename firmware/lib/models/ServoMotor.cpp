@@ -7,9 +7,11 @@
  */
 ServoMotor::ServoMotor(uint8_t pin)
 {
-	enabled = false;
-	_servo.attach(pin, MIN_ANGLE_IN_US, MAX_ANGLE_IN_US);
-	_servo.writeMicroseconds(NEG_90_ANGLE_IN_US);
+	enabled   = false;
+	this->min = MIN_ANGLE_IN_US;
+	this->max = MAX_ANGLE_IN_US;
+	ledcSetup(SERVO_CHANNEL, PWM_DEFAULT_FREQUENCY, PWM_DEFAULT_RESOLUTION);
+	ledcAttachPin(pin, SERVO_CHANNEL);
 }
 
 /**
@@ -28,8 +30,16 @@ void ServoMotor::update(bool enable)
  */
 void ServoMotor::reset(void)
 {
-	_servo.writeMicroseconds(NEG_90_ANGLE_IN_US);
+	write(MIN_ANGLE_IN_US);
 	flipped = false;
+}
+
+void ServoMotor::write(uint32_t usec)
+{
+	usec = min(usec, this->max);
+	usec = max(usec, this->min);
+	uint32_t value = ((pow(2, PWM_DEFAULT_RESOLUTION) - 1) / this->max) * usec;
+	ledcWrite(SERVO_CHANNEL, value);
 }
 
 /**
@@ -41,7 +51,9 @@ void ServoMotor::flip(void)
 	if (!enabled) {
 		return;
 	}
-	_servo.writeMicroseconds(isFlipped() ? _0_ANGLE_IN_US : NEG_90_ANGLE_IN_US);
+	// Note: The SG90 is supposed to go up to 2000ms period (90'), but for some reason
+	// the one I'm using only goes up to 1500ms (0').
+	write(isFlipped() ? _0_ANGLE_IN_US : MIN_ANGLE_IN_US);
 	flipped = !flipped;
 }
 

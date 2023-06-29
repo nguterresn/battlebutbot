@@ -1,11 +1,10 @@
 #include <Arduino.h>
-// https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM
 #include <EEPROM.h>
 #include "MachineRoom.h"
 
 class Robot {
 public:
-	Robot(Stream* serial = nullptr);
+	Robot();
 	void update(void);
 	void connect(void);
 	void loadConfiguration(void);

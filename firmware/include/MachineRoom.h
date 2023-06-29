@@ -8,7 +8,7 @@
 
 class MachineRoom {
 public:
-	MachineRoom(Stream* serial = nullptr);
+	MachineRoom();
 	void reset(void);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
@@ -20,7 +20,6 @@ public:
 	bool isFeedbackLedEnabled(uint8_t configuration);
 	bool isServoEnabled(uint8_t configuration);
 private:
-	Stream* serial;
 	Motor left, right;
 	ServoMotor servo;
 

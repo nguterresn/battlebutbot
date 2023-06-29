@@ -3,17 +3,12 @@
 /**
  * @brief Construct a new Machine Room:: Machine Room object
  *
- * @param serial optional reference to Arduino's Serial library
  */
-MachineRoom::MachineRoom(Stream* serial) :
+MachineRoom::MachineRoom() :
 	left(LEFT1, LEFT2),
 	right(RIGHT1, RIGHT2),
-	servo(SERVO),
-	serial(serial)
+	servo(SERVO)
 {
-#ifdef ESP8266
-	analogWriteFreq(PWM_DEFAULT_FREQUENCY);
-#endif
 	pinMode(FEEDBACK_LED, OUTPUT);
 
 	this->changeSpeed(SPEED_DEFAULT);

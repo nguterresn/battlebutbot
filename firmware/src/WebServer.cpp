@@ -15,7 +15,7 @@ void setWifi()
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-void setWebServer(Robot& robot)
+void setWebServer(Robot &robot)
 {
 	server.on("/", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
