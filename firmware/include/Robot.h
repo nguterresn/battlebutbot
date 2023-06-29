@@ -1,5 +1,4 @@
 #include <Arduino.h>
-// https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM
 #include <EEPROM.h>
 #include "MachineRoom.h"
 

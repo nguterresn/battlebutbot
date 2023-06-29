@@ -1,5 +1,4 @@
 #include "esp32-hal-ledc.h"
-#include "esp32-hal-log.h"
 #include <math.h>
 
 // Include others if needed.

@@ -9,9 +9,6 @@ MachineRoom::MachineRoom() :
 	right(RIGHT1, RIGHT2),
 	servo(SERVO)
 {
-// #ifdef ESP8266
-// 	analogWriteFreq(PWM_DEFAULT_FREQUENCY);
-// #endif
 	pinMode(FEEDBACK_LED, OUTPUT);
 
 	this->changeSpeed(SPEED_DEFAULT);

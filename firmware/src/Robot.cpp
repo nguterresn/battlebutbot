@@ -40,15 +40,15 @@ void Robot::connect(void)
  */
 void Robot::saveConfiguration(int configuration, int speed)
 {
-	// // Confirm all of them are the same and return.
+	// Confirm all of them are the same and return.
 	if (this->configuration == configuration && this->speed == speed) {
 		return;
 	}
-	// // Save on EEPROM
+	// Save on EEPROM
 	EEPROM.put(CONFIGURATION, configuration);
 	EEPROM.put(SPEED, speed);
 	EEPROM.commit();
-	// // Save on RAM
+	// Save on RAM
 	this->configuration = configuration;
 	this->speed         = speed;
 
@@ -61,8 +61,10 @@ void Robot::saveConfiguration(int configuration, int speed)
  */
 void Robot::loadConfiguration(void)
 {
-	this->configuration = EEPROM.read(CONFIGURATION);
-	uint8_t eepromSpeed = EEPROM.read(SPEED);
+	uint8_t configuration = EEPROM.read(CONFIGURATION);
+	uint8_t eepromSpeed   = EEPROM.read(SPEED);
+
+	this->configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
 	this->speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
 
 	update();
@@ -75,7 +77,7 @@ void Robot::loadConfiguration(void)
  */
 uint8_t Robot::getBatteryLevel(void)
 {
-	int digitalValueRead = analogRead(A0);
+	int digitalValueRead = analogRead(BATTERY_SENSOR);
 
 	int level            = 0.3417 * digitalValueRead - 250;
 
