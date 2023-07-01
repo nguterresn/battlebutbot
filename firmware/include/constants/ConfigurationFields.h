@@ -1,8 +1,7 @@
 // Fields inside the configuration
-#define ENABLE_CONSOLE_TEXT   0x01
-#define ENABLE_FEEDBACK_LED   0x02
-#define ENABLE_SERVO          0x04
-#define TOGGLE_MODE           0x08
+#define ENABLE_FEEDBACK_LED   0x01 // Disabled / Enabled
+#define ENABLE_SERVO          0x02 // Disabled / Enabled
+#define ENABLE_AUTO_MODE      0x04 // Manual / Automatic
 
 #define CONFIGURATION_DEFAULT ENABLE_FEEDBACK_LED | ENABLE_SERVO
 
@@ -12,3 +11,8 @@ typedef enum {
 	SPEED,
 	CONFIGURATION_SIZE
 } configuration;
+
+typedef enum {
+	MANUAL,
+	AUTO
+} RobotMode;

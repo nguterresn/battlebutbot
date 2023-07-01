@@ -1,5 +1,8 @@
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "Motor.h"
 #include "ServoMotor.h"
+#include "ProximitySensor.h"
 #include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
 
@@ -12,16 +15,29 @@ public:
 	void reset(void);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
+	void backward(uint8_t pwmLeft, uint8_t pwmRight);
 	void brake(void);
 	void update(int x, int y);
 	void flip(void);
 	void change(uint8_t configuration);
 	void changeSpeed(uint8_t speed);
+
+	ProximitySensor irSensorLeft;
+	ProximitySensor irSensorRight;
+private:
 	bool isFeedbackLedEnabled(uint8_t configuration);
 	bool isServoEnabled(uint8_t configuration);
-private:
+	bool isAutoModeEnabled(uint8_t configuration);
+
 	Motor left, right;
 	ServoMotor servo;
 
+	uint8_t mode;
 	float speedRatio;
 };
+
+extern TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
+
+void MoveBackwards(void* machineRoom);
+void ProximitySensorDecision(void* machineRoom);
+void resetFreeRTOS();

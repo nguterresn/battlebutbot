@@ -1,17 +1,22 @@
 #include "MachineRoom.h"
 
+TaskHandle_t proximitySensorTaskHandle = NULL;
+TaskHandle_t genericTaskHandle         = NULL;
+
 /**
  * @brief Construct a new Machine Room:: Machine Room object
  *
  */
 MachineRoom::MachineRoom() :
+	irSensorLeft(PROXIMITY_SENSOR_LEFT),
+	irSensorRight(PROXIMITY_SENSOR_RIGHT),
 	left(LEFT1, LEFT2),
 	right(RIGHT1, RIGHT2),
 	servo(SERVO)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
-	this->changeSpeed(SPEED_DEFAULT);
+	changeSpeed(SPEED_DEFAULT);
 }
 
 /**
@@ -20,7 +25,7 @@ MachineRoom::MachineRoom() :
  */
 void MachineRoom::reset(void)
 {
-	this->brake();
+	brake();
 	servo.reset();
 }
 
@@ -47,6 +52,17 @@ void MachineRoom::backward(uint8_t pwm)
 }
 
 /**
+ * @brief Whenever the car needs to just go backward
+ *
+ * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
+ */
+void MachineRoom::backward(uint8_t pwmLeft, uint8_t pwmRight)
+{
+	right.backward(pwmRight);
+	left.backward(pwmLeft);
+}
+
+/**
  * @brief Whenever the car needs to break
  *
  */
@@ -64,9 +80,15 @@ void MachineRoom::brake(void)
  */
 void MachineRoom::update(int x, int y)
 {
+	// Prevent any manual input if the robot is in auto mode.
+	if (mode == AUTO && (x != 0 && y != 0)) {
+		mode = MANUAL;
+		resetFreeRTOS();
+	}
+
 	// Whenever the joystick returns to zero, stop.
 	if (x == 0 && y == 0) {
-		this->brake();
+		brake();
 		return;
 	}
 
@@ -81,7 +103,7 @@ void MachineRoom::update(int x, int y)
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
 	if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
-		y > 0 ? this->forward(pwmY) : this->backward(pwmY);
+		y > 0 ? forward(pwmY) : backward(pwmY);
 		return;
 	}
 
@@ -120,24 +142,43 @@ void MachineRoom::flip(void)
 }
 
 /**
- * @brief Change the speed ratio of the robot according to an incoming parameter.
- *
- * @param speed as an unsigned char
- */
-void MachineRoom::changeSpeed(uint8_t speed)
-{
-	this->speedRatio = (float)speed / 100.0;
-}
-
-/**
  * @brief Change the configuration fields according to its bit value
  *
  * @param configuration as a bit field configuration
  */
 void MachineRoom::change(uint8_t configuration)
 {
-	digitalWrite(FEEDBACK_LED, this->isFeedbackLedEnabled(configuration));
+	digitalWrite(FEEDBACK_LED, isFeedbackLedEnabled(configuration));
 	servo.update(isServoEnabled(configuration));
+	if (isAutoModeEnabled(configuration)) {
+		mode = AUTO;
+		forward(100);
+
+		if (!proximitySensorTaskHandle) {
+			xTaskCreate(ProximitySensorDecision,
+			            "ProximitySensorDecision",
+			            4096,
+			            this,
+			            10,
+			            &proximitySensorTaskHandle);
+		}
+	}
+	else {
+		mode = MANUAL;
+		// TODO: Save on EEPROM as well.
+		resetFreeRTOS();
+		brake();
+	}
+}
+
+/**
+ * @brief Change the speed ratio of the robot according to an incoming parameter.
+ *
+ * @param speed as an unsigned char
+ */
+void MachineRoom::changeSpeed(uint8_t speed)
+{
+	speedRatio = (float)speed / 100.0;
 }
 
 /**
@@ -158,4 +199,68 @@ bool MachineRoom::isFeedbackLedEnabled(uint8_t configuration)
 bool MachineRoom::isServoEnabled(uint8_t configuration)
 {
 	return configuration & ENABLE_SERVO ? true : false;
+}
+
+/**
+ * @brief Checks if the auto mode is enabled
+ *
+ * @return bool
+ */
+bool MachineRoom::isAutoModeEnabled(uint8_t configuration)
+{
+	return configuration & ENABLE_AUTO_MODE ? true : false;
+}
+
+void MoveBackwardsAndResume(void* machineRoom)
+{
+	MachineRoom* p = (MachineRoom*)machineRoom;
+	bool left      = p->irSensorLeft.isClose();
+	bool right     = p->irSensorRight.isClose();
+
+	if (left && right) {
+		// Random one but later we can compare according to the ADC read values.
+		p->backward(200, 75);
+	}
+	else if (left) {
+		p->backward(200, 75);
+	}
+	else if (right) {
+		p->backward(75, 200);
+	}
+
+	vTaskDelay(1500 / portTICK_RATE_MS);
+	p->forward(100);
+
+	genericTaskHandle = NULL;
+	vTaskDelete(genericTaskHandle);
+}
+
+void ProximitySensorDecision(void* machineRoom)
+{
+	for (;;) {
+		MachineRoom* p = (MachineRoom*)machineRoom;
+
+		bool state     = p->irSensorLeft.isClose() || p->irSensorRight.isClose();
+		if (state && !genericTaskHandle) {
+			xTaskCreate(MoveBackwardsAndResume,
+			            "MoveBackwardsAndResume",
+			            2048,
+			            p,
+			            10,
+			            &genericTaskHandle);
+		}
+		vTaskDelay(50 / portTICK_RATE_MS);
+	}
+}
+
+void resetFreeRTOS()
+{
+	if (proximitySensorTaskHandle) {
+		vTaskDelete(proximitySensorTaskHandle);
+	}
+	if (genericTaskHandle) {
+		vTaskDelete(genericTaskHandle);
+	}
+	proximitySensorTaskHandle = NULL;
+	genericTaskHandle         = NULL;
 }
