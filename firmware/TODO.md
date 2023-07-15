@@ -13,3 +13,4 @@
 - [x] Improve Motor's feedback
 - [ ] Add support for another wireless protocol
 - [ ] Add OTA update support
+- [ ] Add support for an accelerometer
