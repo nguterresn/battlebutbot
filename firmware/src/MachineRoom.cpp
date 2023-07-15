@@ -78,16 +78,16 @@ void MachineRoom::brake(void)
  */
 void MachineRoom::update(int x, int y)
 {
-	// Prevent any manual input if the robot is in auto mode.
-	if (mode == AUTO && (x != 0 && y != 0)) {
-		mode = MANUAL;
-		resetFreeRTOS(this);
-	}
-
 	// Whenever the joystick returns to zero, stop.
 	if (x == 0 && y == 0) {
 		brake();
 		return;
+	}
+
+	// Prevent any manual input if the robot is in auto mode.
+	if (mode == AUTO) {
+		mode = MANUAL;
+		resetFreeRTOS(this);
 	}
 
 	// The Y axis informs us the power we should provide to the motors, whereas
