@@ -20,7 +20,7 @@ Buzzer::Buzzer(uint8_t pin)
 	}
 }
 
-void Buzzer::beep(void* vParameters)
+void Buzzer::beep(void* pvParameters)
 {
 	for (;;) {
 		ledcWriteNote(BUZZER_CHANNEL, NOTE_A, 6);

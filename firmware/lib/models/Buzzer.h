@@ -10,6 +10,6 @@
 class Buzzer {
 public:
 	Buzzer(uint8_t pin);
-	static void beep(void* vParameters);
+	static void beep(void* pvParameters);
 private:
 };

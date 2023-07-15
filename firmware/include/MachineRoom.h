@@ -23,6 +23,12 @@ public:
 	void change(uint8_t configuration, uint8_t speed);
 	void changeSpeed(uint8_t speed);
 
+	TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
+
+	static void ProximitySensorDecision(void* machineRoom);
+	static void MoveBackwardsAndResume(void* machineRoom);
+	static void resetFreeRTOS(MachineRoom* machineRoom);
+
 	ProximitySensor irSensorLeft;
 	ProximitySensor irSensorRight;
 private:
@@ -37,9 +43,3 @@ private:
 	uint8_t mode;
 	float speedRatio;
 };
-
-extern TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
-
-void MoveBackwards(void* machineRoom);
-void ProximitySensorDecision(void* machineRoom);
-void resetFreeRTOS();

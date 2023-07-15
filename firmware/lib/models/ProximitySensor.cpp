@@ -13,6 +13,5 @@ int ProximitySensor::read(void)
 
 bool ProximitySensor::isClose(void)
 {
-	// ESP_LOGW("ISCLOSE", " %d", this->read());
 	return this->read() > PROXIMITY_ADC_THRESHOLD;
 }

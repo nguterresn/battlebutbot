@@ -1,8 +1,5 @@
 #include "MachineRoom.h"
 
-TaskHandle_t proximitySensorTaskHandle = NULL;
-TaskHandle_t genericTaskHandle         = NULL;
-
 /**
  * @brief Construct a new Machine Room:: Machine Room object
  *
@@ -84,7 +81,7 @@ void MachineRoom::update(int x, int y)
 	// Prevent any manual input if the robot is in auto mode.
 	if (mode == AUTO && (x != 0 && y != 0)) {
 		mode = MANUAL;
-		resetFreeRTOS();
+		resetFreeRTOS(this);
 	}
 
 	// Whenever the joystick returns to zero, stop.
@@ -161,7 +158,7 @@ void MachineRoom::change(uint8_t configuration, uint8_t speed)
 		forward(100);
 
 		if (!proximitySensorTaskHandle) {
-			xTaskCreate(ProximitySensorDecision,
+			xTaskCreate(MachineRoom::ProximitySensorDecision,
 			            "ProximitySensorDecision",
 			            4096,
 			            this,
@@ -172,7 +169,7 @@ void MachineRoom::change(uint8_t configuration, uint8_t speed)
 	else {
 		mode = MANUAL;
 		// TODO: Save on EEPROM as well.
-		resetFreeRTOS();
+		resetFreeRTOS(this);
 		brake();
 	}
 }
@@ -217,7 +214,25 @@ bool MachineRoom::isAutoModeEnabled(uint8_t configuration)
 	return configuration & ENABLE_AUTO_MODE ? true : false;
 }
 
-void MoveBackwardsAndResume(void* machineRoom)
+void MachineRoom::ProximitySensorDecision(void* machineRoom)
+{
+	for (;;) {
+		MachineRoom* p = (MachineRoom*)machineRoom;
+
+		bool state     = p->irSensorLeft.isClose() || p->irSensorRight.isClose();
+		if (state && !p->genericTaskHandle) {
+			xTaskCreate(MachineRoom::MoveBackwardsAndResume,
+			            "MoveBackwardsAndResume",
+			            2048,
+			            p,
+			            10,
+			            &p->genericTaskHandle);
+		}
+		vTaskDelay(50 / portTICK_RATE_MS);
+	}
+}
+
+void MachineRoom::MoveBackwardsAndResume(void* machineRoom)
 {
 	MachineRoom* p = (MachineRoom*)machineRoom;
 	bool left      = p->irSensorLeft.isClose();
@@ -237,36 +252,18 @@ void MoveBackwardsAndResume(void* machineRoom)
 	vTaskDelay(1500 / portTICK_RATE_MS);
 	p->forward(100);
 
-	genericTaskHandle = NULL;
-	vTaskDelete(genericTaskHandle);
+	p->genericTaskHandle = NULL;
+	vTaskDelete(p->genericTaskHandle);
 }
 
-void ProximitySensorDecision(void* machineRoom)
+void MachineRoom::resetFreeRTOS(MachineRoom* machineRoom)
 {
-	for (;;) {
-		MachineRoom* p = (MachineRoom*)machineRoom;
-
-		bool state     = p->irSensorLeft.isClose() || p->irSensorRight.isClose();
-		if (state && !genericTaskHandle) {
-			xTaskCreate(MoveBackwardsAndResume,
-			            "MoveBackwardsAndResume",
-			            2048,
-			            p,
-			            10,
-			            &genericTaskHandle);
-		}
-		vTaskDelay(50 / portTICK_RATE_MS);
+	if (machineRoom->proximitySensorTaskHandle) {
+		vTaskDelete(machineRoom->proximitySensorTaskHandle);
 	}
-}
-
-void resetFreeRTOS()
-{
-	if (proximitySensorTaskHandle) {
-		vTaskDelete(proximitySensorTaskHandle);
+	if (machineRoom->genericTaskHandle) {
+		vTaskDelete(machineRoom->genericTaskHandle);
 	}
-	if (genericTaskHandle) {
-		vTaskDelete(genericTaskHandle);
-	}
-	proximitySensorTaskHandle = NULL;
-	genericTaskHandle         = NULL;
+	machineRoom->proximitySensorTaskHandle = NULL;
+	machineRoom->genericTaskHandle         = NULL;
 }
