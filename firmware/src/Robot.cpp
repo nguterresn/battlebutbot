@@ -18,8 +18,7 @@ Robot::Robot() : oMachineRoom()
  */
 void Robot::update(void)
 {
-	oMachineRoom.change(this->configuration);
-	oMachineRoom.changeSpeed(this->speed);
+	oMachineRoom.change(this->configuration, this->speed);
 }
 
 /**

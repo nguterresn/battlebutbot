@@ -3,6 +3,7 @@
 #include "Motor.h"
 #include "ServoMotor.h"
 #include "ProximitySensor.h"
+#include "Buzzer.h"
 #include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
 
@@ -19,7 +20,7 @@ public:
 	void brake(void);
 	void update(int x, int y);
 	void flip(void);
-	void change(uint8_t configuration);
+	void change(uint8_t configuration, uint8_t speed);
 	void changeSpeed(uint8_t speed);
 
 	ProximitySensor irSensorLeft;
@@ -31,6 +32,7 @@ private:
 
 	Motor left, right;
 	ServoMotor servo;
+	Buzzer buzzer;
 
 	uint8_t mode;
 	float speedRatio;

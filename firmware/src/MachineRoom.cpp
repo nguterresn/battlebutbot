@@ -12,7 +12,8 @@ MachineRoom::MachineRoom() :
 	irSensorRight(PROXIMITY_SENSOR_RIGHT),
 	left(LEFT1, LEFT2),
 	right(RIGHT1, RIGHT2),
-	servo(SERVO)
+	servo(SERVO),
+	buzzer(BUZZER)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
@@ -146,10 +147,15 @@ void MachineRoom::flip(void)
  *
  * @param configuration as a bit field configuration
  */
-void MachineRoom::change(uint8_t configuration)
+void MachineRoom::change(uint8_t configuration, uint8_t speed)
 {
 	digitalWrite(FEEDBACK_LED, isFeedbackLedEnabled(configuration));
 	servo.update(isServoEnabled(configuration));
+	changeSpeed(speed);
+
+	// Anytime the configuration changes, emit a sound.
+	xTaskCreate(Buzzer::beep, "Beep", 4096, NULL, 10, NULL);
+
 	if (isAutoModeEnabled(configuration)) {
 		mode = AUTO;
 		forward(100);

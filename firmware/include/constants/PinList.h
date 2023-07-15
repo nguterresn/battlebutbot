@@ -9,3 +9,4 @@
 #define PROXIMITY_SENSOR_RIGHT 35 // GPIO 35
 #define BATTERY_SENSOR         32 // GPIO 32
 #define FEEDBACK_LED           22
+#define BUZZER                 13
