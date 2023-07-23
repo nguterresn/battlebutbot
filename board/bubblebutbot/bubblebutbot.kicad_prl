@@ -3,10 +3,12 @@
     "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": true,
+    "hidden_netclasses": [],
     "hidden_nets": [],
     "high_contrast_mode": 0,
     "net_color_mode": 1,
     "opacity": {
+      "images": 0.6,
       "pads": 1.0,
       "tracks": 1.0,
       "vias": 1.0,
@@ -71,27 +73,15 @@
   "project": {
     "files": [
       {
-        "name": "bubblebutbot.kicad_pcb",
-        "open": false,
-        "window": {
-          "display": 1,
-          "maximized": false,
-          "pos_x": -2224,
-          "pos_y": 143,
-          "size_x": 1840,
-          "size_y": 1069
-        }
-      },
-      {
         "name": "bubblebutbot.kicad_sch",
         "open": false,
         "window": {
           "display": 1,
           "maximized": false,
-          "pos_x": -2056,
-          "pos_y": 238,
-          "size_x": 1440,
-          "size_y": 875
+          "pos_x": -2441,
+          "pos_y": 317,
+          "size_x": 1981,
+          "size_y": 1046
         }
       }
     ]
