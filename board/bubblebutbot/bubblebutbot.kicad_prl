@@ -77,7 +77,7 @@
         "open": false,
         "window": {
           "display": 1,
-          "maximized": false,
+          "maximized": true,
           "pos_x": -2560,
           "pos_y": 25,
           "size_x": 1280,
