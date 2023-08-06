@@ -340,7 +340,7 @@
       "no_connect_dangling": "warning",
       "pin_not_connected": "error",
       "pin_not_driven": "error",
-      "pin_to_pin": "warning",
+      "pin_to_pin": "error",
       "power_pin_not_driven": "error",
       "similar_labels": "warning",
       "simulation_model_issue": "ignore",
@@ -409,7 +409,7 @@
       "intersheets_ref_short": false,
       "intersheets_ref_show": false,
       "intersheets_ref_suffix": "",
-      "junction_size_choice": 3,
+      "junction_size_choice": 4,
       "label_size_ratio": 0.375,
       "pin_symbol_size": 25.0,
       "text_offset_ratio": 0.15
