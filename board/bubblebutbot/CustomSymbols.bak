@@ -42,11 +42,13 @@
     (property "Datasheet" "" (at 0 0 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (symbol "SY8303_1_1"
+    (symbol "SY8303_0_1"
       (rectangle (start -5.08 7.62) (end 3.81 -2.54)
         (stroke (width 0) (type default))
         (fill (type none))
       )
+    )
+    (symbol "SY8303_1_1"
       (pin input line (at -7.62 6.35 0) (length 2.54)
         (name "FB" (effects (font (size 1.27 1.27))))
         (number "1" (effects (font (size 1.27 1.27))))
