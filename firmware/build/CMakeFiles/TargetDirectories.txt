@@ -1,0 +1,2 @@
+/Users/nunonogueira/Projectos/battlebutbot/firmware/build/CMakeFiles/edit_cache.dir
+/Users/nunonogueira/Projectos/battlebutbot/firmware/build/CMakeFiles/rebuild_cache.dir

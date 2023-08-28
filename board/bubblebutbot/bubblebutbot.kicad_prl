@@ -71,31 +71,6 @@
     "version": 3
   },
   "project": {
-    "files": [
-      {
-        "name": "bubblebutbot.kicad_sch",
-        "open": true,
-        "window": {
-          "display": 0,
-          "maximized": false,
-          "pos_x": 0,
-          "pos_y": 0,
-          "size_x": 1440,
-          "size_y": 900
-        }
-      },
-      {
-        "name": "bubblebutbot.kicad_pcb",
-        "open": false,
-        "window": {
-          "display": 0,
-          "maximized": true,
-          "pos_x": -400,
-          "pos_y": -117,
-          "size_x": 1840,
-          "size_y": 1017
-        }
-      }
-    ]
+    "files": []
   }
 }
