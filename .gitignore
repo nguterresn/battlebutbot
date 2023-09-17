@@ -3,6 +3,8 @@ firmware/.gitignore
 *.vscode
 *.DS_Store
 fp-lib-cache
+fp-info-cache
+*.xml
 *.gbr
 *.gbrjob
 *.ps
