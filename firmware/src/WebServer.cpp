@@ -1,9 +1,10 @@
 #include "WebServer.h"
+#include "Robot.h"
 
 AsyncWebServer server(80);
 
 /// @brief Initialize ESP as a Access Point. Give it a SSID(name) and a custom DNS domain.
-void setWifi()
+void network_init(void)
 {
 	// Disable power saving on WiFi to improve responsiveness
 	// (https://github.com/espressif/arduino-esp32/issues/1484)
@@ -15,15 +16,15 @@ void setWifi()
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
-void setWebServer(Robot &robot)
+void web_server_init()
 {
-	server.on("/", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
+	server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
-			robot.saveConfiguration(request->getParam(HTTP_CONFIG)->value().toInt(),
-			                        request->getParam(HTTP_SPEED)->value().toInt());
+			robot_save_configuration(request->getParam(HTTP_CONFIG)->value().toInt(),
+			                         request->getParam(HTTP_SPEED)->value().toInt());
 		}
 		else {
-			robot.connect();
+			robot_connect();
 		}
 		// https://arduino-esp8266.readthedocs.io/en/latest/filesystem.html
 		request->send(SPIFFS, "/home.html", "text/html");
@@ -37,29 +38,27 @@ void setWebServer(Robot &robot)
 		request->send(SPIFFS, "/config.html", "text/html");
 	});
 
-	server.on("/load-configuration", HTTP_GET, [&robot](AsyncWebServerRequest* request){
+	server.on("/load-configuration", HTTP_GET, [](AsyncWebServerRequest* request){
 		char buffer[10] = { 0 };
-		if (robot.serializeForRequest(buffer)) {
+		if (robot_serialize_for_request(buffer)) {
 			request->send(200, "text/plain", buffer);
 		}
 	});
 
-	server.on("/update", HTTP_GET, [&robot](AsyncWebServerRequest* request) {
+	server.on("/update", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-			robot.oMachineRoom.update(
-				request->getParam(HTTP_MOTOR_X)->value().toInt(),
-				request->getParam(HTTP_MOTOR_Y)->value().toInt()
-				);
+			robot_update(request->getParam(HTTP_MOTOR_X)->value().toInt(),
+			             request->getParam(HTTP_MOTOR_Y)->value().toInt());
 			request->send(200, "text/plain", "OK");
 			return;
 		}
 		request->send(404, "text/plain");
 	});
 
-	server.on("/action", HTTP_GET, [&robot](AsyncWebServerRequest* request){
+	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){
 		// Do something later on, need to add the hardware first.
 		request->send(200, "text/plain", "OK");
-		robot.oMachineRoom.flip();
+		// robot.oMachineRoom.flip();
 	});
 
 	server.onNotFound(notFound);

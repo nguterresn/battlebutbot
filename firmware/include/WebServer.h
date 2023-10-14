@@ -19,7 +19,7 @@
 // EVENTS TYPES
 #define EVENT_CONFIGURATION "configuration"
 
+void network_init(void);
+void web_server_init(void);
 void notFound(AsyncWebServerRequest* request);
-void setWebServer(Robot &robot);
 void sendEvent(const char* type, int value);
-void setWifi();
