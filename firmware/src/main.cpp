@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "WebServer.h"
+#include "Robot.h"
 
 void setup()
 {

@@ -14,6 +14,17 @@ static float speedRatio;
 
 static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
 
+static void machine_room_forward(uint8_t pwm);
+static void machine_room_backward_all(uint8_t pwm);
+static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
+static void machine_room_brake(void);
+static void machine_room_change_speed(uint8_t speed);
+
+// FreeRTOS Tasks
+static void machine_room_proximity_sensor_decision(void* v);
+static void machine_room_move_backwards_and_resume(void* v);
+static void machine_room_free_tasks(void);
+
 void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
@@ -37,7 +48,7 @@ void machine_room_reset(void)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void machine_room_forward(uint8_t pwm)
+static void machine_room_forward(uint8_t pwm)
 {
 	right.forward(pwm);
 	left.forward(pwm);
@@ -48,7 +59,7 @@ void machine_room_forward(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void machine_room_backward_all(uint8_t pwm)
+static void machine_room_backward_all(uint8_t pwm)
 {
 	right.backward(pwm);
 	left.backward(pwm);
@@ -59,7 +70,7 @@ void machine_room_backward_all(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight)
+static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight)
 {
 	right.backward(pwmRight);
 	left.backward(pwmLeft);
@@ -186,7 +197,7 @@ void machine_room_change(uint8_t configuration, uint8_t speed)
  *
  * @param speed as an unsigned char
  */
-void machine_room_change_speed(uint8_t speed)
+static void machine_room_change_speed(uint8_t speed)
 {
 	speedRatio = (float)speed / 100.0;
 }
@@ -221,7 +232,7 @@ bool machine_room_is_auto_mode_enabled(uint8_t configuration)
 	return configuration & ENABLE_AUTO_MODE ? true : false;
 }
 
-void machine_room_proximity_sensor_decision(void* v)
+static void machine_room_proximity_sensor_decision(void* v)
 {
 	(void)v;
 	for (;;) {
@@ -238,7 +249,7 @@ void machine_room_proximity_sensor_decision(void* v)
 	}
 }
 
-void machine_room_move_backwards_and_resume(void* v)
+static void machine_room_move_backwards_and_resume(void* v)
 {
 	bool left  = irSensorLeft.isClose();
 	bool right = irSensorRight.isClose();
@@ -260,7 +271,7 @@ void machine_room_move_backwards_and_resume(void* v)
 	genericTaskHandle = NULL;
 }
 
-void machine_room_free_tasks(void)
+static void machine_room_free_tasks(void)
 {
 	if (proximitySensorTaskHandle) {
 		vTaskDelete(proximitySensorTaskHandle);

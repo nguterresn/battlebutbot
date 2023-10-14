@@ -1,5 +1,6 @@
 #include "WebServer.h"
 #include "Robot.h"
+#include "MachineRoom.h"
 
 AsyncWebServer server(80);
 
@@ -49,8 +50,8 @@ void web_server_init()
 
 	server.on("/update", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_MOTOR_X) && request->hasParam(HTTP_MOTOR_Y)) {
-			robot_update(request->getParam(HTTP_MOTOR_X)->value().toInt(),
-			             request->getParam(HTTP_MOTOR_Y)->value().toInt());
+			machine_room_update(request->getParam(HTTP_MOTOR_X)->value().toInt(),
+			                    request->getParam(HTTP_MOTOR_Y)->value().toInt());
 			request->send(200, "text/plain", "OK");
 			return;
 		}

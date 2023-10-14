@@ -26,12 +26,6 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
  */
 void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
 {
-	if (this->xIN1 == 38 || this->xIN1 == 11) {
-		Serial.print(" xIN1pwm -> ");
-		Serial.print(xIN1pwm);
-		Serial.print(" xIN2pwm -> ");
-		Serial.println(xIN2pwm);
-	}
 	analogWrite(this->xIN1, xIN1pwm);
 	analogWrite(this->xIN2, xIN2pwm);
 }

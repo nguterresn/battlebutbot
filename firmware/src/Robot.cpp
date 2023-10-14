@@ -4,6 +4,9 @@
 
 static uint8_t robot_configuration, robot_speed;
 
+static void robot_load_configuration(void);
+static int robot_get_battery(void);
+
 /**
  * @brief Construct a new Robot:: Robot object
  *
@@ -20,7 +23,7 @@ void robot_init(void)
 
 void robot_update(int configuration, int speed)
 {
-	machine_room_change(configuration, configuration);
+	machine_room_change(configuration, speed);
 
 	robot_configuration = configuration;
 	robot_speed         = speed;
@@ -59,41 +62,9 @@ void robot_save_configuration(int configuration, int speed)
 	robot_update(robot_configuration, robot_speed);
 }
 
-/**
- * @brief Load configuration from EEPROM
- *
- */
-void robot_load_configuration(void)
-{
-	uint8_t configuration = EEPROM.read(CONFIGURATION);
-	uint8_t eepromSpeed   = EEPROM.read(SPEED);
-
-	robot_configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
-	robot_speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
-
-	robot_update(robot_configuration, robot_speed);
-}
-
 void robot_flip(void)
 {
 	machine_room_flip();
-}
-
-/**
- * @brief Returns battery level in percentage based on a 10-bit ADC read.
- *
- * @return uint8_t as the battery level (0-100)
- */
-int robot_get_battery(void)
-{
-	int digitalValueRead = analogRead(BATTERY_SENSOR);
-
-	int level            = 0.3417 * digitalValueRead - 250;
-
-	if (level < 0) {
-		return 0;
-	}
-	return level;
 }
 
 /**
@@ -109,4 +80,36 @@ int robot_serialize_for_request(char* buffer)
 	               robot_configuration,
 	               robot_speed,
 	               robot_get_battery());
+}
+
+/**
+ * @brief Load configuration from EEPROM
+ *
+ */
+static void robot_load_configuration(void)
+{
+	uint8_t configuration = EEPROM.read(CONFIGURATION);
+	uint8_t eepromSpeed   = EEPROM.read(SPEED);
+
+	robot_configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
+	robot_speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
+
+	robot_update(robot_configuration, robot_speed);
+}
+
+/**
+ * @brief Returns battery level in percentage based on a 10-bit ADC read.
+ *
+ * @return uint8_t as the battery level (0-100)
+ */
+static int robot_get_battery(void)
+{
+	int digitalValueRead = analogRead(BATTERY_SENSOR);
+
+	int level            = 0.3417 * digitalValueRead - 250;
+
+	if (level < 0) {
+		return 0;
+	}
+	return level;
 }
