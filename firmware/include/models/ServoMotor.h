@@ -1,18 +1,15 @@
 #include "esp32-hal-ledc.h"
 #include <math.h>
+#include "ESP32Servo.h"
 
 // Include others if needed.
-#define SERVO_SG90             // http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf
+#define SERVO_SG90      // http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf
 
 #ifdef SERVO_SG90
-#define MIN_ANGLE_IN_US        1000
-#define _0_ANGLE_IN_US         1500
-#define MAX_ANGLE_IN_US        2000
+#define MIN_ANGLE_IN_US 1000
+#define _0_ANGLE_IN_US  1500
+#define MAX_ANGLE_IN_US 2000
 #endif
-
-#define SERVO_CHANNEL          0
-#define PWM_DEFAULT_FREQUENCY  500
-#define PWM_DEFAULT_RESOLUTION 16
 
 #define min(a, b) (((a) < (b)) ? (a) : (b))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
@@ -29,4 +26,6 @@ public:
 private:
 	bool enabled, flipped;
 	uint32_t min, max;
+
+	Servo servo;
 };

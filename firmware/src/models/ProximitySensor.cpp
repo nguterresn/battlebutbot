@@ -1,9 +1,9 @@
-#include "ProximitySensor.h"
+#include "models/ProximitySensor.h"
 
 ProximitySensor::ProximitySensor(uint8_t pin)
 {
 	this->pin = pin;
-	pinMode(this->pin, INPUT);
+	// pinMode(this->pin, INPUT);
 }
 
 int ProximitySensor::read(void)

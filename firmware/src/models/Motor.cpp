@@ -1,4 +1,4 @@
-#include "Motor.h"
+#include "models/Motor.h"
 
 // To improve brushed motors:
 // https://learn.adafruit.com/improve-brushed-dc-motor-performance?view=all
@@ -26,6 +26,12 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
  */
 void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
 {
+	if (this->xIN1 == 38 || this->xIN1 == 11) {
+		Serial.print(" xIN1pwm -> ");
+		Serial.print(xIN1pwm);
+		Serial.print(" xIN2pwm -> ");
+		Serial.println(xIN2pwm);
+	}
 	analogWrite(this->xIN1, xIN1pwm);
 	analogWrite(this->xIN2, xIN2pwm);
 }
@@ -42,11 +48,11 @@ void Motor::brake(void)
  */
 void Motor::forward(uint8_t pwm)
 {
-	#ifdef HIGH_PERFORMANCE
+#ifdef HIGH_PERFORMANCE
 	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm);
-	#elif LOW_POWER
+#elif LOW_POWER
 	this->update(pwm, 0);
-	#endif
+#endif
 }
 
 /**
@@ -56,9 +62,9 @@ void Motor::forward(uint8_t pwm)
  */
 void Motor::backward(uint8_t pwm)
 {
-	#ifdef HIGH_PERFORMANCE
+#ifdef HIGH_PERFORMANCE
 	this->update(MOTOR_PWM_RANGE - pwm, MOTOR_PWM_RANGE);
-	#elif LOW_POWER
+#elif LOW_POWER
 	this->update(0, pwm);
-	#endif
+#endif
 }

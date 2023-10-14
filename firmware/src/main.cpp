@@ -3,11 +3,14 @@
 
 Robot robot;
 
-void setup() {
+void setup()
+{
+	Serial.begin(9600);
 	SPIFFS.begin();
 	setWifi();
 	setWebServer(robot);
 }
 
-void loop() {
+void loop()
+{
 }

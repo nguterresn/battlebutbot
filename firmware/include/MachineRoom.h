@@ -1,9 +1,8 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "Motor.h"
-#include "ServoMotor.h"
-#include "ProximitySensor.h"
-#include "Buzzer.h"
+#include "models/Motor.h"
+#include "models/ServoMotor.h"
+#include "models/ProximitySensor.h"
 #include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
 
@@ -38,7 +37,6 @@ private:
 
 	Motor left, right;
 	ServoMotor servo;
-	Buzzer buzzer;
 
 	uint8_t mode;
 	float speedRatio;

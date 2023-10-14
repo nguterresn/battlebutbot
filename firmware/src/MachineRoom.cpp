@@ -1,4 +1,5 @@
 #include "MachineRoom.h"
+#include "Buzzer.h"
 
 /**
  * @brief Construct a new Machine Room:: Machine Room object
@@ -7,12 +8,12 @@
 MachineRoom::MachineRoom() :
 	irSensorLeft(PROXIMITY_SENSOR_LEFT),
 	irSensorRight(PROXIMITY_SENSOR_RIGHT),
-	left(LEFT1, LEFT2),
-	right(RIGHT1, RIGHT2),
-	servo(SERVO),
-	buzzer(BUZZER)
+	left(MOTOR_LEFT1, MOTOR_LEFT2),
+	right(MOTOR_RIGHT1, MOTOR_RIGHT2),
+	servo(SERVO_FRONT)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
+	buzzer_init();
 
 	changeSpeed(SPEED_DEFAULT);
 }
@@ -151,7 +152,7 @@ void MachineRoom::change(uint8_t configuration, uint8_t speed)
 	changeSpeed(speed);
 
 	// Anytime the configuration changes, emit a sound.
-	xTaskCreate(Buzzer::beep, "Beep", 4096, NULL, 10, NULL);
+	// xTaskCreate(beep, "beep", 128, NULL, 0, NULL);
 
 	if (isAutoModeEnabled(configuration)) {
 		mode = AUTO;
