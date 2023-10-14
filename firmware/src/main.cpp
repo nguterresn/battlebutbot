@@ -1,15 +1,15 @@
 #include <Arduino.h>
 #include "WebServer.h"
+#include "Robot.h"
 
-Robot robot;
-
-// Main function runs as C and not C++
-extern "C" void app_main();
-void app_main(void)
+void setup()
 {
-	initArduino();
+	robot_init();
 
-	SPIFFS.begin();
-	setWifi();
-	setWebServer(robot);
+	network_init();
+	web_server_init();
+}
+
+void loop()
+{
 }

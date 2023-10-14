@@ -1,33 +1,43 @@
 #include "Robot.h"
+#include <Arduino.h>
+#include <EEPROM.h>
+#include "MachineRoom.h"
+
+static uint8_t robot_configuration, robot_speed;
+
+static void robot_update(int configuration, int speed);
+static void robot_load_configuration(void);
+static int robot_get_battery(void);
 
 /**
  * @brief Construct a new Robot:: Robot object
  *
  */
-Robot::Robot() : oMachineRoom()
+void robot_init(void)
 {
 	EEPROM.begin(CONFIGURATION_SIZE);
 
-	// Load the configuration as soon as the robot boots.
-	loadConfiguration();
+	// // Load the configuration as soon as the robot boots.
+	robot_load_configuration();
+
+	machine_room_init();
 }
 
-/**
- * @brief Update capabilities according to the configuration saved on the EEPROM.
- *
- */
-void Robot::update(void)
+static void robot_update(int configuration, int speed)
 {
-	oMachineRoom.change(this->configuration, this->speed);
+	machine_room_change(configuration, speed);
+
+	robot_configuration = configuration;
+	robot_speed         = speed;
 }
 
 /**
  * @brief Method feedback when a client connects to the webpage
  *
  */
-void Robot::connect(void)
+void robot_connect(void)
 {
-	oMachineRoom.reset();
+	machine_room_reset();
 }
 
 /**
@@ -37,10 +47,10 @@ void Robot::connect(void)
  * @param speed as a byte
  * @param friction as a byte
  */
-void Robot::saveConfiguration(int configuration, int speed)
+void robot_save_configuration(int configuration, int speed)
 {
 	// Confirm all of them are the same and return.
-	if (this->configuration == configuration && this->speed == speed) {
+	if (robot_configuration == configuration && robot_speed == speed) {
 		return;
 	}
 	// Save on EEPROM
@@ -48,25 +58,45 @@ void Robot::saveConfiguration(int configuration, int speed)
 	EEPROM.put(SPEED, speed);
 	EEPROM.commit();
 	// Save on RAM
-	this->configuration = configuration;
-	this->speed         = speed;
+	robot_configuration = configuration;
+	robot_speed         = speed;
 
-	update();
+	robot_update(robot_configuration, robot_speed);
+}
+
+void robot_flip(void)
+{
+	machine_room_flip();
+}
+
+/**
+ * @brief Serializes the configuration, speed and mode into hex
+ *
+ * @param buffer of 10 bytes (set on `WebServer.cpp`)
+ * @return int
+ */
+int robot_serialize_for_request(char* buffer)
+{
+	return sprintf(buffer,
+	               "%02x%02x%02x",
+	               robot_configuration,
+	               robot_speed,
+	               robot_get_battery());
 }
 
 /**
  * @brief Load configuration from EEPROM
  *
  */
-void Robot::loadConfiguration(void)
+static void robot_load_configuration(void)
 {
 	uint8_t configuration = EEPROM.read(CONFIGURATION);
 	uint8_t eepromSpeed   = EEPROM.read(SPEED);
 
-	this->configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
-	this->speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
+	robot_configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
+	robot_speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
 
-	update();
+	robot_update(robot_configuration, robot_speed);
 }
 
 /**
@@ -74,7 +104,7 @@ void Robot::loadConfiguration(void)
  *
  * @return uint8_t as the battery level (0-100)
  */
-uint8_t Robot::getBatteryLevel(void)
+static int robot_get_battery(void)
 {
 	int digitalValueRead = analogRead(BATTERY_SENSOR);
 
@@ -84,15 +114,4 @@ uint8_t Robot::getBatteryLevel(void)
 		return 0;
 	}
 	return level;
-}
-
-/**
- * @brief Serializes the configuration, speed and mode into hex
- *
- * @param buffer of 10 bytes (set on `WebServer.cpp`)
- * @return int
- */
-int Robot::serializeForRequest(char* buffer)
-{
-	return sprintf(buffer, "%02x%02x%02x", configuration, speed, getBatteryLevel());
 }

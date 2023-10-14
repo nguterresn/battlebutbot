@@ -1,18 +1,18 @@
-#include <Arduino.h>
-#include <EEPROM.h>
-#include "MachineRoom.h"
+#ifndef ROBOT_H_
+#define ROBOT_H_
 
-class Robot {
-public:
-	Robot();
-	void update(void);
-	void connect(void);
-	void loadConfiguration(void);
-	void saveConfiguration(int configuration, int speed);
-	uint8_t getBatteryLevel(void);
-	int serializeForRequest(char* buffer);
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-	MachineRoom oMachineRoom;
-private:
-	uint8_t configuration, speed;
-};
+void robot_init(void);
+void robot_connect(void);
+void robot_save_configuration(int configuration, int speed);
+void robot_flip(void);
+int robot_serialize_for_request(char* buffer);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* ROBOT_H_ */
