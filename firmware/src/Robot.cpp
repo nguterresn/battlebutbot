@@ -1,7 +1,7 @@
 #include "Robot.h"
 #include "EEPROM.h"
 
-MachineRoom oMachineRoom;
+static MachineRoom oMachineRoom;
 static uint8_t robot_configuration, robot_speed;
 
 /**
@@ -70,6 +70,11 @@ void robot_load_configuration(void)
 	robot_speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
 
 	robot_update(robot_configuration, robot_speed);
+}
+
+void robot_flip(void)
+{
+	oMachineRoom.flip();
 }
 
 /**

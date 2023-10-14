@@ -4,7 +4,9 @@
 void setup()
 {
 	Serial.begin(9600);
-	SPIFFS.begin();
+
+	robot_init();
+
 	network_init();
 	web_server_init();
 }

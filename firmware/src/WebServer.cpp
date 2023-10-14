@@ -18,6 +18,8 @@ void network_init(void)
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
 void web_server_init()
 {
+	SPIFFS.begin();
+
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
 			robot_save_configuration(request->getParam(HTTP_CONFIG)->value().toInt(),
@@ -58,7 +60,7 @@ void web_server_init()
 	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){
 		// Do something later on, need to add the hardware first.
 		request->send(200, "text/plain", "OK");
-		// robot.oMachineRoom.flip();
+		robot_flip();
 	});
 
 	server.onNotFound(notFound);

@@ -13,6 +13,7 @@ void robot_update(int configuration, int speed);
 void robot_connect(void);
 void robot_save_configuration(int configuration, int speed);
 void robot_load_configuration(void);
+void robot_flip(void);
 int robot_get_battery(void);
 int robot_serialize_for_request(char* buffer);
 
