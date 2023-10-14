@@ -1,7 +1,7 @@
 #include "Robot.h"
 #include "EEPROM.h"
+#include "MachineRoom.h"
 
-static MachineRoom oMachineRoom;
 static uint8_t robot_configuration, robot_speed;
 
 /**
@@ -14,11 +14,13 @@ void robot_init(void)
 
 	// Load the configuration as soon as the robot boots.
 	robot_load_configuration();
+
+	machine_room_init();
 }
 
 void robot_update(int configuration, int speed)
 {
-	oMachineRoom.change(configuration, configuration);
+	machine_room_change(configuration, configuration);
 
 	robot_configuration = configuration;
 	robot_speed         = speed;
@@ -30,7 +32,7 @@ void robot_update(int configuration, int speed)
  */
 void robot_connect(void)
 {
-	oMachineRoom.reset();
+	machine_room_reset();
 }
 
 /**
@@ -74,7 +76,7 @@ void robot_load_configuration(void)
 
 void robot_flip(void)
 {
-	oMachineRoom.flip();
+	machine_room_flip();
 }
 
 /**

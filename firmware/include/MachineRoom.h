@@ -1,43 +1,27 @@
-#include "freertos/FreeRTOS.h"
-#include "freertos/task.h"
-#include "models/Motor.h"
-#include "models/ServoMotor.h"
-#include "models/ProximitySensor.h"
 #include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
+#include <stdint.h>
+#include "models/Motor.h"
 
 #define SPEED_DEFAULT         MOTOR_PWM_RANGE // Descending speed (255 -> 1)
 #define PWM_DEFAULT_FREQUENCY 500
 
-class MachineRoom {
-public:
-	MachineRoom();
-	void reset(void);
-	void forward(uint8_t pwm);
-	void backward(uint8_t pwm);
-	void backward(uint8_t pwmLeft, uint8_t pwmRight);
-	void brake(void);
-	void update(int x, int y);
-	void flip(void);
-	void change(uint8_t configuration, uint8_t speed);
-	void changeSpeed(uint8_t speed);
+void machine_room_init(void);
+void machine_room_reset(void);
+void machine_room_forward(uint8_t pwm);
+void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
+void machine_room_backward_all(uint8_t pwm);
+void machine_room_brake(void);
+void machine_room_update(int x, int y);
+void machine_room_flip(void);
+void machine_room_change(uint8_t configuration, uint8_t speed);
+void machine_room_change_speed(uint8_t speed);
 
-	TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
+bool machine_room_is_feedback_led_enabled(uint8_t configuration);
+bool machine_room_is_servo_enabled(uint8_t configuration);
+bool machine_room_is_auto_mode_enabled(uint8_t configuration);
 
-	static void ProximitySensorDecision(void* machineRoom);
-	static void MoveBackwardsAndResume(void* machineRoom);
-	static void resetFreeRTOS(MachineRoom* machineRoom);
-
-	ProximitySensor irSensorLeft;
-	ProximitySensor irSensorRight;
-private:
-	bool isFeedbackLedEnabled(uint8_t configuration);
-	bool isServoEnabled(uint8_t configuration);
-	bool isAutoModeEnabled(uint8_t configuration);
-
-	Motor left, right;
-	ServoMotor servo;
-
-	uint8_t mode;
-	float speedRatio;
-};
+// FreeRTOS Tasks
+void machine_room_move_backwards_and_resume(void* v);
+void machine_room_proximity_sensor_decision(void* v);
+void machine_room_free_tasks(void);

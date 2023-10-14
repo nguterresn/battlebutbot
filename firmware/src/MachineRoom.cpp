@@ -1,30 +1,34 @@
 #include "MachineRoom.h"
+#include "freertos/FreeRTOS.h"
+#include "freertos/task.h"
 #include "Buzzer.h"
+#include "models/ServoMotor.h"
+#include "models/ProximitySensor.h"
 
-/**
- * @brief Construct a new Machine Room:: Machine Room object
- *
- */
-MachineRoom::MachineRoom() :
-	irSensorLeft(PROXIMITY_SENSOR_LEFT),
-	irSensorRight(PROXIMITY_SENSOR_RIGHT),
-	left(MOTOR_LEFT1, MOTOR_LEFT2),
-	right(MOTOR_RIGHT1, MOTOR_RIGHT2),
-	servo(SERVO_FRONT)
+static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
+static Motor left(MOTOR_LEFT1, MOTOR_LEFT2), right(MOTOR_RIGHT1, MOTOR_RIGHT2);
+static ServoMotor servo(SERVO_FRONT);
+
+static uint8_t mode;
+static float speedRatio;
+
+static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
+
+void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 	buzzer_init();
 
-	changeSpeed(SPEED_DEFAULT);
+	machine_room_change_speed(SPEED_DEFAULT);
 }
 
 /**
  * @brief Resets machine room by stopping the motors or returning them to initial position.
  *
  */
-void MachineRoom::reset(void)
+void machine_room_reset(void)
 {
-	brake();
+	machine_room_brake();
 	servo.reset();
 }
 
@@ -33,7 +37,7 @@ void MachineRoom::reset(void)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void MachineRoom::forward(uint8_t pwm)
+void machine_room_forward(uint8_t pwm)
 {
 	right.forward(pwm);
 	left.forward(pwm);
@@ -44,7 +48,7 @@ void MachineRoom::forward(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void MachineRoom::backward(uint8_t pwm)
+void machine_room_backward_all(uint8_t pwm)
 {
 	right.backward(pwm);
 	left.backward(pwm);
@@ -55,7 +59,7 @@ void MachineRoom::backward(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-void MachineRoom::backward(uint8_t pwmLeft, uint8_t pwmRight)
+void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight)
 {
 	right.backward(pwmRight);
 	left.backward(pwmLeft);
@@ -65,7 +69,7 @@ void MachineRoom::backward(uint8_t pwmLeft, uint8_t pwmRight)
  * @brief Whenever the car needs to break
  *
  */
-void MachineRoom::brake(void)
+void machine_room_brake(void)
 {
 	right.brake();
 	left.brake();
@@ -77,18 +81,18 @@ void MachineRoom::brake(void)
  * @param x incoming x axis integer from web's joystick.
  * @param y incoming y axis integer from web's joystick.
  */
-void MachineRoom::update(int x, int y)
+void machine_room_update(int x, int y)
 {
 	// Whenever the joystick returns to zero, stop.
 	if (x == 0 && y == 0) {
-		brake();
+		machine_room_brake();
 		return;
 	}
 
 	// Prevent any manual input if the robot is in auto mode.
 	if (mode == AUTO) {
 		mode = MANUAL;
-		resetFreeRTOS(this);
+		machine_room_free_tasks();
 	}
 
 	// The Y axis informs us the power we should provide to the motors, whereas
@@ -102,7 +106,7 @@ void MachineRoom::update(int x, int y)
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
 	if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
-		y > 0 ? forward(pwmY) : backward(pwmY);
+		y > 0 ? machine_room_forward(pwmY) : machine_room_backward_all(pwmY);
 		return;
 	}
 
@@ -135,7 +139,7 @@ void MachineRoom::update(int x, int y)
  * @brief Toggle the servo motor action
  *
  */
-void MachineRoom::flip(void)
+void machine_room_flip(void)
 {
 	servo.flip();
 }
@@ -145,33 +149,35 @@ void MachineRoom::flip(void)
  *
  * @param configuration as a bit field configuration
  */
-void MachineRoom::change(uint8_t configuration, uint8_t speed)
+void machine_room_change(uint8_t configuration, uint8_t speed)
 {
-	digitalWrite(FEEDBACK_LED, isFeedbackLedEnabled(configuration));
-	servo.update(isServoEnabled(configuration));
-	changeSpeed(speed);
+	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
+	servo.update(machine_room_is_servo_enabled(configuration));
+	machine_room_change_speed(speed);
 
 	// Anytime the configuration changes, emit a sound.
-	// xTaskCreate(beep, "beep", 128, NULL, 0, NULL);
+	xTaskCreate(buzzer_beep,
+	            "buzzer_beep",
+	            configMINIMAL_STACK_SIZE, NULL, 0, NULL);
 
-	if (isAutoModeEnabled(configuration)) {
+	if (machine_room_is_auto_mode_enabled(configuration)) {
 		mode = AUTO;
-		forward(100);
+		machine_room_forward(100);
 
 		if (!proximitySensorTaskHandle) {
-			xTaskCreate(MachineRoom::ProximitySensorDecision,
-			            "ProximitySensorDecision",
-			            4096,
-			            this,
-			            10,
+			xTaskCreate(machine_room_proximity_sensor_decision,
+			            "machine_room_proximity_sensor_decision",
+			            configMINIMAL_STACK_SIZE,
+			            NULL,
+			            0,
 			            &proximitySensorTaskHandle);
 		}
 	}
 	else {
 		mode = MANUAL;
 		// TODO: Save on EEPROM as well.
-		resetFreeRTOS(this);
-		brake();
+		machine_room_free_tasks();
+		machine_room_brake();
 	}
 }
 
@@ -180,7 +186,7 @@ void MachineRoom::change(uint8_t configuration, uint8_t speed)
  *
  * @param speed as an unsigned char
  */
-void MachineRoom::changeSpeed(uint8_t speed)
+void machine_room_change_speed(uint8_t speed)
 {
 	speedRatio = (float)speed / 100.0;
 }
@@ -190,7 +196,7 @@ void MachineRoom::changeSpeed(uint8_t speed)
  *
  * @return bool
  */
-bool MachineRoom::isFeedbackLedEnabled(uint8_t configuration)
+bool machine_room_is_feedback_led_enabled(uint8_t configuration)
 {
 	return configuration & ENABLE_FEEDBACK_LED ? true : false;
 }
@@ -200,7 +206,7 @@ bool MachineRoom::isFeedbackLedEnabled(uint8_t configuration)
  *
  * @return bool
  */
-bool MachineRoom::isServoEnabled(uint8_t configuration)
+bool machine_room_is_servo_enabled(uint8_t configuration)
 {
 	return configuration & ENABLE_SERVO ? true : false;
 }
@@ -210,61 +216,58 @@ bool MachineRoom::isServoEnabled(uint8_t configuration)
  *
  * @return bool
  */
-bool MachineRoom::isAutoModeEnabled(uint8_t configuration)
+bool machine_room_is_auto_mode_enabled(uint8_t configuration)
 {
 	return configuration & ENABLE_AUTO_MODE ? true : false;
 }
 
-void MachineRoom::ProximitySensorDecision(void* machineRoom)
+void machine_room_proximity_sensor_decision(void* v)
 {
+	(void)v;
 	for (;;) {
-		MachineRoom* p = (MachineRoom*)machineRoom;
-
-		bool state     = p->irSensorLeft.isClose() || p->irSensorRight.isClose();
-		if (state && !p->genericTaskHandle) {
-			xTaskCreate(MachineRoom::MoveBackwardsAndResume,
-			            "MoveBackwardsAndResume",
-			            2048,
-			            p,
-			            10,
-			            &p->genericTaskHandle);
+		bool state = irSensorLeft.isClose() || irSensorRight.isClose();
+		if (state && !genericTaskHandle) {
+			xTaskCreate(machine_room_move_backwards_and_resume,
+			            "machine_room_move_backwards_and_resume",
+			            configMINIMAL_STACK_SIZE,
+			            NULL,
+			            0,
+			            &genericTaskHandle);
 		}
 		vTaskDelay(50 / portTICK_RATE_MS);
 	}
 }
 
-void MachineRoom::MoveBackwardsAndResume(void* machineRoom)
+void machine_room_move_backwards_and_resume(void* v)
 {
-	MachineRoom* p = (MachineRoom*)machineRoom;
-	bool left      = p->irSensorLeft.isClose();
-	bool right     = p->irSensorRight.isClose();
+	bool left  = irSensorLeft.isClose();
+	bool right = irSensorRight.isClose();
 
 	if (left && right) {
 		// Random one but later we can compare according to the ADC read values.
-		p->backward(200, 75);
+		machine_room_backward(200, 75);
 	}
 	else if (left) {
-		p->backward(200, 75);
+		machine_room_backward(200, 75);
 	}
 	else if (right) {
-		p->backward(75, 200);
+		machine_room_backward(75, 200);
 	}
 
 	vTaskDelay(1500 / portTICK_RATE_MS);
-	p->forward(100);
+	machine_room_forward(100);
 
-	p->genericTaskHandle = NULL;
-	vTaskDelete(p->genericTaskHandle);
+	genericTaskHandle = NULL;
 }
 
-void MachineRoom::resetFreeRTOS(MachineRoom* machineRoom)
+void machine_room_free_tasks(void)
 {
-	if (machineRoom->proximitySensorTaskHandle) {
-		vTaskDelete(machineRoom->proximitySensorTaskHandle);
+	if (proximitySensorTaskHandle) {
+		vTaskDelete(proximitySensorTaskHandle);
 	}
-	if (machineRoom->genericTaskHandle) {
-		vTaskDelete(machineRoom->genericTaskHandle);
+	if (genericTaskHandle) {
+		vTaskDelete(genericTaskHandle);
 	}
-	machineRoom->proximitySensorTaskHandle = NULL;
-	machineRoom->genericTaskHandle         = NULL;
+	proximitySensorTaskHandle = NULL;
+	genericTaskHandle         = NULL;
 }

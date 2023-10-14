@@ -2,7 +2,6 @@
 #define ROBOT_H_
 
 #include <Arduino.h>
-#include "MachineRoom.h"
 
 #ifdef __cplusplus
 extern "C" {
