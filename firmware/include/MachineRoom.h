@@ -6,7 +6,8 @@
 #include <stdint.h>
 #include "models/Motor.h"
 
-#define SPEED_DEFAULT MOTOR_PWM_RANGE         // Descending speed (255 -> 1)
+#define SPEED_DEFAULT      MOTOR_PWM_RANGE    // Descending speed (255 -> 1)
+#define DEFAULT_TASK_STACK configMINIMAL_STACK_SIZE* 10
 
 void machine_room_init(void);
 void machine_room_reset(void);

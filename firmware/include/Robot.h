@@ -1,14 +1,11 @@
 #ifndef ROBOT_H_
 #define ROBOT_H_
 
-#include <Arduino.h>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 void robot_init(void);
-void robot_update(int configuration, int speed);
 void robot_connect(void);
 void robot_save_configuration(int configuration, int speed);
 void robot_flip(void);

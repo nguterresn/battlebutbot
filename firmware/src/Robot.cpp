@@ -1,9 +1,11 @@
 #include "Robot.h"
-#include "EEPROM.h"
+#include <Arduino.h>
+#include <EEPROM.h>
 #include "MachineRoom.h"
 
 static uint8_t robot_configuration, robot_speed;
 
+static void robot_update(int configuration, int speed);
 static void robot_load_configuration(void);
 static int robot_get_battery(void);
 
@@ -15,13 +17,13 @@ void robot_init(void)
 {
 	EEPROM.begin(CONFIGURATION_SIZE);
 
-	// Load the configuration as soon as the robot boots.
+	// // Load the configuration as soon as the robot boots.
 	robot_load_configuration();
 
 	machine_room_init();
 }
 
-void robot_update(int configuration, int speed)
+static void robot_update(int configuration, int speed)
 {
 	machine_room_change(configuration, speed);
 

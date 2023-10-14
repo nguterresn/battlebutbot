@@ -12,7 +12,10 @@ void buzzer_init(void)
 void buzzer_beep(void* v)
 {
 	(void)v;
-	analogWrite(BUZZER, 512);
-	vTaskDelay(200 / portTICK_RATE_MS);
-	analogWrite(BUZZER, 0);
+	for (;;) {
+		analogWrite(BUZZER, 512);
+		vTaskDelay(200 / portTICK_RATE_MS);
+		analogWrite(BUZZER, 0);
+		vTaskDelete(NULL);
+	}
 }

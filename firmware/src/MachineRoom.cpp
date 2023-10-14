@@ -169,7 +169,7 @@ void machine_room_change(uint8_t configuration, uint8_t speed)
 	// Anytime the configuration changes, emit a sound.
 	xTaskCreate(buzzer_beep,
 	            "buzzer_beep",
-	            configMINIMAL_STACK_SIZE, NULL, 0, NULL);
+	            DEFAULT_TASK_STACK, NULL, 10, NULL);
 
 	if (machine_room_is_auto_mode_enabled(configuration)) {
 		mode = AUTO;
@@ -178,9 +178,9 @@ void machine_room_change(uint8_t configuration, uint8_t speed)
 		if (!proximitySensorTaskHandle) {
 			xTaskCreate(machine_room_proximity_sensor_decision,
 			            "machine_room_proximity_sensor_decision",
-			            configMINIMAL_STACK_SIZE,
+			            DEFAULT_TASK_STACK,
 			            NULL,
-			            0,
+			            10,
 			            &proximitySensorTaskHandle);
 		}
 	}
@@ -240,9 +240,9 @@ static void machine_room_proximity_sensor_decision(void* v)
 		if (state && !genericTaskHandle) {
 			xTaskCreate(machine_room_move_backwards_and_resume,
 			            "machine_room_move_backwards_and_resume",
-			            configMINIMAL_STACK_SIZE,
+			            DEFAULT_TASK_STACK,
 			            NULL,
-			            0,
+			            10,
 			            &genericTaskHandle);
 		}
 		vTaskDelay(50 / portTICK_RATE_MS);

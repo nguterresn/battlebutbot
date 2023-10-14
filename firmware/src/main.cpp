@@ -4,8 +4,6 @@
 
 void setup()
 {
-	Serial.begin(9600);
-
 	robot_init();
 
 	network_init();
