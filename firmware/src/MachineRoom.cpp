@@ -31,6 +31,7 @@ void machine_room_init(void)
 	buzzer_init();
 
 	machine_room_change_speed(SPEED_DEFAULT);
+	machine_room_brake();
 }
 
 /**
