@@ -1,38 +1,39 @@
-/*
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp-now-two-way-communication-esp8266-nodemcu/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*/
 
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
-#include "I2Cdev.h"
+// #include "I2Cdev.h"
 
-#include "MPU6050_6Axis_MotionApps20.h"
-#include "Wire.h"
+// #include "MPU6050_6Axis_MotionApps20.h"
+// #include "Wire.h"
 
-
-
+#include <Arduino.h>
+#ifdef ESP8266
 #include <ESP8266WiFi.h>
-#include <espnow.h>
+#elif ESP32
+#include <WiFi.h>
+#endif
+#include "ESPNowW.h"
+
 
 #define TRANSMITTER
+// #define RECEIVER
+// #define MPU
+
+
+#ifdef TRANSMITTER
+#define JOYSTICK
+#endif
+#define POT_X 35
+#define POT_Y 34
+
+#define TRANSMITTER_INTERVAL 30
 
 // REPLACE WITH THE MAC Address of your receiver 
+uint8_t recmac[] = {0x08,0xB6,0x1F,0x29,0x9A,0x8C};
+uint8_t transmac[] = {0x3C,0x71,0xBF,0x9D,0x9F,0x88};
 
-// bot         3C:61:05:D2:B6:79
-// transmitter BC:DD:C2:24:7F:78
-#ifdef TRANSMITTER
-uint8_t broadcastAddress[] = {0x3C, 0x61, 0x05, 0xD2, 0xB6, 0x79};
-#else
-uint8_t broadcastAddress[] = {0xBC, 0xDD, 0xC2, 0x24, 0x7F, 0x78};
-#endif
 
+#ifdef MPU
 
 // class default I2C address is 0x68
 // specific I2C addresses may be passed as a parameter here
@@ -71,15 +72,9 @@ volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin h
 void ICACHE_RAM_ATTR dmpDataReady() {
     mpuInterrupt = true;
 }
-
-// Define variables to store DHT readings to be sent
-unsigned long ms;
-
-// Define variables to store incoming readings
-unsigned long incomingMillis;
+#endif
 
 // Updates DHT readings every 10 seconds
-const long interval = 10; 
 unsigned long previousMillis = 0;    // will store last time DHT was updated 
 
 // Variable to store if sending data was successful
@@ -98,48 +93,18 @@ esp_now_data foo;
 // Create a struct_message to hold incoming sensor readings
 esp_now_data incomingFoo;
 
-float incomingYPR[3];
 
-void sendMillis(unsigned long ms) {
-  // foo.millis = ms;
-  // Serial.printf("millis send: %lu\n", foo.millis);
-  // Send message via ESP-NOW
-  esp_now_send(broadcastAddress, (uint8_t *) &foo, sizeof(foo));
-}
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status);
 
-// Callback when data is sent
-void OnDataSent(uint8_t *mac_addr, uint8_t sendStatus) {
-  Serial.print("Last Packet Send Status: ");
-  if (sendStatus == 0){
-    Serial.println("Delivery success");
-  }
-  else {
-    Serial.println("Delivery fail");
-  }
-}
+void OnDataRecv(const uint8_t *mac_addr,const uint8_t *data, int data_len);
 
-// Callback when data is received
-void OnDataRecv(uint8_t * mac, uint8_t *incomingData, uint8_t len) {
-  memcpy(&incomingYPR, incomingData, sizeof(incomingYPR));
-  // incomingMillis = incomingFoo.millis;
-  #ifndef TRANSMITTER
-  // sendMillis(incomingFoo.millis);
-  #endif
-  // Serial.printf("micros rec: %lu\n", incomingMillis);
-  // unsigned long res = micros() - incomingMillis;
-  // Serial.printf("res: %lu\n", res);
-
-    Serial.print(incomingYPR[1] * 180/M_PI);
-    Serial.print("\t");
-    Serial.println(incomingYPR[2] * 180/M_PI);
-}
-
-
+#ifdef MPU
 void mpu_setup()
 {
   // join I2C bus (I2Cdev library doesn't do this automatically)
   Wire.begin();
   Wire.setClock(400000); // 400kHz I2C clock. Comment this line if having compilation difficulties
+
 
   // initialize device
   Serial.println(F("Initializing I2C devices..."));
@@ -187,40 +152,97 @@ void mpu_setup()
     Serial.println(F(")"));
   }
 }
+#endif
+
+
+esp_now_peer_info_t peerInfo;
+
 
 void setup() {
   // Init Serial Monitor
   Serial.begin(115200);
-  Serial.println(F("\nOrientation Sensor OSC output")); Serial.println();
-
-  // Set device as a Wi-Fi Station
-  WiFi.mode(WIFI_STA);
-  Serial.println(WiFi.macAddress());
-  WiFi.disconnect();
+  Serial.println("starting..");
+#ifdef ESP8266
+    WiFi.mode(WIFI_STA); // MUST NOT BE WIFI_MODE_NULL
+#elif ESP32
+    WiFi.mode(WIFI_MODE_STA);
+#endif
+    Serial.println(WiFi.macAddress());
+    // TODO get set_mac function to work.
+    #ifdef TRANSMITTER
+    // ESPNow.set_mac(transmac);
+    #else
+    // ESPNow.set_mac(recmac);
+    #endif
+    WiFi.disconnect();
+    ESPNow.init();
+    #ifdef RECEIVER
+    ESPNow.add_peer(transmac);
+    ESPNow.reg_recv_cb(OnDataRecv);
+    #else
+    ESPNow.add_peer(recmac);
+    // ESPNow.reg_send_cb(OnDataSent);
+    #endif
 
   // Init ESP-NOW
-  if (esp_now_init() != 0) {
-    Serial.println("Error initializing ESP-NOW");
-    return;
-  }
+  // if (esp_now_init() != 0) {
+  //   Serial.println("Error initializing ESP-NOW");
+  //   return;
+  // }
+
+  // esp_now_set
 
   // Set ESP-NOW Role
-  esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
+  // esp_now_set_self_role(ESP_NOW_ROLE_COMBO);
 
   // // Once ESPNow is successfully Init, we will register for Send CB to
   // // get the status of Trasnmitted packet
-  esp_now_register_send_cb(OnDataSent);
+  // esp_now_register_send_cb(OnDataSent);
   
-  // // Register peer
-  esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_COMBO, 1, NULL, 0);
+  // memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+  // peerInfo.channel = 0;  
+  // peerInfo.encrypt = false;
+  
+  // // Add peer        
+  // if (esp_now_add_peer(&peerInfo) != ESP_OK){
+  //   Serial.println("Failed to add peer");
+  //   return;
+  // }
+
+  // Register peer
+  // esp_now_add_peer(broadcastAddress, ESP_NOW_ROLE_COMBO, 1, NULL, 0);
   
   // // Register for a callback function that will be called when data is received
-  esp_now_register_recv_cb(OnDataRecv);
+  // esp_now_register_recv_cb(OnDataRecv);
 
+  #ifdef MPU
   mpu_setup();
-}
- 
+  #endif
 
+
+  #ifdef JOYSTICK
+  pinMode(POT_X, INPUT); 
+  pinMode(POT_Y, INPUT); 
+  #endif
+}
+
+void OnDataSent(const uint8_t *mac_addr, esp_now_send_status_t status) {
+  Serial.print("\r\nLast Packet Send Status:\t");
+  Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Delivery Success" : "Delivery Fail");
+}
+
+ // Callback when data is received
+void OnDataRecv(const uint8_t *mac_addr,const uint8_t *data, int data_len) {
+  memcpy(&incomingFoo, data, sizeof(incomingFoo));
+
+  Serial.print(incomingFoo.pitch);
+  Serial.print(" : ");
+  Serial.println(incomingFoo.roll);
+  Serial.print("\t");
+}
+
+
+  #ifdef MPU
 
 void mpu_loop()
 {
@@ -285,16 +307,32 @@ void mpu_loop()
 
   }
 }
+  #endif
 void loop() {
   #ifdef TRANSMITTER
   unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval) {
+  if (currentMillis - previousMillis >= TRANSMITTER_INTERVAL) {
     // save the last time you updated the DHT values
     previousMillis = currentMillis;
+    #ifdef MPU
     mpu_loop();
-    // sendMillis();
+    #endif
+
+    int p = map(analogRead(POT_Y), 0, 4095, -100, 100);
+    int r = map(analogRead(POT_X), 0, 4095, -100, 100);
+    p = constrain(p, -100, 100);
+    r = constrain(r, -100, 100);
+    if (abs(p) < 30) p = 0;
+    if (abs(r) < 30) r = 0;
+
+    Serial.println(p);
+    Serial.println(r);
+
+    foo.pitch = p;
+    foo.roll = r;
+
+    ESPNow.send_message(recmac, (uint8_t *) &foo, sizeof(foo));
   }
   #endif
-
-  // mpu_loop();
 }
+
