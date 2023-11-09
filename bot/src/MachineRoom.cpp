@@ -7,7 +7,7 @@
 
 static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
 static Motor left(MOTOR_LEFT1, MOTOR_LEFT2), right(MOTOR_RIGHT1, MOTOR_RIGHT2);
-static ServoMotor servo(SERVO_FRONT);
+// static ServoMotor servo(SERVO_FRONT);
 
 static uint8_t mode;
 static float speedRatio;
@@ -41,7 +41,7 @@ void machine_room_init(void)
 void machine_room_reset(void)
 {
 	machine_room_brake();
-	servo.reset();
+	// servo.reset();
 }
 
 /**
@@ -153,7 +153,7 @@ void machine_room_update(int x, int y)
  */
 void machine_room_flip(void)
 {
-	servo.flip();
+	// servo.flip();
 }
 
 /**
@@ -164,7 +164,7 @@ void machine_room_flip(void)
 void machine_room_change(uint8_t configuration, uint8_t speed)
 {
 	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
-	servo.update(machine_room_is_servo_enabled(configuration));
+	// servo.update(machine_room_is_servo_enabled(configuration));
 	machine_room_change_speed(speed);
 
 	// Anytime the configuration changes, emit a sound.

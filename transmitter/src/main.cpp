@@ -15,8 +15,8 @@
 #include "ESPNowW.h"
 
 
-#define TRANSMITTER
-// #define RECEIVER
+// #define TRANSMITTER
+#define RECEIVER
 // #define MPU
 
 
@@ -170,7 +170,8 @@ void setup() {
     Serial.println(WiFi.macAddress());
     // TODO get set_mac function to work.
     #ifdef TRANSMITTER
-    // ESPNow.set_mac(transmac);
+    ESPNow.set_mac(transmac);
+    // wifi_set_macaddr(STATION_IF, mac);
     #else
     // ESPNow.set_mac(recmac);
     #endif
