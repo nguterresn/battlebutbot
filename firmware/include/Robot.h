@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-void robot_init(void);
+bool robot_init(void);
 void robot_connect(void);
 void robot_save_configuration(int configuration, int speed);
 void robot_flip(void);

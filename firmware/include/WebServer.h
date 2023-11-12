@@ -2,7 +2,6 @@
 #include <AsyncTCP.h>
 #include <ESPmDNS.h>
 #include <ESPAsyncWebServer.h>
-#include <SPIFFS.h>
 
 #include "Robot.h"
 
@@ -19,7 +18,8 @@
 // EVENTS TYPES
 #define EVENT_CONFIGURATION "configuration"
 
-void network_init(void);
+bool network_init(void);
+bool spiffs_init(void);
 void web_server_init(void);
 void notFound(AsyncWebServerRequest* request);
 void sendEvent(const char* type, int value);

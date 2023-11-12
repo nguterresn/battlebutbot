@@ -13,14 +13,18 @@ static int robot_get_battery(void);
  * @brief Construct a new Robot:: Robot object
  *
  */
-void robot_init(void)
+bool robot_init(void)
 {
-	EEPROM.begin(CONFIGURATION_SIZE);
+	if (!EEPROM.begin(CONFIGURATION_SIZE)) {
+		return false;
+	}
 
-	// // Load the configuration as soon as the robot boots.
+	// Load the configuration as soon as the robot boots.
 	robot_load_configuration();
 
 	machine_room_init();
+
+	return true;
 }
 
 static void robot_update(int configuration, int speed)

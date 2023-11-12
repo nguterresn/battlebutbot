@@ -1,7 +1,6 @@
 #include "MachineRoom.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
-#include "Buzzer.h"
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
@@ -28,7 +27,6 @@ static void machine_room_free_tasks(void);
 void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
-	buzzer_init();
 
 	machine_room_change_speed(SPEED_DEFAULT);
 	machine_room_brake();
@@ -166,11 +164,6 @@ void machine_room_change(uint8_t configuration, uint8_t speed)
 	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
 	servo.update(machine_room_is_servo_enabled(configuration));
 	machine_room_change_speed(speed);
-
-	// Anytime the configuration changes, emit a sound.
-	xTaskCreate(buzzer_beep,
-	            "buzzer_beep",
-	            DEFAULT_TASK_STACK, NULL, 10, NULL);
 
 	if (machine_room_is_auto_mode_enabled(configuration)) {
 		mode = AUTO;

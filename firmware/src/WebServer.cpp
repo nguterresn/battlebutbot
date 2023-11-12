@@ -1,26 +1,32 @@
 #include "WebServer.h"
 #include "Robot.h"
 #include "MachineRoom.h"
+#include <SPIFFS.h>
 
 AsyncWebServer server(80);
 
 /// @brief Initialize ESP as a Access Point. Give it a SSID(name) and a custom DNS domain.
-void network_init(void)
+bool network_init(void)
 {
 	// Disable power saving on WiFi to improve responsiveness
 	// (https://github.com/espressif/arduino-esp32/issues/1484)
-	WiFi.setSleep(false);
-	// Limit the amount of connections to the same web server.  One user per device.
-	WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1);
-	MDNS.begin(DNS_NETWORK_NAME);
-	MDNS.addService("http", DNS_NETWORK_NAME, 80);
+	if (!WiFi.setSleep(false) ||
+	    !WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1) || // Limit the amount of connections to the same web server.  One user per device.
+	    !MDNS.begin(DNS_NETWORK_NAME) ||
+	    !MDNS.addService("http", DNS_NETWORK_NAME, 80)) {
+		return false;
+	}
+	return true;
+}
+
+bool spiffs_init(void)
+{
+	return SPIFFS.begin();
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
 void web_server_init()
 {
-	SPIFFS.begin();
-
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
 			robot_save_configuration(request->getParam(HTTP_CONFIG)->value().toInt(),
