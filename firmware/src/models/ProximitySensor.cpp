@@ -8,10 +8,18 @@ ProximitySensor::ProximitySensor(uint8_t pin)
 
 int ProximitySensor::read(void)
 {
+	#ifdef ENABLE_IR
 	return analogRead(this->pin);
+	#else
+	return 0;
+	#endif
 }
 
 bool ProximitySensor::isClose(void)
 {
+	#ifdef ENABLE_IR
 	return this->read() > PROXIMITY_ADC_THRESHOLD;
+	#else
+	return 0;
+	#endif
 }

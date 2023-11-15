@@ -1,5 +1,7 @@
 #include <Arduino.h>
+#include "Debug.h"
 #include "WebServer.h"
+#include "EspNow.h"
 #include "Robot.h"
 
 void _error(void)
@@ -11,6 +13,8 @@ void _error(void)
 
 void setup()
 {
+	D_SerialBegin(9600);
+
 	if (!spiffs_init() || !network_init()) {
 		_error();
 	}
@@ -20,6 +24,8 @@ void setup()
 	if (!robot_init()) {
 		_error();
 	}
+
+	initEspNow();
 }
 
 void loop()
