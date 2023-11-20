@@ -74,9 +74,9 @@
     "files": [
       {
         "name": "bubblebutbot.kicad_sch",
-        "open": false,
+        "open": true,
         "window": {
-          "display": 1,
+          "display": 0,
           "maximized": true,
           "pos_x": -1283,
           "pos_y": 26,
