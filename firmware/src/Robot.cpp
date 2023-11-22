@@ -3,9 +3,9 @@
 #include <EEPROM.h>
 #include "MachineRoom.h"
 
-static uint8_t robot_configuration, robot_speed;
+static uint8_t robot_configuration, robot_speed, robot_drift;
 
-static void robot_update(int configuration, int speed);
+static void robot_update(int configuration, int speed, uint8_t drift);
 static void robot_load_configuration(void);
 static int robot_get_battery(void);
 
@@ -27,12 +27,13 @@ bool robot_init(void)
 	return true;
 }
 
-static void robot_update(int configuration, int speed)
+static void robot_update(int configuration, int speed, uint8_t drift)
 {
-	machine_room_change(configuration, speed);
+	machine_room_change(configuration, speed, drift);
 
 	robot_configuration = configuration;
 	robot_speed         = speed;
+	robot_drift         = drift;
 }
 
 /**
@@ -51,7 +52,7 @@ void robot_connect(void)
  * @param speed as a byte
  * @param friction as a byte
  */
-void robot_save_configuration(int configuration, int speed)
+void robot_save_configuration(int configuration, int speed, uint8_t drift)
 {
 	// Confirm all of them are the same and return.
 	if (robot_configuration == configuration && robot_speed == speed) {
@@ -60,12 +61,11 @@ void robot_save_configuration(int configuration, int speed)
 	// Save on EEPROM
 	EEPROM.put(CONFIGURATION, configuration);
 	EEPROM.put(SPEED, speed);
+	EEPROM.put(DRIFT, drift);
 	EEPROM.commit();
-	// Save on RAM
-	robot_configuration = configuration;
-	robot_speed         = speed;
 
-	robot_update(robot_configuration, robot_speed);
+	// Save on RAM
+	robot_update(configuration, speed, drift);
 }
 
 void robot_flip(void)
@@ -82,9 +82,10 @@ void robot_flip(void)
 int robot_serialize_for_request(char* buffer)
 {
 	return sprintf(buffer,
-	               "%02x%02x%02x",
+	               "%02x%02x%02x%02x",
 	               robot_configuration,
 	               robot_speed,
+	               robot_drift,
 	               robot_get_battery());
 }
 
@@ -96,11 +97,13 @@ static void robot_load_configuration(void)
 {
 	uint8_t configuration = EEPROM.read(CONFIGURATION);
 	uint8_t eepromSpeed   = EEPROM.read(SPEED);
+	uint8_t drift         = EEPROM.read(DRIFT);
 
 	robot_configuration = !configuration ? CONFIGURATION_DEFAULT : configuration;
 	robot_speed         = !eepromSpeed ? SPEED_DEFAULT : eepromSpeed;
+	robot_drift         = !drift ? 50 : drift;
 
-	robot_update(robot_configuration, robot_speed);
+	robot_update(robot_configuration, robot_speed, robot_drift);
 }
 
 /**

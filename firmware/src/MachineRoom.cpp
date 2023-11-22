@@ -10,6 +10,7 @@ static ServoMotor servo(SERVO_FRONT);
 
 static uint8_t mode;
 static float speedRatio;
+static float driftRatio;
 
 static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
 
@@ -17,7 +18,7 @@ static void machine_room_forward(uint8_t pwm);
 static void machine_room_backward_all(uint8_t pwm);
 static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
 static void machine_room_brake(void);
-static void machine_room_change_speed(uint8_t speed);
+static void machine_room_change_speed_and_drift(uint8_t speed, uint8_t drift);
 
 // FreeRTOS Tasks
 static void machine_room_proximity_sensor_decision(void* v);
@@ -28,7 +29,7 @@ void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
-	machine_room_change_speed(SPEED_DEFAULT);
+	machine_room_change_speed_and_drift(SPEED_DEFAULT, 50);
 	machine_room_brake();
 }
 
@@ -159,11 +160,11 @@ void machine_room_flip(void)
  *
  * @param configuration as a bit field configuration
  */
-void machine_room_change(uint8_t configuration, uint8_t speed)
+void machine_room_change(uint8_t configuration, uint8_t speed, uint8_t drift)
 {
 	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
 	servo.update(machine_room_is_servo_enabled(configuration));
-	machine_room_change_speed(speed);
+	machine_room_change_speed_and_drift(speed, drift);
 
 	if (machine_room_is_auto_mode_enabled(configuration)) {
 		mode = AUTO;
@@ -191,9 +192,10 @@ void machine_room_change(uint8_t configuration, uint8_t speed)
  *
  * @param speed as an unsigned char
  */
-static void machine_room_change_speed(uint8_t speed)
+static void machine_room_change_speed_and_drift(uint8_t speed, uint8_t drift)
 {
 	speedRatio = (float)speed / 100.0;
+	driftRatio = (float)drift / 100.0;
 }
 
 /**

@@ -7,7 +7,7 @@ extern "C" {
 
 bool robot_init(void);
 void robot_connect(void);
-void robot_save_configuration(int configuration, int speed);
+void robot_save_configuration(int configuration, int speed, float drift);
 void robot_flip(void);
 int robot_serialize_for_request(char* buffer);
 

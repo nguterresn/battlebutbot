@@ -6,14 +6,16 @@
 #include <stdint.h>
 #include "models/Motor.h"
 
-#define SPEED_DEFAULT      MOTOR_PWM_RANGE    // Descending speed (255 -> 1)
-#define DEFAULT_TASK_STACK configMINIMAL_STACK_SIZE* 10
+#define SPEED_DEFAULT       MOTOR_PWM_RANGE   // Descending speed (255 -> 1)
+#define DEFAULT_TASK_STACK  configMINIMAL_STACK_SIZE* 10
+#define DRIFT_DEFAULT       50
+#define DRIFT_RATIO_DEFAULT 0.5
 
 void machine_room_init(void);
 void machine_room_reset(void);
 void machine_room_update(int x, int y);
 void machine_room_flip(void);
-void machine_room_change(uint8_t configuration, uint8_t speed);
+void machine_room_change(uint8_t configuration, uint8_t speed, uint8_t drift);
 
 bool machine_room_is_feedback_led_enabled(uint8_t configuration);
 bool machine_room_is_servo_enabled(uint8_t configuration);
