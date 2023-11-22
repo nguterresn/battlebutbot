@@ -14,7 +14,6 @@
 #define HTTP_MOTOR_Y        "y"
 #define HTTP_CONFIG         "config"
 #define HTTP_SPEED          "speed"
-#define HTTP_MOTOR_DRIFT    "drift"
 
 // EVENTS TYPES
 #define EVENT_CONFIGURATION "configuration"

@@ -30,8 +30,7 @@ void web_server_init()
 	server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {
 		if (request->hasParam(HTTP_CONFIG) && request->hasParam(HTTP_SPEED)) {
 			robot_save_configuration(request->getParam(HTTP_CONFIG)->value().toInt(),
-			                         request->getParam(HTTP_SPEED)->value().toInt(),
-			                         request->getParam(HTTP_MOTOR_DRIFT)->value().toFloat());
+			                         request->getParam(HTTP_SPEED)->value().toInt());
 		}
 		else {
 			robot_connect();
