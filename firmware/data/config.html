@@ -45,6 +45,14 @@
       </div>
 
       <div class="center-box">
+        <h5>Motor Drift</h5>
+        <small>left - right</small>
+      </div>
+      <div class="center-box">
+        <input type="range" min="0" max="1" value="0.5" step="0.05" id="drift" class="range-slider">
+      </div>
+
+      <div class="center-box">
       </div>
     </div>
     <br>
@@ -60,6 +68,7 @@
   window.onload = function () {
     const button = document.getElementById("save_config");
     var speed = document.getElementById("speed");
+    var drift = document.getElementById("drift");
     var battery = document.getElementById("battery-level");
 
     _request('load-configuration', (response) => {
@@ -67,6 +76,7 @@
       const _configuration = parseInt(response.slice(0, 2), 16);
       const _speed = parseInt(response.slice(2, 4), 16);
       const _battery = parseInt(response.slice(4, 6), 16);
+      const _drift = parseFloat(response.slice(7, 10));
 
       // Initialize the switches
       Array.prototype.slice.call(document.querySelectorAll('.js-switch')).forEach(function(html, index) {
@@ -78,6 +88,7 @@
       });
 
       speed.value = _speed;
+      drift.value = _drift;
       battery.innerText = _battery + "%";
     });
 
@@ -90,7 +101,9 @@
           config = config | (1 << index);
         }
       }
-      window.location.href =  '/?config=' + config + '&speed=' + speed.value;
+      window.location.href =  '/?config=' + config +
+                              '&speed=' + speed.value +
+                              '&drift=' + drift.value;
     });
   }
 
