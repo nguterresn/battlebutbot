@@ -9,6 +9,7 @@
 typedef enum {
 	CONFIGURATION,
 	SPEED,
+	DRIFT,
 	CONFIGURATION_SIZE
 } configuration;
 
