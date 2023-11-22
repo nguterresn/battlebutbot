@@ -55,7 +55,9 @@ void robot_connect(void)
 void robot_save_configuration(int configuration, int speed, uint8_t drift)
 {
 	// Confirm all of them are the same and return.
-	if (robot_configuration == configuration && robot_speed == speed) {
+	if (robot_configuration == configuration &&
+	    robot_speed == speed &&
+	    robot_drift == drift) {
 		return;
 	}
 	// Save on EEPROM
