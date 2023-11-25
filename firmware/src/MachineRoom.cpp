@@ -4,22 +4,24 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
+// Configuration cache
+settings_t robot_settings;
+
+static uint8_t mode;
+
+// Models (class based)
 static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
 static Motor left(MOTOR_LEFT1, MOTOR_LEFT2), right(MOTOR_RIGHT1, MOTOR_RIGHT2);
 static ServoMotor servo(SERVO_FRONT);
 
-static uint8_t mode;
-static float speedRatio;
-static float driftRatio;
-
-static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
-
+// Private Functions
 static void machine_room_forward(uint8_t pwm);
 static void machine_room_backward_all(uint8_t pwm);
 static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
 static void machine_room_brake(void);
-static void machine_room_change_speed_and_drift(uint8_t speed, uint8_t drift);
 
+// FreeRTOS handles
+static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
 // FreeRTOS Tasks
 static void machine_room_proximity_sensor_decision(void* v);
 static void machine_room_move_backwards_and_resume(void* v);
@@ -29,7 +31,6 @@ void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
-	machine_room_change_speed_and_drift(SPEED_DEFAULT, 50);
 	machine_room_brake();
 }
 
@@ -110,7 +111,7 @@ void machine_room_update(int x, int y)
 	// the X axis informs us about the direction the car should go.
 	double radian     = atan2(abs(y), abs(x));
 	uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
-	uint8_t pwmModule = module * speedRatio;
+	uint8_t pwmModule = module * ((float)robot_settings.speed / 100.0);
 	uint8_t pwmY      = pwmModule * sin(radian);
 	// uint8_t pwmX      = module * cos(radian) * speed;
 
@@ -160,13 +161,13 @@ void machine_room_flip(void)
  *
  * @param configuration as a bit field configuration
  */
-void machine_room_change(uint8_t configuration, uint8_t speed, uint8_t drift)
+void machine_room_change(settings_t* settings)
 {
-	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
-	servo.update(machine_room_is_servo_enabled(configuration));
-	machine_room_change_speed_and_drift(speed, drift);
+	digitalWrite(FEEDBACK_LED,
+	             machine_room_is_feedback_led_enabled(settings->configuration));
+	servo.update(machine_room_is_servo_enabled(settings->configuration));
 
-	if (machine_room_is_auto_mode_enabled(configuration)) {
+	if (machine_room_is_auto_mode_enabled(settings->configuration)) {
 		mode = AUTO;
 		machine_room_forward(100);
 
@@ -185,17 +186,6 @@ void machine_room_change(uint8_t configuration, uint8_t speed, uint8_t drift)
 		machine_room_free_tasks();
 		machine_room_brake();
 	}
-}
-
-/**
- * @brief Change the speed ratio of the robot according to an incoming parameter.
- *
- * @param speed as an unsigned char
- */
-static void machine_room_change_speed_and_drift(uint8_t speed, uint8_t drift)
-{
-	speedRatio = (float)speed / 100.0;
-	driftRatio = (float)drift / 100.0;
 }
 
 /**

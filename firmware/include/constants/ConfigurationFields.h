@@ -11,7 +11,7 @@ typedef enum {
 	SPEED,
 	DRIFT,
 	CONFIGURATION_SIZE
-} configuration;
+} EepromConfigurationIndex;
 
 typedef enum {
 	MANUAL,
