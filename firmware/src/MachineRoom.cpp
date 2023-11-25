@@ -44,6 +44,12 @@ void machine_room_reset(void)
 	servo.reset();
 }
 
+static void machine_room_update_drift(uint8_t drift)
+{
+	// left.update
+	// right.update
+}
+
 /**
  * @brief Whenever the car needs to just go forward
  *
@@ -159,13 +165,14 @@ void machine_room_flip(void)
 /**
  * @brief Change the configuration fields according to its bit value
  *
- * @param configuration as a bit field configuration
+ * @param settings with the robot settings
  */
 void machine_room_change(settings_t* settings)
 {
 	digitalWrite(FEEDBACK_LED,
 	             machine_room_is_feedback_led_enabled(settings->configuration));
 	servo.update(machine_room_is_servo_enabled(settings->configuration));
+	machine_room_update_drift(settings->drift);
 
 	if (machine_room_is_auto_mode_enabled(settings->configuration)) {
 		mode = AUTO;
