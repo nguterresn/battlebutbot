@@ -16,6 +16,8 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
 	// should be in range from 0 to PWMRANGE, which is 255 by default.
 	analogWrite(this->xIN1, MOTOR_PWM_RANGE);
 	analogWrite(this->xIN2, MOTOR_PWM_RANGE);
+
+	driftRatio = DRIFT_RATIO_DEFAULT;
 }
 
 /**
@@ -31,13 +33,13 @@ void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
 }
 
 /**
- * @brief Update drift ratio
+ * @brief Update drift ratio. 0 means max drift. 1 means no drift.
  *
- * @param drift as a value between 0 and 100. 0 means no drift.
+ * @param drift as a value between 0 and 100.
  */
 void Motor::update(uint8_t drift)
 {
-	this->driftRatio = (float)drift / 100.0;
+	this->driftRatio = 1.0 - (float)drift / 100.0;
 }
 
 void Motor::brake(void)

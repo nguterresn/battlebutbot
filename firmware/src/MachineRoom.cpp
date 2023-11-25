@@ -46,6 +46,8 @@ void machine_room_reset(void)
 
 static void machine_room_update_drift(uint8_t drift)
 {
+	// Calculate here the drift. The argument must be between 0 and 100.
+	// 0 means no drift. 100 max drift.
 	// left.update
 	// right.update
 }

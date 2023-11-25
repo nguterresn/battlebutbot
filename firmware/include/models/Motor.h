@@ -2,6 +2,7 @@
 
 #define JOYSTICK_MASK            0x64 // Limited to 100;
 #define MOTOR_JOYSTICK_THRESHOLD 20
+#define DRIFT_RATIO_DEFAULT      1.0
 
 #define MOTOR_PWM_RANGE          255
 

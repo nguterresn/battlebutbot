@@ -9,7 +9,6 @@
 #define SPEED_DEFAULT       MOTOR_PWM_RANGE   // Descending speed (255 -> 1)
 #define DEFAULT_TASK_STACK  configMINIMAL_STACK_SIZE* 10
 #define DRIFT_DEFAULT       50
-#define DRIFT_RATIO_DEFAULT 0.5
 
 struct settings {
 	uint8_t configuration;
