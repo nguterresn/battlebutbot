@@ -30,6 +30,16 @@ void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
 	analogWrite(this->xIN2, xIN2pwm);
 }
 
+/**
+ * @brief Update drift ratio
+ *
+ * @param drift as a value between 0 and 100. 0 means no drift.
+ */
+void Motor::update(uint8_t drift)
+{
+	this->driftRatio = (float)drift / 100.0;
+}
+
 void Motor::brake(void)
 {
 	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE);
@@ -38,27 +48,27 @@ void Motor::brake(void)
 /**
  * @brief Motor goes forward based on how big is the pwm argument (slow decay).
  *
- * @param pwm
+ * @param pwm as a 8bit value, 0 is max speed
  */
 void Motor::forward(uint8_t pwm)
 {
 #ifdef HIGH_PERFORMANCE
-	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm);
+	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm * driftRatio);
 #elif LOW_POWER
-	this->update(pwm, 0);
+	this->update(pwm * driftRatio, 0);
 #endif
 }
 
 /**
  * @brief Motor goes backwards based on how big is the pwm argument (slow decay).
  *
- * @param pwm
+ * @param pwm as a 8bit value, 0 is max speed
  */
 void Motor::backward(uint8_t pwm)
 {
 #ifdef HIGH_PERFORMANCE
-	this->update(MOTOR_PWM_RANGE - pwm, MOTOR_PWM_RANGE);
+	this->update(MOTOR_PWM_RANGE - pwm * driftRatio, MOTOR_PWM_RANGE);
 #elif LOW_POWER
-	this->update(0, pwm);
+	this->update(0, pwm * driftRatio);
 #endif
 }
