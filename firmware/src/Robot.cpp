@@ -44,10 +44,11 @@ void robot_save_configuration(int configuration, int speed, int drift)
 {
 	// Confirm all of them are the same and return.
 	if (robot_settings.configuration == configuration &&
-	    robot_settings.speed &&
+	    robot_settings.speed == speed &&
 	    robot_settings.drift == drift) {
 		return;
 	}
+
 	configuration &= 0xff;
 	speed         &= 0xff;
 	drift         &= 0xff;
