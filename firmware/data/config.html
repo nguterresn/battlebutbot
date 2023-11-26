@@ -50,9 +50,6 @@
       <div class="center-box">
         <input type="range" min="50" max="150" value="100" step="5" id="drift" class="range-slider">
       </div>
-
-      <div class="center-box">
-      </div>
     </div>
     <br>
     <div class="row">
@@ -67,7 +64,6 @@
   window.onload = function () {
     const button = document.getElementById("save_config");
     var speed = document.getElementById("speed");
-    var drift = document.getElementById("drift");
     var battery = document.getElementById("battery-level");
 
     _request('load-configuration', (response) => {
@@ -87,7 +83,6 @@
       });
 
       speed.value = _speed;
-      drift.value = _drift;
       battery.innerText = _battery + "%";
     });
 
@@ -100,9 +95,7 @@
           config = config | (1 << index);
         }
       }
-      window.location.href =  '/?config=' + config +
-                              '&speed=' + speed.value +
-                              '&drift=' + drift.value;
+      window.location.href =  '/?config=' + config + '&speed=' + speed.value;
     });
   }
 
