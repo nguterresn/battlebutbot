@@ -44,12 +44,28 @@ void machine_room_reset(void)
 	servo.reset();
 }
 
+/**
+ * @brief Measure and update motors drift
+ *
+ * @param drift between 50 and 150
+ */
 static void machine_room_update_drift(uint8_t drift)
 {
 	// Calculate here the drift. The argument must be between 0 and 100.
-	// 0 means no drift. 100 max drift.
-	// left.update
-	// right.update
+	uint8_t rightDrift = DRIFT_DEFAULT;
+	uint8_t leftDrift  = DRIFT_DEFAULT;
+
+	if (drift > DRIFT_DEFAULT) {
+		// The car should lean towards the right. Increase left motor drift.
+		leftDrift = DRIFT_MAX_INPUT - drift;
+	}
+	else if (drift < DRIFT_DEFAULT) {
+		// The car should lean towards the left. Increase right motor drift.
+		rightDrift = DRIFT_DEFAULT - drift;
+	}
+
+	right.update(rightDrift);
+	left.update(leftDrift);
 }
 
 /**
