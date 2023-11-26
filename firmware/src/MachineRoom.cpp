@@ -192,25 +192,25 @@ void machine_room_change(settings_t* settings)
 	servo.update(machine_room_is_servo_enabled(settings->configuration));
 	machine_room_update_drift(settings->drift);
 
-	if (machine_room_is_auto_mode_enabled(settings->configuration)) {
-		mode = AUTO;
-		machine_room_forward(100);
+	// if (machine_room_is_auto_mode_enabled(settings->configuration)) {
+	// 	mode = AUTO;
+	// 	machine_room_forward(100);
 
-		if (!proximitySensorTaskHandle) {
-			xTaskCreate(machine_room_proximity_sensor_decision,
-			            "machine_room_proximity_sensor_decision",
-			            DEFAULT_TASK_STACK,
-			            NULL,
-			            10,
-			            &proximitySensorTaskHandle);
-		}
-	}
-	else {
-		mode = MANUAL;
-		// TODO: Save on EEPROM as well.
-		machine_room_free_tasks();
-		machine_room_brake();
-	}
+	// 	if (!proximitySensorTaskHandle) {
+	// 		xTaskCreate(machine_room_proximity_sensor_decision,
+	// 		            "machine_room_proximity_sensor_decision",
+	// 		            DEFAULT_TASK_STACK,
+	// 		            NULL,
+	// 		            10,
+	// 		            &proximitySensorTaskHandle);
+	// 	}
+	// }
+	// else {
+	// 	mode = MANUAL;
+	// 	// TODO: Save on EEPROM as well.
+	// 	machine_room_free_tasks();
+	// 	machine_room_brake();
+	// }
 }
 
 /**
