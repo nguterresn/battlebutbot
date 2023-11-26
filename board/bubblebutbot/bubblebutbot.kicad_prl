@@ -88,11 +88,11 @@
         "name": "bubblebutbot.kicad_pcb",
         "open": false,
         "window": {
-          "display": 0,
-          "maximized": true,
+          "display": 1,
+          "maximized": false,
           "pos_x": -2560,
           "pos_y": 25,
-          "size_x": 1280,
+          "size_x": 1200,
           "size_y": 1415
         }
       }

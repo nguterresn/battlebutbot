@@ -11,11 +11,13 @@
 
 class Motor {
 public:
-	Motor(uint8_t xIN1, uint8_t xIN2);
+	Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift);
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
+	void update(uint8_t drift);
 	void brake(void);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
 private:
 	uint8_t xIN1, xIN2;
+	float driftRatio;
 };

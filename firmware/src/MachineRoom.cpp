@@ -4,21 +4,24 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
-static Motor left(MOTOR_LEFT1, MOTOR_LEFT2), right(MOTOR_RIGHT1, MOTOR_RIGHT2);
-static ServoMotor servo(SERVO_FRONT);
+// Configuration cache
+settings_t robot_settings;
 
 static uint8_t mode;
-static float speedRatio;
 
-static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
+// Models (class based)
+static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
+static Motor left(MOTOR_LEFT1, MOTOR_LEFT2, DRIFT_DEFAULT), right(MOTOR_RIGHT1, MOTOR_RIGHT2, DRIFT_DEFAULT);
+static ServoMotor servo(SERVO_FRONT);
 
+// Private Functions
 static void machine_room_forward(uint8_t pwm);
 static void machine_room_backward_all(uint8_t pwm);
 static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
 static void machine_room_brake(void);
-static void machine_room_change_speed(uint8_t speed);
 
+// FreeRTOS handles
+static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
 // FreeRTOS Tasks
 static void machine_room_proximity_sensor_decision(void* v);
 static void machine_room_move_backwards_and_resume(void* v);
@@ -28,7 +31,6 @@ void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
-	machine_room_change_speed(SPEED_DEFAULT);
 	machine_room_brake();
 }
 
@@ -40,6 +42,30 @@ void machine_room_reset(void)
 {
 	machine_room_brake();
 	servo.reset();
+}
+
+/**
+ * @brief Measure and update motors drift
+ *
+ * @param drift between 50 and 150
+ */
+static void machine_room_update_drift(uint8_t drift)
+{
+	// Calculate here the drift. The argument must be between 0 and 100.
+	uint8_t rightDrift = DRIFT_DEFAULT;
+	uint8_t leftDrift  = DRIFT_DEFAULT;
+
+	if (drift > DRIFT_DEFAULT) {
+		// The car should lean towards the right. Increase left motor drift.
+		leftDrift = DRIFT_MAX_INPUT - drift;
+	}
+	else if (drift < DRIFT_DEFAULT) {
+		// The car should lean towards the left. Increase right motor drift.
+		rightDrift = DRIFT_DEFAULT - drift;
+	}
+
+	right.update(rightDrift);
+	left.update(leftDrift);
 }
 
 /**
@@ -109,7 +135,7 @@ void machine_room_update(int x, int y)
 	// the X axis informs us about the direction the car should go.
 	double radian     = atan2(abs(y), abs(x));
 	uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
-	uint8_t pwmModule = module * speedRatio;
+	uint8_t pwmModule = module * ((float)robot_settings.speed / 100.0);
 	uint8_t pwmY      = pwmModule * sin(radian);
 	// uint8_t pwmX      = module * cos(radian) * speed;
 
@@ -157,43 +183,34 @@ void machine_room_flip(void)
 /**
  * @brief Change the configuration fields according to its bit value
  *
- * @param configuration as a bit field configuration
+ * @param settings with the robot settings
  */
-void machine_room_change(uint8_t configuration, uint8_t speed)
+void machine_room_change(settings_t* settings)
 {
-	digitalWrite(FEEDBACK_LED, machine_room_is_feedback_led_enabled(configuration));
-	servo.update(machine_room_is_servo_enabled(configuration));
-	machine_room_change_speed(speed);
+	digitalWrite(FEEDBACK_LED,
+	             machine_room_is_feedback_led_enabled(settings->configuration));
+	servo.update(machine_room_is_servo_enabled(settings->configuration));
+	machine_room_update_drift(settings->drift);
 
-	if (machine_room_is_auto_mode_enabled(configuration)) {
-		mode = AUTO;
-		machine_room_forward(100);
+	// if (machine_room_is_auto_mode_enabled(settings->configuration)) {
+	// 	mode = AUTO;
+	// 	machine_room_forward(100);
 
-		if (!proximitySensorTaskHandle) {
-			xTaskCreate(machine_room_proximity_sensor_decision,
-			            "machine_room_proximity_sensor_decision",
-			            DEFAULT_TASK_STACK,
-			            NULL,
-			            10,
-			            &proximitySensorTaskHandle);
-		}
-	}
-	else {
-		mode = MANUAL;
-		// TODO: Save on EEPROM as well.
-		machine_room_free_tasks();
-		machine_room_brake();
-	}
-}
-
-/**
- * @brief Change the speed ratio of the robot according to an incoming parameter.
- *
- * @param speed as an unsigned char
- */
-static void machine_room_change_speed(uint8_t speed)
-{
-	speedRatio = (float)speed / 100.0;
+	// 	if (!proximitySensorTaskHandle) {
+	// 		xTaskCreate(machine_room_proximity_sensor_decision,
+	// 		            "machine_room_proximity_sensor_decision",
+	// 		            DEFAULT_TASK_STACK,
+	// 		            NULL,
+	// 		            10,
+	// 		            &proximitySensorTaskHandle);
+	// 	}
+	// }
+	// else {
+	// 	mode = MANUAL;
+	// 	// TODO: Save on EEPROM as well.
+	// 	machine_room_free_tasks();
+	// 	machine_room_brake();
+	// }
 }
 
 /**
