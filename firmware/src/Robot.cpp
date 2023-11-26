@@ -15,7 +15,7 @@ static int robot_get_battery(void);
  */
 bool robot_init(void)
 {
-	if (!EEPROM.begin(CONFIGURATION_SIZE)) {
+	if (!EEPROM.begin(EEPROM_SIZE)) {
 		return false;
 	}
 
@@ -53,9 +53,9 @@ void robot_save_configuration(int configuration, int speed, int drift)
 	drift         &= 0xff;
 
 	// Save on EEPROM
-	EEPROM.put(CONFIGURATION, configuration);
-	EEPROM.put(SPEED, speed);
-	EEPROM.put(DRIFT, drift);
+	EEPROM.put(EEPROM_CONFIGURATION_INDEX, configuration);
+	EEPROM.put(EEPROM_SPEED_INDEX, speed);
+	EEPROM.put(EEPROM_DRIFT_INDEX, drift);
 	EEPROM.commit();
 
 	settings_t saved_settings = {
@@ -73,9 +73,9 @@ void robot_save_configuration(int configuration, int speed, int drift)
  */
 static void robot_load_configuration(void)
 {
-	uint8_t configuration         = EEPROM.read(CONFIGURATION);
-	uint8_t speed                 = EEPROM.read(SPEED);
-	uint8_t drift                 = EEPROM.read(DRIFT);
+	uint8_t configuration         = EEPROM.read(EEPROM_CONFIGURATION_INDEX);
+	uint8_t speed                 = EEPROM.read(EEPROM_SPEED_INDEX);
+	uint8_t drift                 = EEPROM.read(EEPROM_DRIFT_INDEX);
 
 	uint8_t configuration_default = CONFIGURATION_DEFAULT;
 	uint8_t speed_default         = SPEED_DEFAULT;

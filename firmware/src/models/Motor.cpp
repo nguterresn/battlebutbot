@@ -39,7 +39,7 @@ void Motor::update(uint8_t xIN1pwm, uint8_t xIN2pwm)
  */
 void Motor::update(uint8_t drift)
 {
-	this->driftRatio = 1.0 - (float)drift / 100.0;
+	this->driftRatio = (float)drift / 100.0;
 }
 
 void Motor::brake(void)
