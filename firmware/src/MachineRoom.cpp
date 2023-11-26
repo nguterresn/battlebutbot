@@ -11,7 +11,7 @@ static uint8_t mode;
 
 // Models (class based)
 static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
-static Motor left(MOTOR_LEFT1, MOTOR_LEFT2), right(MOTOR_RIGHT1, MOTOR_RIGHT2);
+static Motor left(MOTOR_LEFT1, MOTOR_LEFT2, DRIFT_DEFAULT), right(MOTOR_RIGHT1, MOTOR_RIGHT2, DRIFT_DEFAULT);
 static ServoMotor servo(SERVO_FRONT);
 
 // Private Functions

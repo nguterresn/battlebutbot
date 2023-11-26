@@ -8,7 +8,7 @@
  * @param xIN1 as a pin
  * @param xIN2 as a pin
  */
-Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
+Motor::Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift) : xIN1(xIN1), xIN2(xIN2)
 {
 	pinMode(this->xIN1, OUTPUT);
 	pinMode(this->xIN2, OUTPUT);
@@ -17,7 +17,7 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2) : xIN1(xIN1), xIN2(xIN2)
 	analogWrite(this->xIN1, MOTOR_PWM_RANGE);
 	analogWrite(this->xIN2, MOTOR_PWM_RANGE);
 
-	driftRatio = DRIFT_RATIO_DEFAULT;
+	update(drift);
 }
 
 /**

@@ -2,7 +2,6 @@
 
 #define JOYSTICK_MASK            0x64 // Limited to 100;
 #define MOTOR_JOYSTICK_THRESHOLD 20
-#define DRIFT_RATIO_DEFAULT      1.0
 
 #define MOTOR_PWM_RANGE          255
 
@@ -12,7 +11,7 @@
 
 class Motor {
 public:
-	Motor(uint8_t xIN1, uint8_t xIN2);
+	Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift);
 	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
 	void update(uint8_t drift);
 	void brake(void);
