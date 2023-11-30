@@ -5,7 +5,7 @@
 #include "oled.h"
 #include "transmitter.h"
 
-static TaskHandle_t oled_handle, transmitter_handle;
+static TaskHandle_t oled_handle, transmitter_handle, controls_handle;
 
 void setup()
 {
@@ -16,6 +16,12 @@ void setup()
 	oled_begin();
 	transmitter_begin();
 
+	xTaskCreate(controls_loop,
+	            "controls_loop",
+	            configMINIMAL_STACK_SIZE * 5,
+	            NULL,
+	            10,
+	            &controls_handle);
 	xTaskCreate(oled_loop,
 	            "oled_loop",
 	            configMINIMAL_STACK_SIZE * 5,

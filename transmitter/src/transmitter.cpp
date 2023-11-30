@@ -8,6 +8,8 @@ uint8_t transmac[]           = { 0x3C, 0x71, 0xBF, 0x9D, 0x9F, 0x88 };
 unsigned long previousMillis = 0;
 esp_now_data data;
 
+bool is_connected = false;
+
 void transmitter_begin()
 {
 	WiFi.mode(WIFI_MODE_STA);
@@ -30,8 +32,13 @@ void transmitter_loop(void* v)
 {
 	(void)v;
 	for (;;) {
-		int p = map(read_y(), 0, 4095, -100, 100);
-		int r = map(read_x(), 0, 4095, -100, 100);
+		if (!is_connected) {
+			vTaskDelay(100);
+			continue;
+		}
+
+		int p = map(read_left_y(), 0, 4095, -100, 100);
+		int r = map(read_right_x(), 0, 4095, -100, 100);
 		p = constrain(p, -100, 100);
 		r = constrain(r, -100, 100);
 		if (abs(p) < 30) {
@@ -47,11 +54,11 @@ void transmitter_loop(void* v)
 		data.pitch = p;
 		data.roll  = r;
 
-		// Serial.print(millis());
-		// Serial.print(": ");
-		// Serial.print(p);
-		// Serial.print(" - ");
-		// Serial.println(r);
+		Serial.print(millis());
+		Serial.print(": ");
+		Serial.print(p);
+		Serial.print(" - ");
+		Serial.println(r);
 
 		ESPNow.send_message(recmac, (uint8_t*)&data, sizeof(data));
 		vTaskDelay(TRANSMITTER_INTERVAL / portTICK_RATE_MS);

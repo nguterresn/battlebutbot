@@ -1,11 +1,14 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
-#define POT_X                35
-#define POT_Y                34
-
 void controls_begin(void);
-int read_y(void);
-int read_x(void);
+void controls_loop(void* v);
+bool select_pressed(void);
+bool left_pressed(void);
+bool right_pressed(void);
+int read_left_x(void);
+int read_left_y(void);
+int read_right_x(void);
+int read_right_y(void);
 
 #endif /* CONTROLS_H */
