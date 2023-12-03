@@ -26,6 +26,7 @@
 
 #ifdef S1
 #define PROXIMITY_SENSOR_RIGHT 24
+// GPIO25: ESP_ERR_TIMEOUT: ADC2 is in use by Wi-Fi.
 #define PROXIMITY_SENSOR_LEFT  25
 #elif S2
 #error "Proximity pins are missing for the ESP32 S2"

@@ -1,6 +1,7 @@
 #include "WebServer.h"
 #include "Robot.h"
 #include "MachineRoom.h"
+#include "Debug.h"
 #include <SPIFFS.h>
 
 AsyncWebServer server(80);
@@ -10,10 +11,18 @@ bool network_init(void)
 {
 	// Disable power saving on WiFi to improve responsiveness
 	// (https://github.com/espressif/arduino-esp32/issues/1484)
-	if (!WiFi.setSleep(false) ||
-	    !WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1) || // Limit the amount of connections to the same web server.  One user per device.
-	    !MDNS.begin(DNS_NETWORK_NAME) ||
-	    !MDNS.addService("http", DNS_NETWORK_NAME, 80)) {
+
+	if (!WiFi.setSleep(false)) {
+		D_println("WiFi.setSleep failed");
+		return false;
+	} else if (!WiFi.softAP(SSID_OF_THE_NETWORK, NULL, 1, 0, 1)) {
+		D_println("WiFi.softAP failed");
+		return false;
+	} else if (!MDNS.begin(DNS_NETWORK_NAME)) {
+		D_println("MDNS.begin failed");
+		return false;
+	} else if (!MDNS.addService("http", DNS_NETWORK_NAME, 80)) {
+		D_println("MDNS.addService failed");
 		return false;
 	}
 	return true;
@@ -21,7 +30,11 @@ bool network_init(void)
 
 bool spiffs_init(void)
 {
-	return SPIFFS.begin();
+	if (!SPIFFS.begin()) {
+		D_println("SPIFFS.begin failed");
+		return false;
+	}
+	return true;
 }
 
 /// @brief Function to create all the endpoints and respective handlers for the WebServer.
