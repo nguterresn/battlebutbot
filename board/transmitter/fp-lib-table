@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "COM-09032")(type "KiCad")(uri "/Users/gustafeden/Downloads/COM-09032")(options "")(descr "joystick"))
+)
