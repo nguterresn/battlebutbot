@@ -76,12 +76,12 @@
         "name": "bubblebutbot.kicad_pcb",
         "open": false,
         "window": {
-          "display": 1,
+          "display": 0,
           "maximized": true,
-          "pos_x": -2571,
-          "pos_y": 25,
-          "size_x": 1909,
-          "size_y": 1415
+          "pos_x": 0,
+          "pos_y": 0,
+          "size_x": 1440,
+          "size_y": 900
         }
       },
       {
