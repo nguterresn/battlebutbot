@@ -15,10 +15,10 @@
 #elif S2
 #error "Motor pins are missing for the ESP32 S2"
 #elif S3
-#define MOTOR_LEFT1            11
-#define MOTOR_LEFT2            38
-#define MOTOR_RIGHT1           9
-#define MOTOR_RIGHT2           10
+#define MOTOR_RIGHT1           11
+#define MOTOR_RIGHT2           38
+#define MOTOR_LEFT1            9
+#define MOTOR_LEFT2            10
 #endif
 #define MOTOR_FAULT            12
 
