@@ -4,10 +4,13 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
+#define ACCELERATION 20
+
 // Configuration cache
 settings_t robot_settings;
 
 static uint8_t mode;
+static uint8_t currentPWM = 0;
 
 // Models (class based)
 static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
@@ -16,16 +19,8 @@ static ServoMotor servo(SERVO_FRONT);
 
 // Private Functions
 static void machine_room_forward(uint8_t pwm);
-static void machine_room_backward_all(uint8_t pwm);
-static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight);
+static void machine_room_backward(uint8_t pwm);
 static void machine_room_brake(void);
-
-// FreeRTOS handles
-static TaskHandle_t proximitySensorTaskHandle, genericTaskHandle;
-// FreeRTOS Tasks
-static void machine_room_proximity_sensor_decision(void* v);
-static void machine_room_move_backwards_and_resume(void* v);
-static void machine_room_free_tasks(void);
 
 void machine_room_init(void)
 {
@@ -57,11 +52,11 @@ static void machine_room_update_drift(uint8_t drift)
 
 	if (drift > DRIFT_DEFAULT) {
 		// The car should lean towards the right. Increase left motor drift.
-		leftDrift = DRIFT_MAX_INPUT - drift;
+		leftDrift = max(DRIFT_DEFAULT - (drift - DRIFT_DEFAULT), DRIFT_MIN_INPUT);
 	}
 	else if (drift < DRIFT_DEFAULT) {
 		// The car should lean towards the left. Increase right motor drift.
-		rightDrift = DRIFT_DEFAULT - drift;
+		rightDrift = max(DRIFT_DEFAULT - drift, DRIFT_MIN_INPUT);
 	}
 
 	right.update(rightDrift);
@@ -84,21 +79,10 @@ static void machine_room_forward(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-static void machine_room_backward_all(uint8_t pwm)
+static void machine_room_backward(uint8_t pwm)
 {
 	right.backward(pwm);
 	left.backward(pwm);
-}
-
-/**
- * @brief Whenever the car needs to just go backward
- *
- * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
- */
-static void machine_room_backward(uint8_t pwmLeft, uint8_t pwmRight)
-{
-	right.backward(pwmRight);
-	left.backward(pwmLeft);
 }
 
 /**
@@ -121,6 +105,7 @@ void machine_room_update(int x, int y)
 {
 	// Whenever the joystick returns to zero, stop.
 	if (x == 0 && y == 0) {
+		currentPWM = 0;
 		machine_room_brake();
 		return;
 	}
@@ -128,7 +113,6 @@ void machine_room_update(int x, int y)
 	// Prevent any manual input if the robot is in auto mode.
 	if (mode == AUTO) {
 		mode = MANUAL;
-		machine_room_free_tasks();
 	}
 
 	// The Y axis informs us the power we should provide to the motors, whereas
@@ -142,7 +126,10 @@ void machine_room_update(int x, int y)
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
 	if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
-		y > 0 ? machine_room_forward(pwmY) : machine_room_backward_all(pwmY);
+		currentPWM = pwmY > currentPWM ?
+		             min(currentPWM + ACCELERATION, pwmY) :
+		             max(currentPWM - ACCELERATION, pwmY);
+		y > 0 ? machine_room_forward(currentPWM) : machine_room_backward(currentPWM);
 		return;
 	}
 
@@ -150,25 +137,31 @@ void machine_room_update(int x, int y)
 		return;
 	}
 
+	currentPWM = pwmModule > currentPWM ?
+	             min(currentPWM + ACCELERATION, pwmModule) :
+	             max(currentPWM - ACCELERATION, pwmModule);
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
 		right.forward(pwmY);
-		left.forward(pwmModule);
+		left.forward(currentPWM);
 	}
 	else if (x < 0 && y > 0) {
 		// 2nd quadrant - forward and left.
-		right.forward(pwmModule);
+		right.forward(currentPWM);
 		left.forward(pwmY);
 	}
-	else if (x < 0 && y < 0) {
-		// 3rd & 4th quandrant - backwards.
-		right.backward(pwmModule);
-		left.backward(pwmY);
+	else {
+		machine_room_backward(currentPWM);
 	}
-	else if (x > 0 && y < 0) {
-		right.backward(pwmY);
-		left.backward(pwmModule);
-	}
+	// else if (x < 0 && y < 0) {
+	// 	// 3rd & 4th quandrant - backwards.
+	// 	right.backward(currentPWM);
+	// 	left.backward(pwmY);
+	// }
+	// else if (x > 0 && y < 0) {
+	// 	right.backward(pwmY);
+	// 	left.backward(currentPWM);
+	// }
 }
 
 /**
@@ -191,26 +184,6 @@ void machine_room_change(settings_t* settings)
 	             machine_room_is_feedback_led_enabled(settings->configuration));
 	servo.update(machine_room_is_servo_enabled(settings->configuration));
 	machine_room_update_drift(settings->drift);
-
-	// if (machine_room_is_auto_mode_enabled(settings->configuration)) {
-	// 	mode = AUTO;
-	// 	machine_room_forward(100);
-
-	// 	if (!proximitySensorTaskHandle) {
-	// 		xTaskCreate(machine_room_proximity_sensor_decision,
-	// 		            "machine_room_proximity_sensor_decision",
-	// 		            DEFAULT_TASK_STACK,
-	// 		            NULL,
-	// 		            10,
-	// 		            &proximitySensorTaskHandle);
-	// 	}
-	// }
-	// else {
-	// 	mode = MANUAL;
-	// 	// TODO: Save on EEPROM as well.
-	// 	machine_room_free_tasks();
-	// 	machine_room_brake();
-	// }
 }
 
 /**
@@ -241,55 +214,4 @@ bool machine_room_is_servo_enabled(uint8_t configuration)
 bool machine_room_is_auto_mode_enabled(uint8_t configuration)
 {
 	return configuration & ENABLE_AUTO_MODE ? true : false;
-}
-
-static void machine_room_proximity_sensor_decision(void* v)
-{
-	(void)v;
-	for (;;) {
-		bool state = irSensorLeft.isClose() || irSensorRight.isClose();
-		if (state && !genericTaskHandle) {
-			xTaskCreate(machine_room_move_backwards_and_resume,
-			            "machine_room_move_backwards_and_resume",
-			            DEFAULT_TASK_STACK,
-			            NULL,
-			            10,
-			            &genericTaskHandle);
-		}
-		vTaskDelay(50 / portTICK_RATE_MS);
-	}
-}
-
-static void machine_room_move_backwards_and_resume(void* v)
-{
-	bool left  = irSensorLeft.isClose();
-	bool right = irSensorRight.isClose();
-
-	if (left && right) {
-		// Random one but later we can compare according to the ADC read values.
-		machine_room_backward(200, 75);
-	}
-	else if (left) {
-		machine_room_backward(200, 75);
-	}
-	else if (right) {
-		machine_room_backward(75, 200);
-	}
-
-	vTaskDelay(1500 / portTICK_RATE_MS);
-	machine_room_forward(100);
-
-	genericTaskHandle = NULL;
-}
-
-static void machine_room_free_tasks(void)
-{
-	if (proximitySensorTaskHandle) {
-		vTaskDelete(proximitySensorTaskHandle);
-	}
-	if (genericTaskHandle) {
-		vTaskDelete(genericTaskHandle);
-	}
-	proximitySensorTaskHandle = NULL;
-	genericTaskHandle         = NULL;
 }

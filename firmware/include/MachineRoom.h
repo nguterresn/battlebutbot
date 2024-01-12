@@ -6,10 +6,10 @@
 #include "constants/ConfigurationFields.h"
 #include "models/Motor.h"
 
-#define SPEED_DEFAULT      MOTOR_PWM_RANGE    // Descending speed (255 -> 1)
-#define DEFAULT_TASK_STACK configMINIMAL_STACK_SIZE* 10
-#define DRIFT_DEFAULT      100
-#define DRIFT_MAX_INPUT    200
+#define SPEED_DEFAULT   MOTOR_PWM_RANGE       // Descending speed (255 -> 1)
+#define DRIFT_MIN_INPUT 50
+#define DRIFT_DEFAULT   100
+#define DRIFT_MAX_INPUT 150
 
 struct settings {
 	uint8_t configuration;
