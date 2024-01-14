@@ -6,13 +6,14 @@
 #define MOTOR_PWM_RANGE          255
 
 // Choose the type of motor decay
+// Note: low power mode is not working atm.
 // #define LOW_POWER                // fast decay
 #define HIGH_PERFORMANCE         // slow decay
 
 class Motor {
 public:
 	Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift);
-	void update(uint8_t xIN1pwm, uint8_t xIN2pwm);
+	void move(uint8_t xIN1pwm, uint8_t xIN2pwm);
 	void update(uint8_t drift);
 	void brake(void);
 	void forward(uint8_t pwm);
