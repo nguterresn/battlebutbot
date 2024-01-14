@@ -13,7 +13,7 @@
 
 struct settings {
 	uint8_t configuration;
-	uint8_t speed;              //!< From 0 - 255, default 255
+	uint8_t speed;              //!< From 1 - 255, default 255
 	uint8_t drift;              //!< From 50 - 150, default 100
 };
 
