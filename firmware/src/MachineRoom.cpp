@@ -120,9 +120,19 @@ void machine_room_update(int x, int y)
 	// the X axis informs us about the direction the car should go.
 	double radian     = atan2(abs(y), abs(x));
 	uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
-	uint8_t pwmModule = module * ((float)robot_settings.speed / 100.0);
+	uint8_t pwmModule = module * ((float)robot_settings.speed / 100.00);
 	uint8_t pwmY      = pwmModule * sin(radian);
-	// uint8_t pwmX      = module * cos(radian) * speed;
+
+	Serial.print("Y: ");
+	Serial.print(y);
+	Serial.print(" robot_settings.speed: ");
+	Serial.print(robot_settings.speed);
+	Serial.print(" module: ");
+	Serial.print(module);
+	Serial.print(" pwmModule: ");
+	Serial.print(pwmModule);
+	Serial.print(" pwmY: ");
+	Serial.println(pwmY);
 
 	// Whenever the X axis is below the motion threshold, the car should drive
 	// straight.
@@ -137,14 +147,15 @@ void machine_room_update(int x, int y)
 		y > 0 ? machine_room_forward(currentPWM) : machine_room_backward(currentPWM);
 		return;
 	}
+	// TODO: decrease from negative to positive instead of matching only positive numbers.
+	currentPWM = pwmModule > currentPWM ?
+	             min(currentPWM + ACCELERATION, pwmModule) :
+	             max(currentPWM - ACCELERATION, pwmModule);
 
 	if (abs(y) < MOTOR_JOYSTICK_THRESHOLD) {
 		return;
 	}
 
-	currentPWM = pwmModule > currentPWM ?
-	             min(currentPWM + ACCELERATION, pwmModule) :
-	             max(currentPWM - ACCELERATION, pwmModule);
 	if (x > 0 && y > 0) {
 		// 1st quadrant - forward and right.
 		right.forward(pwmY);
