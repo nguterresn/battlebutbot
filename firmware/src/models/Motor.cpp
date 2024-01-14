@@ -55,8 +55,7 @@ void Motor::brake(void)
 void Motor::forward(uint8_t pwm)
 {
 #ifdef HIGH_PERFORMANCE
-	// !! The drift is not working properly !!
-	this->update(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm * driftRatio);
+	this->update(MOTOR_PWM_RANGE, (MOTOR_PWM_RANGE - pwm) * driftRatio);
 #elif LOW_POWER
 	this->update(pwm * driftRatio, 0);
 #endif
@@ -70,8 +69,7 @@ void Motor::forward(uint8_t pwm)
 void Motor::backward(uint8_t pwm)
 {
 #ifdef HIGH_PERFORMANCE
-	// !! The drift is not working properly !!
-	this->update(MOTOR_PWM_RANGE - pwm * driftRatio, MOTOR_PWM_RANGE);
+	this->update((MOTOR_PWM_RANGE - pwm) * driftRatio, MOTOR_PWM_RANGE);
 #elif LOW_POWER
 	this->update(0, pwm * driftRatio);
 #endif

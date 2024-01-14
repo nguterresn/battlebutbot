@@ -4,7 +4,7 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-#define ACCELERATION 20
+#define ACCELERATION 25
 
 // Configuration cache
 settings_t robot_settings;
@@ -52,11 +52,11 @@ static void machine_room_update_drift(uint8_t drift)
 
 	if (drift > DRIFT_DEFAULT) {
 		// The car should lean towards the right. Increase left motor drift.
-		leftDrift = max(DRIFT_DEFAULT - (drift - DRIFT_DEFAULT), DRIFT_MIN_INPUT);
+		leftDrift = max(DRIFT_MAX_INPUT - drift + DRIFT_MIN_INPUT, DRIFT_MIN_INPUT);
 	}
 	else if (drift < DRIFT_DEFAULT) {
 		// The car should lean towards the left. Increase right motor drift.
-		rightDrift = max(DRIFT_DEFAULT - drift, DRIFT_MIN_INPUT);
+		rightDrift = max(drift, DRIFT_MIN_INPUT);
 	}
 
 	right.update(rightDrift);
@@ -105,6 +105,7 @@ void machine_room_update(int x, int y)
 {
 	// Whenever the joystick returns to zero, stop.
 	if (x == 0 && y == 0) {
+		Serial.println("reset to 0");
 		currentPWM = 0;
 		machine_room_brake();
 		return;
@@ -129,6 +130,10 @@ void machine_room_update(int x, int y)
 		currentPWM = pwmY > currentPWM ?
 		             min(currentPWM + ACCELERATION, pwmY) :
 		             max(currentPWM - ACCELERATION, pwmY);
+
+		Serial.print("CurrentPWM: ");
+		Serial.println(currentPWM);
+
 		y > 0 ? machine_room_forward(currentPWM) : machine_room_backward(currentPWM);
 		return;
 	}
