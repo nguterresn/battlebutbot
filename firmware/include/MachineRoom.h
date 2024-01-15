@@ -17,6 +17,17 @@ struct settings {
 	uint8_t drift;              //!< From 50 - 150, default 100
 };
 
+struct axis {
+	// !! Shared resource !!
+	int     x;
+	int     y;
+	uint8_t target_pwm;
+	uint8_t target_compensation_pwm;
+	// Non-Shared resource (safe)
+	uint8_t current_pwm;
+	uint8_t current_compensation_pwm;
+};
+
 typedef struct settings settings_t;
 
 void machine_room_init(void);
