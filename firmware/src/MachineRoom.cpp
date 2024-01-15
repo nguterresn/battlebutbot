@@ -25,7 +25,7 @@ static void machine_room_backward(uint8_t pwm);
 static void machine_room_brake(void);
 static void machine_room_loop(void* v);
 
-static void machine_room_init(void)
+void machine_room_init(void)
 {
 	pinMode(FEEDBACK_LED, OUTPUT);
 
@@ -43,7 +43,7 @@ static void machine_room_init(void)
 	}
 }
 
-void machine_room_loop(void* v)
+static void machine_room_loop(void* v)
 {
 	(void)v;
 	uint8_t target_pwm = 0, target_compensation_pwm = 0;
@@ -74,6 +74,11 @@ void machine_room_loop(void* v)
 
 			if (axis.x == 0 && axis.y == 0) {
 				machine_room_brake();
+			}
+			else if (axis.x < MOTOR_JOYSTICK_THRESHOLD) {
+				axis.y > 0 ?
+				machine_room_forward(axis.current_pwm) :
+				machine_room_backward(axis.current_pwm);
 			}
 			else if (axis.x > 0 && axis.y > 0) {
 				// 1st quadrant - forward and right.
