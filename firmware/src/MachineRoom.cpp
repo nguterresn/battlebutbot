@@ -4,7 +4,7 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-#define ACCELERATION 10
+#define ACCELERATION 1
 
 // Configuration cache
 settings_t robot_settings;
@@ -58,24 +58,28 @@ static void machine_room_loop(void* v)
 
 			// Speed
 			if (axis.current_pwm < target_pwm) {
-				axis.current_pwm = min(axis.current_pwm + ACCELERATION, MOTOR_PWM_RANGE);
+				axis.current_pwm = min(axis.current_pwm + ACCELERATION, target_pwm);
 			}
-			else {
-				axis.current_pwm = max(axis.current_pwm - ACCELERATION, 0);
+			else if (axis.current_pwm > target_pwm) {
+				axis.current_pwm = max(axis.current_pwm - ACCELERATION, target_pwm);
 			}
 			// Compensation
 			if (axis.current_compensation_pwm < target_compensation_pwm) {
 				axis.current_compensation_pwm = min(axis.current_compensation_pwm + ACCELERATION,
-				                                    MOTOR_PWM_RANGE);
+				                                    target_compensation_pwm);
 			}
-			else {
-				axis.current_compensation_pwm = max(axis.current_compensation_pwm - ACCELERATION, 0);
+			else if (axis.current_compensation_pwm > target_compensation_pwm) {
+				axis.current_compensation_pwm = max(axis.current_compensation_pwm - ACCELERATION,
+				                                    target_compensation_pwm);
 			}
+
+			// Serial.print("axis.current_pwm: ");
+			// Serial.println(axis.current_pwm);
 
 			if (axis.x == 0 && axis.y == 0) {
 				machine_room_brake();
 			}
-			else if (axis.x < MOTOR_JOYSTICK_THRESHOLD) {
+			else if (abs(axis.x) < MOTOR_JOYSTICK_THRESHOLD) {
 				axis.y > 0 ?
 				machine_room_forward(axis.current_pwm) :
 				machine_room_backward(axis.current_pwm);
@@ -102,7 +106,7 @@ static void machine_room_loop(void* v)
 			axis.current_pwm              = axis.target_pwm;
 			axis.current_compensation_pwm = axis.target_compensation_pwm;
 		}
-		vTaskDelay(5 / portTICK_RATE_MS);
+		vTaskDelay(10 / portTICK_RATE_MS);
 	}
 }
 
