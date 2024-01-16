@@ -47,10 +47,13 @@ static void machine_room_loop(void* v)
 {
 	(void)v;
 	uint8_t target_pwm = 0, target_compensation_pwm = 0;
+	int x = 0, y = 0;
 
 	for (;;) {
 		if (xSemaphoreTake(mutex, 0)) {
 			// !! Critical section !!
+			x                       = axis.x;
+			y                       = axis.y;
 			target_pwm              = axis.target_pwm;
 			target_compensation_pwm = axis.target_compensation_pwm;
 			// !! Critical section !!
@@ -73,31 +76,35 @@ static void machine_room_loop(void* v)
 				                                    target_compensation_pwm);
 			}
 
-			if ((axis.x == 0 && axis.y == 0) ||
-			    abs(axis.x) < MOTOR_JOYSTICK_THRESHOLD) {
-				axis.y > 0 ?
+			if (x == 0 && y == 0) {
+				machine_room_forward(axis.current_pwm);
+			}
+			else if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
+				y > 0 ?
 				machine_room_forward(axis.current_pwm) :
 				machine_room_backward(axis.current_pwm);
 			}
-			else if (axis.x > 0 && axis.y > 0) {
+			else if (x > 0 && y > 0) {
 				// 1st quadrant - forward and right.
 				right.forward(axis.current_compensation_pwm);
 				left.forward(axis.current_pwm);
 			}
-			else if (axis.x < 0 && axis.y > 0) {
+			else if (x < 0 && y > 0) {
 				// 2nd quadrant - forward and left.
 				right.forward(axis.current_pwm);
 				left.forward(axis.current_compensation_pwm);
 			}
 			// 3rd & 4th quandrant - backwards.
-			else if (axis.x < 0 && axis.y < 0) {
-				right.backward(axis.current_pwm);
-				left.backward(axis.current_compensation_pwm);
+			else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
+				//!< There is a bug here....
+				machine_room_backward(axis.current_pwm);
 			}
-			else if (axis.x > 0 && axis.y < 0) {
-				right.backward(axis.current_compensation_pwm);
-				left.backward(axis.current_pwm);
-			}
+			// 3rd
+			// right.backward(axis.current_pwm);
+			// left.backward(axis.current_compensation_pwm);
+			// 4th
+			// right.backward(axis.current_compensation_pwm);
+			// left.backward(axis.current_pwm);
 		}
 		vTaskDelay(10 / portTICK_RATE_MS);
 	}

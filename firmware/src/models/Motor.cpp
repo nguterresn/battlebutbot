@@ -44,8 +44,7 @@ void Motor::move(uint8_t xIN1pwm, uint8_t xIN2pwm)
  */
 void Motor::update(uint8_t drift)
 {
-	// this->driftRatio = (float)drift / 100.0;
-	this->driftRatio = 1;
+	this->driftRatio = (float)drift / 100.0;
 }
 
 void Motor::brake(void)
@@ -65,9 +64,9 @@ void Motor::brake(void)
 void Motor::forward(uint8_t pwm)
 {
 #if defined(HIGH_PERFORMANCE)
-	Serial.print("Motor pwm: ");
-	Serial.println((MOTOR_PWM_RANGE - pwm) * driftRatio);
-	this->move(MOTOR_PWM_RANGE, (MOTOR_PWM_RANGE - pwm) * driftRatio);
+	// Serial.print("Motor pwm: ");
+	// Serial.println((MOTOR_PWM_RANGE - pwm) * driftRatio);
+	this->move(MOTOR_PWM_RANGE, MOTOR_PWM_RANGE - pwm);
 #elif defined(LOW_POWER)
 	this->move(pwm * driftRatio, 0);
 #endif
@@ -81,7 +80,9 @@ void Motor::forward(uint8_t pwm)
 void Motor::backward(uint8_t pwm)
 {
 #if defined(HIGH_PERFORMANCE)
-	this->move((MOTOR_PWM_RANGE - pwm) * driftRatio, MOTOR_PWM_RANGE);
+	// Serial.print("Motor pwm: ");
+	// Serial.println((MOTOR_PWM_RANGE - pwm) * driftRatio);
+	this->move(MOTOR_PWM_RANGE - pwm, MOTOR_PWM_RANGE);
 #elif defined(LOW_POWER)
 	this->move(0, pwm * driftRatio);
 #endif
