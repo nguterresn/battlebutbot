@@ -4,7 +4,7 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-#define ACCELERATION 1
+#define ACCELERATION 5
 
 // Configuration cache
 settings_t robot_settings;
@@ -73,13 +73,8 @@ static void machine_room_loop(void* v)
 				                                    target_compensation_pwm);
 			}
 
-			// Serial.print("axis.current_pwm: ");
-			// Serial.println(axis.current_pwm);
-
-			if (axis.x == 0 && axis.y == 0) {
-				machine_room_brake();
-			}
-			else if (abs(axis.x) < MOTOR_JOYSTICK_THRESHOLD) {
+			if ((axis.x == 0 && axis.y == 0) ||
+			    abs(axis.x) < MOTOR_JOYSTICK_THRESHOLD) {
 				axis.y > 0 ?
 				machine_room_forward(axis.current_pwm) :
 				machine_room_backward(axis.current_pwm);
@@ -103,8 +98,6 @@ static void machine_room_loop(void* v)
 				right.backward(axis.current_compensation_pwm);
 				left.backward(axis.current_pwm);
 			}
-			axis.current_pwm              = axis.target_pwm;
-			axis.current_compensation_pwm = axis.target_compensation_pwm;
 		}
 		vTaskDelay(10 / portTICK_RATE_MS);
 	}
