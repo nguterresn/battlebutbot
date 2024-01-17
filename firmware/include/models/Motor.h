@@ -1,9 +1,7 @@
 #include <Arduino.h>
 
-#define JOYSTICK_MASK            0x64 // Limited to 100;
-#define MOTOR_JOYSTICK_THRESHOLD 20
-
-#define MOTOR_PWM_RANGE          255
+#define JOYSTICK_MASK            100 // Limited to 100;
+#define MOTOR_JOYSTICK_THRESHOLD 30
 
 // Choose the type of motor decay
 // Note: low power mode is not working atm.
@@ -12,13 +10,13 @@
 
 class Motor {
 public:
-	Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift);
+	Motor(uint8_t xIN1_pin, uint8_t xIN2_pin, uint8_t xIN1_channel, uint8_t xIN2_channel);
 	void move(uint8_t xIN1pwm, uint8_t xIN2pwm);
 	void update(uint8_t drift);
 	void brake(void);
 	void forward(uint8_t pwm);
 	void backward(uint8_t pwm);
 private:
-	uint8_t xIN1, xIN2;
+	uint8_t xIN1_pin, xIN2_pin, xIN1_channel, xIN2_channel;
 	float driftRatio;
 };

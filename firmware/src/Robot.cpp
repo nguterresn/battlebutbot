@@ -79,8 +79,8 @@ static void robot_load_configuration(void)
 	uint8_t drift                 = EEPROM.read(EEPROM_DRIFT_INDEX);
 
 	uint8_t configuration_default = CONFIGURATION_DEFAULT;
-	uint8_t speed_default         = SPEED_DEFAULT;
-	uint8_t drift_default         = DRIFT_DEFAULT;
+	uint8_t speed_default         = MOTOR_SPEED_DEFAULT;
+	uint8_t drift_default         = MOTOR_DRIFT_DEFAULT;
 
 	settings_t load_settings      = {
 		.configuration = !configuration ? configuration_default : configuration,

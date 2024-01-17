@@ -16,7 +16,8 @@ static SemaphoreHandle_t mutex;
 
 // Models (class based)
 static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
-static Motor left(MOTOR_LEFT1, MOTOR_LEFT2, DRIFT_DEFAULT), right(MOTOR_RIGHT1, MOTOR_RIGHT2, DRIFT_DEFAULT);
+static Motor left(MOTOR_LEFT1, MOTOR_LEFT2, MOTOR_LEFT1_CHANNEL, MOTOR_LEFT2_CHANNEL);
+static Motor right(MOTOR_RIGHT1, MOTOR_RIGHT2, MOTOR_RIGHT1_CHANNEL, MOTOR_RIGHT2_CHANNEL);
 static ServoMotor servo(SERVO_FRONT);
 
 // Private Functions
@@ -77,7 +78,7 @@ static void machine_room_loop(void* v)
 			}
 
 			if (x == 0 && y == 0) {
-				machine_room_forward(axis.current_pwm);
+				machine_room_brake();
 			}
 			else if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
 				y > 0 ?
@@ -127,17 +128,17 @@ void machine_room_reset(void)
  */
 static void machine_room_update_drift(uint8_t drift)
 {
-	// Calculate here the drift. The argument must be between 0 and 100.
-	uint8_t rightDrift = DRIFT_DEFAULT;
-	uint8_t leftDrift  = DRIFT_DEFAULT;
+	uint8_t rightDrift = MOTOR_DRIFT_DEFAULT;
+	uint8_t leftDrift  = MOTOR_DRIFT_DEFAULT;
 
-	if (drift > DRIFT_DEFAULT) {
+	if (drift > MOTOR_DRIFT_DEFAULT) {
 		// The car should lean towards the right. Increase left motor drift.
-		leftDrift = max(DRIFT_MAX_INPUT - drift + DRIFT_MIN_INPUT, DRIFT_MIN_INPUT);
+		leftDrift = max(MOTOR_DRIFT_MAX_INPUT - drift + MOTOR_DRIFT_MIN_INPUT,
+		                MOTOR_DRIFT_MIN_INPUT);
 	}
-	else if (drift < DRIFT_DEFAULT) {
+	else if (drift < MOTOR_DRIFT_DEFAULT) {
 		// The car should lean towards the left. Increase right motor drift.
-		rightDrift = max(drift, DRIFT_MIN_INPUT);
+		rightDrift = max(drift, MOTOR_DRIFT_MIN_INPUT);
 	}
 
 	right.update(rightDrift);

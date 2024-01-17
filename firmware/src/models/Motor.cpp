@@ -1,4 +1,5 @@
 #include "models/Motor.h"
+#include "constants/MotorSettings.h"
 
 // To improve brushed motors:
 // https://learn.adafruit.com/improve-brushed-dc-motor-performance?view=all
@@ -8,21 +9,21 @@
  * @param xIN1 as a pin
  * @param xIN2 as a pin
  */
-Motor::Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift) : xIN1(xIN1), xIN2(xIN2)
+Motor::Motor(uint8_t xIN1_pin, uint8_t xIN2_pin, uint8_t xIN1_channel, uint8_t xIN2_channel) :
+	xIN1_pin(xIN1_pin), xIN2_pin(xIN2_pin), xIN1_channel(xIN1_channel), xIN2_channel(xIN2_channel)
 {
-	pinMode(this->xIN1, OUTPUT);
-	pinMode(this->xIN2, OUTPUT);
+	pinMode(this->xIN1_pin, OUTPUT);
+	pinMode(this->xIN2_pin, OUTPUT);
 
-	// should be in range from 0 to PWMRANGE, which is 255 by default.
-#if defined(HIGH_PERFORMANCE)
-	analogWrite(this->xIN1, MOTOR_PWM_RANGE);
-	analogWrite(this->xIN2, MOTOR_PWM_RANGE);
-#elif defined(LOW_POWER)
-	analogWrite(this->xIN1, 0);
-	analogWrite(this->xIN2, 0);
-#endif
+	configASSERT(ledcSetup(xIN1_channel, MOTOR_PWM_FREQUENCY, MOTOR_PWM_RESOLUTION));
+	configASSERT(ledcSetup(xIN2_channel, MOTOR_PWM_FREQUENCY, MOTOR_PWM_RESOLUTION));
 
-	update(drift);
+	ledcAttachPin(this->xIN1_pin, xIN1_channel);
+	ledcAttachPin(this->xIN2_pin, xIN2_channel);
+
+	this->brake();
+
+	update(MOTOR_DRIFT_DEFAULT);
 }
 
 /**
@@ -33,8 +34,8 @@ Motor::Motor(uint8_t xIN1, uint8_t xIN2, uint8_t drift) : xIN1(xIN1), xIN2(xIN2)
  */
 void Motor::move(uint8_t xIN1pwm, uint8_t xIN2pwm)
 {
-	analogWrite(this->xIN1, xIN1pwm);
-	analogWrite(this->xIN2, xIN2pwm);
+	ledcWrite(xIN1_channel, xIN1pwm);
+	ledcWrite(xIN2_channel, xIN2pwm);
 }
 
 /**

@@ -1,0 +1,21 @@
+#ifndef MOTOR_SETTINGS_H_
+#define MOTOR_SETTINGS_H_
+
+#include <math.h>
+
+#define MOTOR_PWM_FREQUENCY   5000 // 500Hz
+#define MOTOR_PWM_RESOLUTION  8    // 16 bits
+#define MOTOR_PWM_RANGE       pow(2, MOTOR_PWM_RESOLUTION) - 1
+
+#define MOTOR_RIGHT1_CHANNEL  4
+#define MOTOR_RIGHT2_CHANNEL  5
+#define MOTOR_LEFT1_CHANNEL   6
+#define MOTOR_LEFT2_CHANNEL   7
+
+#define MOTOR_DRIFT_MIN_INPUT 50
+#define MOTOR_DRIFT_DEFAULT   100
+#define MOTOR_DRIFT_MAX_INPUT 150
+
+#define MOTOR_SPEED_DEFAULT   MOTOR_PWM_RANGE       // Descending speed (255 -> 1)
+
+#endif /* MOTOR_SETTINGS_H_ */
