@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
 #define JOYSTICK_MASK            100 // Limited to 100;
-#define MOTOR_JOYSTICK_THRESHOLD 30
+#define MOTOR_JOYSTICK_DEAD_ZONE 25
 
 // Choose the type of motor decay
 // Note: low power mode is not working atm.

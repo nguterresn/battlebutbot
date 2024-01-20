@@ -4,7 +4,7 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-#define ACCELERATION 5
+#define ACCELERATION 2
 
 // Configuration cache
 settings_t robot_settings;
@@ -77,10 +77,10 @@ static void machine_room_loop(void* v)
 				                                    target_compensation_pwm);
 			}
 
-			if (x == 0 && y == 0) {
+			if ((x == 0 && y == 0) || abs(y) < MOTOR_JOYSTICK_DEAD_ZONE) {
 				machine_room_brake();
 			}
-			else if (abs(x) < MOTOR_JOYSTICK_THRESHOLD) {
+			else if (abs(x) < MOTOR_JOYSTICK_DEAD_ZONE) {
 				y > 0 ?
 				machine_room_forward(axis.current_pwm) :
 				machine_room_backward(axis.current_pwm);
@@ -107,7 +107,7 @@ static void machine_room_loop(void* v)
 			// right.backward(axis.current_compensation_pwm);
 			// left.backward(axis.current_pwm);
 		}
-		vTaskDelay(10 / portTICK_RATE_MS);
+		vTaskDelay(5 / portTICK_RATE_MS);
 	}
 }
 
@@ -171,7 +171,7 @@ static void machine_room_backward(uint8_t pwm)
  * @brief Whenever the car needs to break
  *
  */
-void machine_room_brake(void)
+static void machine_room_brake(void)
 {
 	right.brake();
 	left.brake();
@@ -186,6 +186,11 @@ void machine_room_brake(void)
 void machine_room_update(int x, int y)
 {
 	if (xSemaphoreTake(mutex, 10)) {
+		if (x == axis.x && y == axis.y) {
+			xSemaphoreGive(mutex);
+			return;
+		}
+
 		axis.x = x; // Cache 'x'
 		axis.y = y; // Cache 'y'
 
@@ -193,24 +198,18 @@ void machine_room_update(int x, int y)
 		if (x == 0 && y == 0) {
 			axis.target_pwm              = 0;
 			axis.target_compensation_pwm = 0;
-			xSemaphoreGive(mutex);
-			return;
 		}
+		else {
+			// The Y axis informs us the power we should provide to the motors, whereas
+			// the X axis informs us about the direction the car should go.
+			double radian     = atan2(abs(y), abs(x));
+			uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
+			uint8_t pwmModule = module * ((float)robot_settings.speed / 100.00);
+			uint8_t pwmY      = pwmModule * sin(radian);
 
-		// Prevent any manual input if the robot is in auto mode.
-		if (mode == AUTO) {
-			mode = MANUAL;
+			axis.target_pwm              = pwmModule;
+			axis.target_compensation_pwm = pwmY;
 		}
-
-		// The Y axis informs us the power we should provide to the motors, whereas
-		// the X axis informs us about the direction the car should go.
-		double radian     = atan2(abs(y), abs(x));
-		uint8_t module    = min(sqrt((double)pow(abs(y), 2) + pow(abs(x), 2)), (double)JOYSTICK_MASK);
-		uint8_t pwmModule = module * ((float)robot_settings.speed / 100.00);
-		uint8_t pwmY      = pwmModule * sin(radian);
-
-		axis.target_pwm              = pwmModule;
-		axis.target_compensation_pwm = pwmY;
 
 		xSemaphoreGive(mutex);
 	}

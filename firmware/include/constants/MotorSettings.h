@@ -4,7 +4,7 @@
 #include <math.h>
 
 #define MOTOR_PWM_FREQUENCY   5000 // 500Hz
-#define MOTOR_PWM_RESOLUTION  8    // 16 bits
+#define MOTOR_PWM_RESOLUTION  8    // 8 bits
 #define MOTOR_PWM_RANGE       pow(2, MOTOR_PWM_RESOLUTION) - 1
 
 #define MOTOR_RIGHT1_CHANNEL  4
