@@ -83,18 +83,6 @@
           "size_x": 1440,
           "size_y": 900
         }
-      },
-      {
-        "name": "bubblebutbot.kicad_sch",
-        "open": true,
-        "window": {
-          "display": 1,
-          "maximized": true,
-          "pos_x": 0,
-          "pos_y": 134,
-          "size_x": 1440,
-          "size_y": 766
-        }
       }
     ]
   }
