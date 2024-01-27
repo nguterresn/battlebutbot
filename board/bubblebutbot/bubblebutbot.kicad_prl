@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 0,
+    "active_layer": 36,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -82,6 +82,18 @@
           "pos_y": 282,
           "size_x": 1440,
           "size_y": 900
+        }
+      },
+      {
+        "name": "bubblebutbot.kicad_sch",
+        "open": false,
+        "window": {
+          "display": 0,
+          "maximized": true,
+          "pos_x": 0,
+          "pos_y": 134,
+          "size_x": 1440,
+          "size_y": 766
         }
       }
     ]
