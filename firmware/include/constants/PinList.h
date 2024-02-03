@@ -17,8 +17,8 @@
 #elif S3
 #define MOTOR_RIGHT1           11
 #define MOTOR_RIGHT2           38
-#define MOTOR_LEFT1            9
-#define MOTOR_LEFT2            10
+#define MOTOR_LEFT1            10
+#define MOTOR_LEFT2            9
 #endif
 #define MOTOR_FAULT            12
 

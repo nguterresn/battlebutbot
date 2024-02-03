@@ -1,6 +1,6 @@
 {
   "board": {
-    "active_layer": 36,
+    "active_layer": 0,
     "active_layer_preset": "",
     "auto_track_width": true,
     "hidden_netclasses": [],
@@ -63,7 +63,7 @@
       35,
       36
     ],
-    "visible_layers": "ffcbfff_ffffffff",
+    "visible_layers": "fe01fff_ffffffff",
     "zone_display_mode": 0
   },
   "meta": {
@@ -78,22 +78,22 @@
         "window": {
           "display": 1,
           "maximized": true,
-          "pos_x": -2000,
-          "pos_y": 282,
-          "size_x": 1440,
-          "size_y": 900
+          "pos_x": -2602,
+          "pos_y": 59,
+          "size_x": 2560,
+          "size_y": 1415
         }
       },
       {
         "name": "bubblebutbot.kicad_sch",
-        "open": false,
+        "open": true,
         "window": {
           "display": 0,
           "maximized": true,
-          "pos_x": 0,
-          "pos_y": 134,
-          "size_x": 1440,
-          "size_y": 766
+          "pos_x": -831,
+          "pos_y": 25,
+          "size_x": 2560,
+          "size_y": 1415
         }
       }
     ]
