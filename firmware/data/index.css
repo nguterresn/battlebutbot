@@ -1,20 +1,12 @@
-/* A bit of default grid w/ Skeleton Framework */
 body,
 html {
   height: 100%;
-  overflow: hidden;
   width: 100%;
   margin: 0;
   padding: 0;
   left: 0;
   top: 0;
-  font-size: 100%
-}
-
-.container {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto
+  font-size: 100%;
 }
 
 h1,
@@ -26,70 +18,12 @@ h6 {
   margin: 0
 }
 
-.col-1 {
-  width: 4.33%
-}
-
-.col-2 {
-  width: 12.66%
-}
-
-.col-3 {
-  width: 21%
-}
-
-.col-4 {
-  width: 29.33%
-}
-
-.col-5 {
-  width: 37.66%
-}
-
-.col-6 {
-  width: 46%
-}
-
-.col-7 {
-  width: 54.33%
-}
-
-.col-8 {
-  width: 62.66%
-}
-
-.col-9 {
-  width: 71%
-}
-
-.col-10 {
-  width: 79.33%
-}
-
-.col-11 {
-  width: 87.66%
-}
-
-.col-12 {
-  width: 96%
-}
-
-.row {
-  position: relative;
-  width: 100%
-}
-
-.row [class^=col] {
-  float: left;
-  margin: .2rem 2%
-}
-
 a {
-  color: #1eaedb
+  color: #fff
 }
 
 a:hover {
-  color: #0fa0ce
+  color: #fff
 }
 
 .button,
@@ -136,9 +70,9 @@ button.button-primary,
 input[type=button].button-primary,
 input[type=reset].button-primary,
 input[type=submit].button-primary {
-  color: #fff;
-  background-color: #33c3f0;
-  border-color: #33c3f0
+  color: #6FBBBF;
+  background-color: #fff;
+  border-color: #fff
 }
 
 .button.button-primary:focus,
@@ -228,22 +162,29 @@ html {
 }
 
 .shadow {
-  -webkit-box-shadow:0px 10px 26px 1px rgba(62,66,66,0.22);
-  -moz-box-shadow: 0px 10px 26px 1px rgba(62,66,66,0.22);
-  box-shadow: 0px 10px 26px 1px rgba(62,66,66,0.22);
+  -webkit-box-shadow: 0px 10px 26px 1px rgba(62, 66, 66, 0.22);
+  -moz-box-shadow: 0px 10px 26px 1px rgba(62, 66, 66, 0.22);
+  box-shadow: 0px 10px 26px 1px rgba(62, 66, 66, 0.22);
 }
 
-.border {
-  border-radius: 15px;
+.controller {
+  margin-top: 0.6em !important;
+  margin-bottom: 0.6em !important;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #6FBBBF;
+  border-radius: 50px 50px;
 }
 
-/* Other */
+/* Other (Debug) */
 .color-border {
-  border-radius: 10px;
+  border-radius: 20px 20px;
   border-color: black;
   border-style: solid;
-  border-width: 1px;
+  border-width: 3px;
 }
+
+/* Config Page */
 
 .description-box {
   display: flex;
@@ -272,24 +213,9 @@ html {
   padding: 5px;
 }
 
-.footer-box {
-  display: flex;
-  justify-content: space-between;
-  height: 50px;
-}
-
-.classic-margin {
-  margin: 0.2rem 2%;
-  width: auto;
-}
-
 .range-slider {
   /* Nothing yet */
   width: 100%;
   margin-left: 20px;
   margin-right: 20px;
-}
-
-.disable-double-tap-zoom {
-  touch-action: manipulation;
 }
