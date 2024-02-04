@@ -65,12 +65,6 @@ void web_server_init()
 		request->send(404, "text/plain");
 	});
 
-	server.on("/action", HTTP_GET, [](AsyncWebServerRequest* request){
-		// Do something later on, need to add the hardware first.
-		request->send(200, "text/plain", "OK");
-		robot_flip();
-	});
-
 	server.onNotFound(notFound);
 	server.begin();
 }

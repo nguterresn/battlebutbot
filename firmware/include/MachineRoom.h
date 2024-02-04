@@ -29,7 +29,6 @@ typedef struct settings settings_t;
 void machine_room_init(void);
 void machine_room_reset(void);
 void machine_room_update(int x, int y);
-void machine_room_flip(void);
 void machine_room_change(settings_t* settings);
 
 bool machine_room_is_feedback_led_enabled(uint8_t configuration);

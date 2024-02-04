@@ -4,7 +4,7 @@
 #include "models/ServoMotor.h"
 #include "models/ProximitySensor.h"
 
-#define ACCELERATION 2
+#define ACCELERATION 5 // The higher the 'faster'
 
 // Configuration cache
 settings_t robot_settings;
@@ -15,10 +15,8 @@ static uint8_t mode;
 static SemaphoreHandle_t mutex;
 
 // Models (class based)
-static ProximitySensor irSensorLeft(PROXIMITY_SENSOR_LEFT), irSensorRight(PROXIMITY_SENSOR_RIGHT);
 static Motor left(MOTOR_LEFT1, MOTOR_LEFT2, MOTOR_LEFT1_CHANNEL, MOTOR_LEFT2_CHANNEL);
 static Motor right(MOTOR_RIGHT1, MOTOR_RIGHT2, MOTOR_RIGHT1_CHANNEL, MOTOR_RIGHT2_CHANNEL);
-static ServoMotor servo(SERVO_FRONT);
 
 // Private Functions
 static void machine_room_forward(uint8_t pwm);
@@ -96,9 +94,13 @@ static void machine_room_loop(void* v)
 				left.forward(axis.current_compensation_pwm);
 			}
 			// 3rd & 4th quandrant - backwards.
-			else if ((x < 0 && y < 0) || (x > 0 && y < 0)) {
-				//!< There is a bug here....
-				machine_room_backward(axis.current_pwm);
+			else if (x < 0 && y < 0) {
+				right.backward(axis.current_pwm);
+				left.backward(axis.current_compensation_pwm);
+			}
+			else if (x > 0 && y < 0) {
+				right.backward(axis.current_compensation_pwm);
+				left.backward(axis.current_pwm);
 			}
 			// 3rd
 			// right.backward(axis.current_pwm);
@@ -118,7 +120,6 @@ static void machine_room_loop(void* v)
 void machine_room_reset(void)
 {
 	machine_room_brake();
-	servo.reset();
 }
 
 /**
@@ -216,15 +217,6 @@ void machine_room_update(int x, int y)
 }
 
 /**
- * @brief Toggle the servo motor action
- *
- */
-void machine_room_flip(void)
-{
-	servo.flip();
-}
-
-/**
  * @brief Change the configuration fields according to its bit value
  *
  * @param settings with the robot settings
@@ -233,7 +225,6 @@ void machine_room_change(settings_t* settings)
 {
 	digitalWrite(FEEDBACK_LED,
 	             machine_room_is_feedback_led_enabled(settings->configuration));
-	servo.update(machine_room_is_servo_enabled(settings->configuration));
 	machine_room_update_drift(settings->drift);
 }
 

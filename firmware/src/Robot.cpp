@@ -99,11 +99,6 @@ void robot_connect(void)
 	machine_room_reset();
 }
 
-void robot_flip(void)
-{
-	machine_room_flip();
-}
-
 /**
  * @brief Serializes the configuration, speed and mode into hex
  *
