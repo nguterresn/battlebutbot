@@ -11,6 +11,7 @@ void _error(void)
 
 void setup()
 {
+	Serial.begin(9600);
 	if (!spiffs_init() || !network_init()) {
 		_error();
 	}

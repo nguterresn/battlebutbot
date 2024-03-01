@@ -7,6 +7,18 @@ html {
   left: 0;
   top: 0;
   font-size: 100%;
+
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+
+  background-color: #6FBBBF;
 }
 
 h1,
@@ -22,74 +34,6 @@ a {
   color: #fff
 }
 
-a:hover {
-  color: #fff
-}
-
-.button,
-button,
-input[type=button],
-input[type=reset],
-input[type=submit] {
-  display: inline-block;
-  height: 38px;
-  padding: 0 30px;
-  color: #555;
-  text-align: center;
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 38px;
-  letter-spacing: .1rem;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  background-color: transparent;
-  border-radius: 4px;
-  border: 1px solid #bbb;
-  cursor: pointer;
-  box-sizing: border-box
-}
-
-.button:focus,
-.button:hover,
-button:focus,
-button:hover,
-input[type=button]:focus,
-input[type=button]:hover,
-input[type=reset]:focus,
-input[type=reset]:hover,
-input[type=submit]:focus,
-input[type=submit]:hover {
-  color: #333;
-  border-color: #888;
-  outline: 0
-}
-
-.button.button-primary,
-button.button-primary,
-input[type=button].button-primary,
-input[type=reset].button-primary,
-input[type=submit].button-primary {
-  color: #6FBBBF;
-  background-color: #fff;
-  border-color: #fff
-}
-
-.button.button-primary:focus,
-.button.button-primary:hover,
-button.button-primary:focus,
-button.button-primary:hover,
-input[type=button].button-primary:focus,
-input[type=button].button-primary:hover,
-input[type=reset].button-primary:focus,
-input[type=reset].button-primary:hover,
-input[type=submit].button-primary:focus,
-input[type=submit].button-primary:hover {
-  color: #fff;
-  background-color: #1eaedb;
-  border-color: #1eaedb
-}
-
 hr {
   margin-top: 3rem;
   margin-bottom: 3.5rem;
@@ -97,8 +41,6 @@ hr {
   border-top: 1px solid #e1e1e1
 }
 
-.container:after,
-.row:after,
 .u-cf {
   content: "";
   display: table;
@@ -108,9 +50,8 @@ hr {
 * {
   font-size: 1.5em;
   line-height: 1.6;
-  font-weight: 400;
+  font-weight: 500;
   font-family: Raleway, HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #222
 }
 
 h1 {
@@ -137,28 +78,29 @@ h6 {
   font-size: .875rem
 }
 
-.tiny-text {
-  font-size: .6rem
-}
-
 p {
   font-size: 1.125rem;
   font-weight: 200;
   line-height: 1.8
 }
 
-/* Prevent text selection */
-html {
-  user-select: none;
-  /* supported by Chrome and Opera */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
+.btn {
+  text-align: center;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 1rem;
+}
+
+.main {
+  color: #6FBBBF;
+  background-color: #fff;
+}
+
+.alternative {
+  color: #fff;
+  background-color: #6FBBBF;
 }
 
 .shadow {
@@ -167,13 +109,9 @@ html {
   box-shadow: 0px 10px 26px 1px rgba(62, 66, 66, 0.22);
 }
 
-.controller {
-  margin-top: 0.6em !important;
-  margin-bottom: 0.6em !important;
-  margin-left: 20px;
-  margin-right: 20px;
-  background-color: #6FBBBF;
-  border-radius: 50px 50px;
+.main-background {
+  height: 100vh;
+  width: 100vw;
 }
 
 /* Other (Debug) */
@@ -184,18 +122,14 @@ html {
   border-width: 3px;
 }
 
-/* Config Page */
-
-.description-box {
+.config-box {
   display: flex;
-  justify-content: space-between;
-  height: 130px;
-}
-
-.center-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  margin: 1em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  background-color: #fff;
+  border-radius: 1em 1em;
 }
 
 .distribute-box {
@@ -204,18 +138,9 @@ html {
   align-items: center;
 }
 
-.config-box {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.config-box>div {
-  padding: 5px;
-}
-
 .range-slider {
   /* Nothing yet */
-  width: 100%;
+  width: 80%;
   margin-left: 20px;
   margin-right: 20px;
 }

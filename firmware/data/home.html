@@ -8,18 +8,20 @@
 </head>
 
 <body style="overflow: hidden;">
-  <div id="container" class="controller shadow">
-    <div style="height: 65vh;">
-      <div id="joystick-left" style="position: absolute; width: 260px; height: 260px; left: 10px;"></div>
-      <button id="config" class="button-primary"
-        style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);">&#x2699; Config</button>
-      <div id="joystick-right" style="position: absolute; width: 260px; height: 260px; right: 10px;"></div>
-      <h4 style="text-align: center; padding-top: 1em; color: white;">&#x1F579; Controller</h5>
+  <div id="container" class="controller">
+    <h4 style="text-align: center; padding-top: 1em; color: white;">&#x1F579; BattleButBot Controller</h4>
+    <div id="joystick-left" style="position: absolute; width: 280px; height: 280px; left: 10px; top: 1em;">
     </div>
-  </div>
-  <!-- Debug only -->
-  <div class="row tiny-text" id="console" style="padding-left: 3em;">
-    &#x2139; CONSOLE
+    <div id="joystick-right" style="position: absolute; width: 280px; height: 280px; right: 10px; top: 1em;">
+    </div>
+    <button id="config" class="btn main"
+      style="position: absolute; bottom: 2em; left: 50%; transform: translate(-50%, 0);">
+      <h6>Settings</h6>
+    </button>
+    <!-- Debug only -->
+    <div id="console" style="position: absolute; bottom: 1em; left: 1em; font-size: 0.6rem;">
+      &#x2139; CONSOLE
+    </div>
   </div>
 </body>
 
