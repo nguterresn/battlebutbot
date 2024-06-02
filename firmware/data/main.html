@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <title>BattleButBot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <script src="utils.js" defer></script>
+  <script src="joystick.js" defer></script>
+  <script src="main.js" defer></script>
+</head>
+
+<body>
+  <div id="main-background">
+    <!-- Static components (absolute) -->
+    <div id="joystick-left" style="position: absolute; width: 220px; height: 220px; left: 0vw; top: 0vh; z-index: 99;">
+    </div>
+    <div id="joystick-right"
+      style="position: absolute; width: 220px; height: 220px; right: 0vw; top: 0vh; z-index: 99;">
+    </div>
+
+    <!-- Title + IDs -->
+    <div
+      style="position: absolute; display: flex; flex-direction: row; justify-content: center; width: 100vw; top: 20px;">
+      <div style="flex-direction: column; color: white; width: 190px;">
+        <h4 style="display: flex; justify-content: center;">&#x1F579; BattleButBot</h4>
+        <div class="spacer-md"></div>
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+          <h6 style="display: flex;">Bot ID: </h6>
+          <h6 style="display: flex;"><span id="bot-id">%DEVICE_ID%</span></h6>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <div
+      style="position: absolute; top: 180px; display: flex; flex-direction: column; justify-content: center; width: 100%;">
+      <div style="display: flex; flex-direction: row; justify-content: center;">
+        <button id="config" class="btn">
+          <h5>&#x1F6E0;&#xFE0F; Settings</h5>
+        </button>
+      </div>
+      <div class="spacer-sm"></div>
+      <div id="console" style="color: white; font-size: 0.6rem;">
+        &#x2139; CONSOLE
+      </div>
+    </div>
+</body>
+
+</html>
