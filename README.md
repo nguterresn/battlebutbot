@@ -1,8 +1,8 @@
 # BattleButBot: Your Ultimate Antweight Pusher Robot Companion
 
-BattleButBot is a small (<10x10cm) and light (<150g) robot designed specifically for the [Antweight class of robot combat events](https://www.robotwars101.org/ants/rules.htm). With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
+BattleButBot is a small (<10x8cm) and light (<150g) robot designed specifically for the [Antweight class of robot combat events](https://www.robotwars101.org/ants/rules.htm). With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
 
-<img src="images/IMG_8674.jpg" width="100%"/>
+<img src="images/IMG_8723.jpg" width="100%"/>
 
 ## Features
 
@@ -45,7 +45,7 @@ Connect to the `BattleButBot` network using WiFi.
 
 Open `bot.local` on you browser.
 
-<img src="images/IMG_8620.PNG" width="80%"/>
+<img src="images/IMG_8715.jpg" width="80%"/>
 
 To control the BattleButBot, simply use both **joysticks** located in the screen.
 
@@ -57,30 +57,28 @@ You can control BattleButBot using the joysticks from the graphical user interfa
 
 To configure your joystick settings, click the `Settings` button.
 
-<img src="images/IMG_8622.PNG" width="30%"/>
-
 For ease of development while the robot firmware is unstable or in development, a console log is located at the bottom of the screen.
 
-<!-- ## How to order
+## How to order
 
 ### Shopping list:
 
-| Hardware                 | Qty | Price |
-|--------------------------|-----|-------|
-| [N20 Gear Motor 6V 600RPM](https://www.aliexpress.us/item/3256803245120861.html?spm=a2g0o.productlist.main.3.be16dmKLdmKLdh&algo_pvid=1b8b9a20-a58e-4537-a37a-af46f9d1652b&algo_exp_id=1b8b9a20-a58e-4537-a37a-af46f9d1652b-1&pdp_npi=4%40dis%21SEK%2125.63%2119.17%21%21%212.34%211.75%21%40211b61a417119945526086789eb5a6%2112000025761667070%21sea%21SE%210%21AB&curPageLogUid=N7UsGzjkJw8d&utparam-url=scene%3Asearch%7Cquery_from%3A&gatewayAdapt=glo2usa) | 2   | 1.36$ x 2 + 2.27$ shipping  |
-| [Wheels](https://www.aliexpress.com/item/33026783171.html?spm=a2g0o.order_list.order_list_main.102.76381802470tYv)              | 2   | ~1$ + 4$ shipping |
-| [Mini Switch](https://www.aliexpress.com/item/32873386670.html?spm=a2g0o.productlist.main.3.3333yVHtyVHtTG&algo_pvid=fb446a07-847d-47a1-b0f8-d08a0b7cde4f&algo_exp_id=fb446a07-847d-47a1-b0f8-d08a0b7cde4f-1&pdp_npi=4%40dis%21SEK%2115.41%2115.41%21%21%211.40%211.40%21%402103890917131116137334276e13e5%2165526366999%21sea%21SE%21939121189%21&curPageLogUid=9vZMWAunkpDf&utparam-url=scene%3Asearch%7Cquery_from%3A)      | 5 (lot)   | ~1$ + 2$ shipping |
-| [BOM](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/BOM-bubblebutbot.csv)              | 1   | ~10$ + 10$ [shipping](LCSC.com)  |
-| [PCB](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/GERBER-bubblebutbot.zip)              | 5   | ~2$ + 3$ [shipping](jlcpcb.com)
-| Total | - | ~40$
+| Hardware                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Qty | Price                           |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | ------------------------------- |
+| [N20 Gear Motor 6V 600RPM](https://www.aliexpress.us/item/3256803245120861.html?spm=a2g0o.productlist.main.3.be16dmKLdmKLdh&algo_pvid=1b8b9a20-a58e-4537-a37a-af46f9d1652b&algo_exp_id=1b8b9a20-a58e-4537-a37a-af46f9d1652b-1&pdp_npi=4%40dis%21SEK%2125.63%2119.17%21%21%212.34%211.75%21%40211b61a417119945526086789eb5a6%2112000025761667070%21sea%21SE%210%21AB&curPageLogUid=N7UsGzjkJw8d&utparam-url=scene%3Asearch%7Cquery_from%3A&gatewayAdapt=glo2usa) | 2   | 1.36$ x 2 + 2.27$ shipping      |
+| [Wheels](https://www.aliexpress.com/item/33026783171.html?spm=a2g0o.order_list.order_list_main.102.76381802470tYv)                                                                                                                                                                                                                                                                                                                                              | 2   | ~1$ + 4$ shipping               |
+| [BOM](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/BOM-bubblebutbot.csv)                                                                                                                                                                                                                                                                                                                                     | 1   | ~10$ + 10$ [shipping](LCSC.com) |
+| [PCB](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/GERBER-bubblebutbot.zip)                                                                                                                                                                                                                                                                                                                                  | 5   | ~2$ + 3$ [shipping](jlcpcb.com) |
+| [2S LiPo](https://botland.store/battery-li-pol-2s-74-v/570-li-poly-dualsky-520mah-25c-2s-74v-6941047107427.html)                                                                                                                                                                                                                                                                                                                                                | 1   | 8$                              |
+| Total                                                                                                                                                                                                                                                                                                                                                                                                                                                           | -   | ~50$                            |
 
-When ordering the BOM, make sure to order at least 5 (five!) of each component so you end up with the possibility to solder 5 different PCBs. -->
+When ordering the BOM, make sure to order at least 5 (five!) of each component so you end up with the possibility to solder 5 different PCBs.
 
-<!-- ## Design
+## Design
 
 The design of the BattleButBot plays an important role. How it is designed determines how heavy (or how light) it is. Two requirements: sturdy and light.
 
-<img src="images/79d8942c-3e40-4c1b-89ab-f2965e4c2efd.JPG" width="50%"/>
+<img src="images/OA2Dzp6.jpeg" width="80%"/>
 
 ### Cyberpunk
 
@@ -88,50 +86,40 @@ A cyberpunk alike robot is cold as hell. The low poly edges also make it easier 
 
 ## Assemble
 
-<img src="images/IMG_8643.jpg" width="80%"/>
-
 What you need:
 
-* 6 M3 5mm screws
-* The [body](https://github.com/nguterresn/battlebutbot/blob/main/body/Car.stl)
-* The [lid](https://github.com/nguterresn/battlebutbot/blob/main/body/LidThin.stl)
-* Two [joints](https://github.com/nguterresn/battlebutbot/blob/main/body/Bot%20Wide%20Wheels_Juntas%20v3.stl)
-* A 7.4V Lithium battery
-* The [PCB](https://github.com/nguterresn/battlebutbot/tree/main/board/bubblebutbot)
-* The two wheels
-* A switch
+- 6 M3 5mm screws
+- 6 Heat inserts
+- The [body](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Car.stl)
+- The [lid](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Lid.stl)
+- The [front](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Gate.stl)
+- A 7.4V Lithium battery
+- The [PCB](https://github.com/nguterresn/battlebutbot/tree/main/board/bubblebutbot)
+- The two wheels
 
-### Motors
-
-Place both motors with the gears facing the top (to prevent any friction with the bottom).
-
-<img src="images/IMG_8645.jpg" width="80%"/>
-
-Place the joint on top of the motor and screw it tight.
-
-<img src="images/IMG_8646.jpg" width="80%"/>
+<img src="images/IMG_8726.jpeg" width="80%"/>
 
 ### Battery
 
 Place the battery close to the front of the bot.
 
-<img src="images/IMG_8647.jpg" width="80%"/>
+<img src="images/IMG_8730.jpeg" width="80%"/>
 
 Place the switch.
 
-<img src="images/IMG_8648.jpg" width="80%"/>
+<img src="images/IMG_8729.jpeg" width="80%"/>
 
-<img src="images/IMG_8649.jpg" width="80%"/>
+### Motors
+
+Place both motors with the gears facing the top (to prevent any friction with the bottom).
 
 ### PCB
 
 Before screwing the PCB down, finish all the connections.
 
-<img src="images/IMG_8651.jpg" width="80%"/>
+<img src="images/IMG_8731.jpeg" width="80%"/>
 
-Place the PCB and screw it down (2 screws are enough).
-
-<img src="images/IMG_8652.jpg" width="80%"/> -->
+Place the PCB and the lid, and screw it down.
 
 ## Develop
 
