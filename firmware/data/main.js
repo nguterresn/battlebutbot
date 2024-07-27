@@ -47,18 +47,11 @@ function _sendXandYToDevice() {
     newY = newY > 0 ? Math.min(newY, JOYSTICK_MODULE_MAX) : Math.max(newY, -JOYSTICK_MODULE_MAX);
     newX = newX > 0 ? Math.min(newX, JOYSTICK_MODULE_MAX) : Math.max(newX, -JOYSTICK_MODULE_MAX);
 
-    const absNewY = Math.abs(newY);
-    const absNewX = Math.abs(newX);
-    const radian = Math.atan2(absNewY, absNewX);
-
-    // Set to 100. One wheel is always with JOYSTICK_MODULE_MAX
-    const moduleY = JOYSTICK_MODULE_MAX * Math.sin(radian);
-
     oldSpeed = newSpeed;
     oldX = newX;
     oldY = newY;
 
-    _request("GET", "/update?mody=" + moduleY + "&speed=" + newSpeed + "&x=" + newX, isRequestOnGoing, log, null);
+    _request("GET", "/update?speed=" + newSpeed + "&y=" + newY + "&x=" + newX, isRequestOnGoing, log, null);
   }
 }
 

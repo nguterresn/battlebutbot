@@ -10,9 +10,9 @@
 
 // HTTP QUERY
 #define HTTP_QUERY_DEVICE   "update"
-#define HTTP_MOTOR_X        "x"
 #define HTTP_MOTOR_SPEED    "speed"
-#define HTTP_MOTOR_MODULE_Y "mody"
+#define HTTP_MOTOR_Y        "y"
+#define HTTP_MOTOR_X        "x"
 #define HTTP_CONFIG         "config"
 #define HTTP_SPEED          "speed"
 

@@ -20,7 +20,6 @@ static void machine_room_brake(void);
 void machine_room_init(void)
 {
   pinMode(MOTOR_FAULT, INPUT_PULLUP);
-  machine_room_brake();
 }
 
 /**
@@ -37,9 +36,8 @@ void machine_room_reset(void)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-static void machine_room_forward(uint8_t pwm)
+static inline void machine_room_forward(uint8_t pwm)
 {
-  Serial.printf("Forward with the pwm: %d\n", pwm);
   right.forward(pwm);
   left.forward(pwm);
 }
@@ -49,7 +47,7 @@ static void machine_room_forward(uint8_t pwm)
  *
  * @param pwm as an unsigned char from 0 to MOTOR_PWM_RANGE
  */
-static void machine_room_backward(uint8_t pwm)
+static inline void machine_room_backward(uint8_t pwm)
 {
   right.backward(pwm);
   left.backward(pwm);
@@ -71,7 +69,7 @@ static void machine_room_brake(void)
  * @param x incoming x axis integer from web's joystick.
  * @param y incoming y axis integer from web's joystick.
  */
-void machine_room_update(int module_y, int speed, int x)
+void machine_room_update(int speed, int y, int x)
 {
   // The Y axis informs us the power we should provide to the motors, whereas
   // the X axis informs us about the direction the car should go.
@@ -81,8 +79,13 @@ void machine_room_update(int module_y, int speed, int x)
     return;
   }
 
-  uint8_t _PWMspeed    = map(abs(speed), 0, 100, 0, MOTOR_PWM_RANGE);
-  uint8_t _PWMmodule_y = map(module_y, 0, 100, 0, _PWMspeed);
+  double radian         = atan2(abs(y), abs(x));
+  uint16_t sin_mapped_y = speed * sin(radian);
+
+  uint8_t _PWMspeed     = map(abs(speed), 0, 100, 0, MOTOR_PWM_RANGE);
+  uint8_t _PWMmodule_y  = map(sin_mapped_y, 0, 100, 0, MOTOR_PWM_RANGE);
+
+  // Serial.printf("Speed in pwm: %d\n", _PWMspeed);
 
   if (x == 0) {
     speed > 0 ? machine_room_forward(_PWMspeed) : machine_room_backward(_PWMspeed);
