@@ -16,7 +16,7 @@ firmware/.gitignore
 fp-info-cache
 fp-lib-table
 sym-lib-table
-board/battlebutbot/gerber/.csv
-board/battlebutbot/*.json
-battlebutbot-backups
+board/bubblebutbot/gerber/.csv
+board/bubblebutbot/*.json
+bubblebutbot-backups
 website
