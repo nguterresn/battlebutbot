@@ -1,14 +1,21 @@
 #ifndef MACHINE_ROOM_H_
 #define MACHINE_ROOM_H_
 
-#include <stdint.h>
-#include "constants/PinList.h"
 #include "constants/ConfigurationFields.h"
 #include "constants/MotorSettings.h"
+#include "constants/PinList.h"
 #include "models/Motor.h"
+#include <stdint.h>
+
+#define BROWSER_CONTROLLER
+// #define PHYSYCAL_CONTROLLER
+
+#if defined(BROWSER_CONTROLLER) && defined(PHYSYCAL_CONTROLLER)
+#error "Only one controller can be defined at the same time!";
+#endif
 
 struct settings {
-  uint8_t speed;              //!< From 1 - 255, default 255
+  uint8_t speed; //!< From 1 - 255, default 255
 };
 
 typedef struct settings settings_t;
