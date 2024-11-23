@@ -9,7 +9,9 @@ firmware/.gitignore
 *.drl
 *.lck
 board/*.pretty
-board/*.kicad*
+board/*.kicad_pcb
+board/*.kicad_prl
+board/*.kicad_pro
 board/*.bak
 board/fp-info-cache
 board/fp-lib-table
