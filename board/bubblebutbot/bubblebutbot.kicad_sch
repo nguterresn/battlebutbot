@@ -5770,7 +5770,7 @@
 	)
 	(text "FL, i.e. front left.\nBR, i.e. back right."
 		(exclude_from_sim no)
-		(at 278.13 65.405 0)
+		(at 299.085 48.26 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -5817,7 +5817,7 @@
 	)
 	(global_label "MOTOR-RIGHT-A"
 		(shape input)
-		(at 302.26 61.595 270)
+		(at 323.215 44.45 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5827,7 +5827,7 @@
 		)
 		(uuid "24abb2cd-52c2-4857-a10d-0f4e06e84a16")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 302.26 80.6065 90)
+			(at 323.215 63.4615 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6147,7 +6147,7 @@
 	)
 	(global_label "MOTOR-LEFT-B"
 		(shape input)
-		(at 316.865 61.595 270)
+		(at 337.82 44.45 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6157,7 +6157,7 @@
 		)
 		(uuid "9f930ae8-6aef-4b1d-840d-11b76684e6ce")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 316.865 79.5783 90)
+			(at 337.82 62.4333 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6367,7 +6367,7 @@
 	)
 	(global_label "MOTOR-LEFT-A"
 		(shape input)
-		(at 314.325 61.595 270)
+		(at 335.28 44.45 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6377,7 +6377,7 @@
 		)
 		(uuid "e8f93862-7945-48a1-bf89-880adbceb368")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 314.325 79.3969 90)
+			(at 335.28 62.2519 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -6455,7 +6455,7 @@
 	)
 	(global_label "MOTOR-RIGHT-B"
 		(shape input)
-		(at 304.8 61.595 270)
+		(at 325.755 44.45 270)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6465,7 +6465,7 @@
 		)
 		(uuid "f729f9fc-0197-46c5-b16f-e93b3536efb2")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 304.8 80.7879 90)
+			(at 325.755 63.6429 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7269,7 +7269,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Socket")
-		(at 314.325 56.515 90)
+		(at 335.28 39.37 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -7278,7 +7278,7 @@
 		(fields_autoplaced yes)
 		(uuid "2886541f-9820-4441-8c43-f1b8a4e9221c")
 		(property "Reference" "J10"
-			(at 318.0842 57.15 90)
+			(at 339.0392 40.005 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7287,7 +7287,7 @@
 			)
 		)
 		(property "Value" "JST XH"
-			(at 313.1058 55.9379 90)
+			(at 334.0608 38.7929 90)
 			(effects
 				(font
 					(face "KiCad Font")
@@ -7300,7 +7300,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal"
-			(at 314.325 56.515 0)
+			(at 335.28 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7309,7 +7309,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/product-detail/Wire-To-Board-Wire-To-Wire-Connector_CAX-PH-2AW_C722769.html"
-			(at 314.325 56.515 0)
+			(at 335.28 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7318,7 +7318,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 314.325 56.515 0)
+			(at 335.28 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -7327,7 +7327,7 @@
 			)
 		)
 		(property "LCSC" "C722769"
-			(at 314.325 56.515 90)
+			(at 335.28 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10768,7 +10768,7 @@
 	)
 	(symbol
 		(lib_id "Connector:Conn_01x02_Socket")
-		(at 302.26 56.515 90)
+		(at 323.215 39.37 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -10777,7 +10777,7 @@
 		(fields_autoplaced yes)
 		(uuid "f8301ecb-9535-4eca-a78a-8736d8f40501")
 		(property "Reference" "J13"
-			(at 306.0192 57.15 90)
+			(at 326.9742 40.005 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10786,7 +10786,7 @@
 			)
 		)
 		(property "Value" "JST XH"
-			(at 301.0408 55.9379 90)
+			(at 321.9958 38.7929 90)
 			(effects
 				(font
 					(face "KiCad Font")
@@ -10799,7 +10799,7 @@
 			)
 		)
 		(property "Footprint" "Connector_JST:JST_PH_S2B-PH-K_1x02_P2.00mm_Horizontal"
-			(at 302.26 56.515 0)
+			(at 323.215 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10808,7 +10808,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.lcsc.com/product-detail/Wire-To-Board-Wire-To-Wire-Connector_CAX-PH-2AW_C722769.html"
-			(at 302.26 56.515 0)
+			(at 323.215 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10817,7 +10817,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 302.26 56.515 0)
+			(at 323.215 39.37 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -10826,7 +10826,7 @@
 			)
 		)
 		(property "LCSC" "C722769"
-			(at 302.26 56.515 90)
+			(at 323.215 39.37 90)
 			(effects
 				(font
 					(size 1.27 1.27)

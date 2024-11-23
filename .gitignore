@@ -19,5 +19,6 @@ fp-lib-table
 sym-lib-table
 board/bubblebutbot/gerber/.csv
 board/bubblebutbot/*.json
+backups
 bubblebutbot-backups
 website
