@@ -2,7 +2,7 @@
 
 BattleButBot is a small (<10x8cm) and light (<150g) robot designed specifically for the [Antweight class of robot combat events](https://www.robotwars101.org/ants/rules.htm). With its sleek design, sturdy construction, and advanced control features, BattleButBot is the perfect choice for robot fighting enthusiasts of all skill levels.
 
-<img src="images/IMG_8723.jpg" width="100%"/>
+<img src="./images/gif-3d.gif" width="50%"/>
 
 ## Features
 
@@ -35,28 +35,29 @@ BattleButBot is a small (<10x8cm) and light (<150g) robot designed specifically 
 
 * ✅ The device uses [PH sockets](https://www.jst-mfg.com/product/index.php?series=199) and requires a few screws.
 
-**Portable**: Powered by a lithium battery
+**Portable**: Powered by a battery
 
 * ✅ Small and light weight 2S 7.4V battery (58 x 18 x 19 mm).
+
+## ESPNow Controller
+
+Take a look [here](https://github.com/nguterresn/simple-esp-now-controller).
 
 ## Web Robot Controller
 
 Connect to the `BattleButBot` network using WiFi.
 
-<img src="https://user-images.githubusercontent.com/38976366/205155319-393798c9-7dc4-4a2e-bb77-cfcf4a954b22.PNG" width="30%"/>
+<img src="./images/gif-1.gif" width="30%"/>
 
 Open `bot.local` on you browser.
 
-<img src="images/IMG_8715.jpg" width="80%"/>
+<img src="./images/gif-2.gif" width="30%"/>
+<img src="./images/gif-3.gif" width="30%"/>
 
 To control the BattleButBot, simply use both **joysticks** located in the screen.
 
 > [!NOTE]
 > Before submitting a issue ticket, please use another browser as Safari is not 100% stable for a web browser controller.
-
-## ESPNow Controller
-
-Take a look [here](https://github.com/nguterresn/simple-esp-now-controller).
 
 ### Robot Controls
 
@@ -76,8 +77,8 @@ For ease of development while the robot firmware is in development, a console lo
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | ------------------------------- |
 | [N20 Gear Motor 6V 600RPM](https://www.aliexpress.us/item/3256803245120861.html?spm=a2g0o.productlist.main.3.be16dmKLdmKLdh&algo_pvid=1b8b9a20-a58e-4537-a37a-af46f9d1652b&algo_exp_id=1b8b9a20-a58e-4537-a37a-af46f9d1652b-1&pdp_npi=4%40dis%21SEK%2125.63%2119.17%21%21%212.34%211.75%21%40211b61a417119945526086789eb5a6%2112000025761667070%21sea%21SE%210%21AB&curPageLogUid=N7UsGzjkJw8d&utparam-url=scene%3Asearch%7Cquery_from%3A&gatewayAdapt=glo2usa) | 2   | 1.36$ x 2 + 2.27$ shipping      |
 | [Wheels](https://www.aliexpress.com/item/33026783171.html?spm=a2g0o.order_list.order_list_main.102.76381802470tYv)                                                                                                                                                                                                                                                                                                                                              | 2   | ~1$ + 4$ shipping               |
-| [BOM](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/BOM-bubblebutbot.csv)                                                                                                                                                                                                                                                                                                                                     | 1   | ~10$ + 10$ [shipping](LCSC.com) |
-| [PCB](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/jlcpcb/production_files/GERBER-bubblebutbot.zip)                                                                                                                                                                                                                                                                                                                                  | 5   | ~2$ + 3$ [shipping](jlcpcb.com) |
+| [BOM](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/production/bom.csv)                                                                                                                                                                                                                                                                                                                                     | 1   | ~10$ + 10$ [shipping](LCSC.com) |
+| [PCB](https://github.com/nguterresn/battlebutbot/blob/main/board/bubblebutbot/production/bubblebutbot.zip)                                                                                                                                                                                                                                                                                                                                  | 5   | ~2$ + 3$ [shipping](jlcpcb.com) |
 | [2S LiPo](https://botland.store/battery-li-pol-2s-74-v/570-li-poly-dualsky-520mah-25c-2s-74v-6941047107427.html)                                                                                                                                                                                                                                                                                                                                                | 1   | 8$                              |
 | Total                                                                                                                                                                                                                                                                                                                                                                                                                                                           | -   | ~50$                            |
 
@@ -110,7 +111,7 @@ What you need:
 * The [body](https://github.com/nguterresn/battlebutbot/blob/main/body/Car.stl)
 * The [lid](https://github.com/nguterresn/battlebutbot/blob/main/body/Lid.stl)
 * The [front](https://github.com/nguterresn/battlebutbot/blob/main/body/Gate.stl)
-* A 2S-7.4V Lithium battery
+* A 2S-7.4V Battery
 * The [PCB](https://github.com/nguterresn/battlebutbot/tree/main/board/bubblebutbot)
 * The two wheels
 
