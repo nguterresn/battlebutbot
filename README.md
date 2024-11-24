@@ -51,6 +51,9 @@ Open `bot.local` on you browser.
 
 To control the BattleButBot, simply use both **joysticks** located in the screen.
 
+> [!NOTE]
+> Before submitting a issue ticket, please use another browser as Safari is not 100% stable for a web browser controller.
+
 ## ESPNow Controller
 
 Take a look [here](https://github.com/nguterresn/simple-esp-now-controller).
