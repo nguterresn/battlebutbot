@@ -6,36 +6,38 @@ BattleButBot is a small (<10x8cm) and light (<150g) robot designed specifically 
 
 ## Features
 
-- **Intuitive Web-based Control**: BattleButBot can be easily controlled from any device with a [web browser](#web-robot-controller), allowing you to take full control of your robot in real-time.
-- **Powerful Motors**: BattleButBot's brush DC motors provide great performance and speed, allowing your robot to deliver powerful moves.
-- **Durable Build**: BattleButBot is built to withstand the toughest battles in Antweight robot combat events. Its rugged construction and impact-resistant design ensure that your robot stays in one piece, no matter how intense the fight gets.
-- **Easy to Use**: BattleButBot is easy to use and requires no special skills or training. With its intuitive controls and simple setup process, you can start battling right away.
+* **Intuitive Web-based Control**: BattleButBot can be easily controlled from any device with a [web browser](#web-robot-controller), allowing you to take full control of your robot in real-time.
+* **Powerful Motors**: BattleButBot's brush DC motors provide great performance and speed, allowing your robot to deliver powerful moves.
+* **Durable Build**: BattleButBot is built to withstand the toughest battles in Antweight robot combat events. Its rugged construction and impact-resistant design ensure that your robot stays in one piece, no matter how intense the fight gets.
+* **Easy to Use**: BattleButBot is easy to use and requires no special skills or training. With its intuitive controls and simple setup process, you can start battling right away.
+
+🎉 **NEW**: The BattleButBot supports [ESPNow](https://www.espressif.com/en/solutions/low-power-solutions/esp-now) protocol, thus provinding another way to be externally controlled. Check the [simple esp-now controller](https://github.com/nguterresn/simple-esp-now-controller) to know more.
 
 ## Requirements
 
 **Cheap**: Priced under $50
 
-- ✅ Costs 50$.
+* ✅ Costs 50$.
 
 **Weight**: Equal or less than 150 milligrams
 
-- ✅ Weigths ~110g. (PLA printed)
+* ✅ Weigths ~110g. (PLA printed)
 
 **Acessable**: All parts are easily available (can be obtained from anywhere)
 
-- ✅ Parts can be found on [LCSC](lcsc.com), [Digikey](digikey.com) or [AliExpress](https://www.aliexpress.us).
+* ✅ Parts can be found on [LCSC](lcsc.com), [Digikey](digikey.com) or [AliExpress](https://www.aliexpress.us).
 
 **Flexible**: Can be controlled over WiFi
 
-- ✅ Easy to use web browser GUI
+* ✅ Easy to use web browser GUI
 
 **Simple**: All hardware components are easy to assemble
 
-- ✅ The device uses [PH sockets](https://www.jst-mfg.com/product/index.php?series=199) and requires a few screws.
+* ✅ The device uses [PH sockets](https://www.jst-mfg.com/product/index.php?series=199) and requires a few screws.
 
 **Portable**: Powered by a lithium battery
 
-- ✅ Small and light weight 2 cell battery (7.4V).
+* ✅ Small and light weight 2S 7.4V battery (58 x 18 x 19 mm).
 
 ## Web Robot Controller
 
@@ -49,6 +51,10 @@ Open `bot.local` on you browser.
 
 To control the BattleButBot, simply use both **joysticks** located in the screen.
 
+## ESPNow Controller
+
+Take a look [here](https://github.com/nguterresn/simple-esp-now-controller).
+
 ### Robot Controls
 
 You can control BattleButBot using the joysticks from the graphical user interface (GUI). To move forward, drag the left joystick upwards, and to move backward, drag the left joystick downwards. To lean the BattleButBot to the right, drag the right joystick to the right and vice-versa.
@@ -57,7 +63,7 @@ You can control BattleButBot using the joysticks from the graphical user interfa
 
 To configure your joystick settings, click the `Settings` button.
 
-For ease of development while the robot firmware is unstable or in development, a console log is located at the bottom of the screen.
+For ease of development while the robot firmware is in development, a console log is located at the bottom of the screen.
 
 ## How to order
 
@@ -74,6 +80,14 @@ For ease of development while the robot firmware is unstable or in development, 
 
 When ordering the BOM, make sure to order at least 5 (five!) of each component so you end up with the possibility to solder 5 different PCBs.
 
+### Supply chain troubleshooting
+
+⚠️ In case a few componenets are not available refer to the list below:
+
+- Any ESP32-S3-WROOM-1 (NOT 1U!) should work. There are a [few variations](https://www.lcsc.com/search?q=ESP32-S3-WROOM-1) of the same footprint with more or less RAM and FLASH.
+- H1-H4 componenets are mount holes, they don't need any component assigned.
+- In case of resistor or capacitors shortage, it is also OK to find other supplier as long as it follows the same specification (e.g. 20k resistor 5%)
+
 ## Design
 
 The design of the BattleButBot plays an important role. How it is designed determines how heavy (or how light) it is. Two requirements: sturdy and light.
@@ -88,14 +102,14 @@ A cyberpunk alike robot is cold as hell. The low poly edges also make it easier 
 
 What you need:
 
-- 6 M3 5mm screws
-- 6 Heat inserts
-- The [body](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Car.stl)
-- The [lid](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Lid.stl)
-- The [front](https://github.com/nguterresn/battlebutbot/blob/main/body/v0.9/Gate.stl)
-- A 7.4V Lithium battery
-- The [PCB](https://github.com/nguterresn/battlebutbot/tree/main/board/bubblebutbot)
-- The two wheels
+* 6 M3 8mm/5mm screws
+* 6 Heat inserts
+* The [body](https://github.com/nguterresn/battlebutbot/blob/main/body/Car.stl)
+* The [lid](https://github.com/nguterresn/battlebutbot/blob/main/body/Lid.stl)
+* The [front](https://github.com/nguterresn/battlebutbot/blob/main/body/Gate.stl)
+* A 2S-7.4V Lithium battery
+* The [PCB](https://github.com/nguterresn/battlebutbot/tree/main/board/bubblebutbot)
+* The two wheels
 
 <img src="images/IMG_8726.jpeg" width="80%"/>
 
@@ -131,13 +145,13 @@ git clone git@github.com:nguterresn/battlebutbot.git
 
 ### Tools
 
-- VSCode with PlatformIO
-- Fusion360
+* VSCode with PlatformIO
+* Fusion360
 
 ### 3rd Party Libraries
 
-- [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
-- [Joystick 2](https://github.com/bobboteck/JoyStick)
+* [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
+* [Joystick 2](https://github.com/bobboteck/JoyStick)
 
 ## Support
 
