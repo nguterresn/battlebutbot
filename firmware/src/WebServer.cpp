@@ -21,7 +21,7 @@ bool network_init(void)
   if (err != ERR_OK) {
     return false;
   }
-#else
+#endif
   // Disable power saving on WiFi to improve responsiveness
   // (https://github.com/espressif/arduino-esp32/issues/1484)
   if (!WiFi.setSleep(false) ||
@@ -32,7 +32,6 @@ bool network_init(void)
       !MDNS.addService("http", DNS_NETWORK_NAME, 80)) {
     return false;
   }
-#endif
   mac_address = WiFi.macAddress();
   return true;
 }
@@ -80,7 +79,8 @@ void web_server_init()
 
   server.on("/update", HTTP_GET, [](AsyncWebServerRequest* request) {
     if (request->hasParam(HTTP_MOTOR_SPEED) &&
-        request->hasParam(HTTP_MOTOR_Y) && request->hasParam(HTTP_MOTOR_X)) {
+        request->hasParam(HTTP_MOTOR_Y) &&
+        request->hasParam(HTTP_MOTOR_X)) {
       machine_room_update(request->getParam(HTTP_MOTOR_SPEED)->value().toInt(),
                           request->getParam(HTTP_MOTOR_Y)->value().toInt(),
                           request->getParam(HTTP_MOTOR_X)->value().toInt());

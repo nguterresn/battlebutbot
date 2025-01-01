@@ -7,12 +7,7 @@
 #include "models/Motor.h"
 #include <stdint.h>
 
-#define BROWSER_CONTROLLER
-// #define PHYSYCAL_CONTROLLER
-
-#if defined(BROWSER_CONTROLLER) && defined(PHYSYCAL_CONTROLLER)
-#error "Only one controller can be defined at the same time!";
-#endif
+#define PHYSYCAL_CONTROLLER
 
 struct settings {
   uint8_t speed; //!< From 1 - 255, default 255

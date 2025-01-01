@@ -1,7 +1,6 @@
 // Necessary variables
-var oldX = 0, oldY = 0, oldSpeed = 0, newX = 0, newY = 0, newSpeed = 0;
-var isRequestOnGoing = false;
-var requestEnabled = true; // Enables / disables any http request to the bot.
+let oldX = 0, oldY = 0, oldSpeed = 0, newX = 0, newY = 0, newSpeed = 0;
+let request = { "onGoing": true };
 
 const JOYSTICK_OFFSET = 5;
 const JOYTSTICK_REQUEST_INTERVAL = 0.01; // 10ms
@@ -15,7 +14,7 @@ window.addEventListener('load', () => {
   showOrHidePage();
 });
 config.addEventListener('click', e => {
-  if (isRequestOnGoing) {
+  if (request.onGoing) {
     alert("There is an ongoing commmunication");
     return;
   }
@@ -31,7 +30,7 @@ const JoyRight = new JoyStick('joystick-right', {}, (thumb) => {
 });
 
 function _sendXandYToDevice() {
-  if (!requestEnabled || isRequestOnGoing) {
+  if (request.onGoing) {
     return;
   }
   if (oldSpeed == 0 && newSpeed == 0) {
@@ -51,7 +50,7 @@ function _sendXandYToDevice() {
     oldX = newX;
     oldY = newY;
 
-    _request("GET", "/update?speed=" + newSpeed + "&y=" + newY + "&x=" + newX, isRequestOnGoing, log, null);
+    _request("GET", "/update?speed=" + newSpeed + "&y=" + newY + "&x=" + newX, request, log, null);
   }
 }
 

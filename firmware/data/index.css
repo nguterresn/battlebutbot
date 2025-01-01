@@ -1,13 +1,23 @@
+* {
+  line-height: 1.6;
+  font-weight: 500;
+  box-sizing: border-box;
+  font-family: Raleway, HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body,
 html {
   height: 100% !important;
   width: 100% !important;
-  max-width: 100%;
-  max-height: 100%;
-  margin: 0;
-  padding: 0;
-  left: 0;
-  top: 0;
+
+  overflow-x: hidden;
+  /* Allow horizontal scrolling */
+  overflow-y: hidden;
+  /* Disable vertical scrolling */
 
   user-select: none;
   /* supported by Chrome and Opera */
@@ -19,11 +29,8 @@ html {
   /* Firefox */
   -ms-user-select: none;
 
-  background-color: #28282B; /* Black matte */
-}
-
-h1, h2, h3, h4, h5, h6 {
-  margin: 0
+  background-color: #28282B;
+  /* Black matte */
 }
 
 a {
@@ -35,13 +42,6 @@ hr {
   margin-bottom: 3.5rem;
   border-width: 0;
   border-top: 1px solid #e1e1e1
-}
-
-* {
-  line-height: 1.6;
-  font-weight: 500;
-  box-sizing: border-box;
-  font-family: Raleway, HelveticaNeue, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 h1 {

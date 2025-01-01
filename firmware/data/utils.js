@@ -1,20 +1,20 @@
 /* ------------------- Network / HTTP --------------------- */
 
-function _request(method, path, busy, log, callback) {
-  busy = true;
+function _request(method, path, request, log, callback) {
+  request.onGoing = true;
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
-    busy = false;
+    request.onGoing = false;
     log.innerText = xhr.status == 200 ? 'OK' : "404";
     callback && callback(xhr.response);
   };
   xhr.ontimeout = () => {
-    busy = false;
+    request.onGoing = false;
     log.innerText = "Timeout on XML request!";
     callback && callback(null);
   };
   xhr.onerror = () => {
-    busy = false;
+    request.onGoing = false;
     log.innerText = "Error on XML request!";
     callback && callback(null);
   };
