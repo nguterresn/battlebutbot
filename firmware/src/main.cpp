@@ -6,6 +6,7 @@
 #ifdef PHYSYCAL_CONTROLLER
 #include <esp_wifi.h>
 #include <esp_now.h>
+static uint8_t _mac_address[] = { 0x1A, 0xFF, 0x00, 0xFF, 0x00, 0xFF };
 
 static void on_data_recv(const uint8_t *mac, const uint8_t *incomingData,
                          int len);
@@ -18,27 +19,30 @@ void _error(void) {
 }
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   Serial.printf("Connected!\n");
 
   if (!spiffs_init() || !network_init()) {
     _error();
   }
 
-  web_server_init();
 #ifdef PHYSYCAL_CONTROLLER
-  if (esp_now_init() != ESP_OK) {
+  // The station MAC Address must differ from the softAP one.
+  if (esp_wifi_set_mac(WIFI_IF_STA, _mac_address) != ESP_OK || esp_now_init() != ESP_OK) {
     _error();
   }
   esp_now_register_recv_cb(esp_now_recv_cb_t(on_data_recv));
 #endif
+  web_server_init();
 
   if (!robot_init()) {
     _error();
   }
+
+  Serial.printf("Robot initialized!\n");
 }
 
-void loop() {}
+void loop() { yield(); }
 
 #ifdef PHYSYCAL_CONTROLLER
 static void on_data_recv(const uint8_t *mac, const uint8_t *incomingData,
@@ -49,10 +53,6 @@ static void on_data_recv(const uint8_t *mac, const uint8_t *incomingData,
     int8_t x;
   } __attribute__((packed));
   struct packet *coor = (struct packet *)incomingData;
-
-  // Serial.printf(" sin_mapped_y: %d | mapped_speed: %d | mapped_x: %d |
-  // mapped_y: %d | radian: %f len: %d \n", sin_mapped_y, coor->speed, coor->x,
-  // coor->y, radian, len);
 
   machine_room_update(coor->speed, coor->y, coor->x);
 }

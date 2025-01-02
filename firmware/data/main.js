@@ -1,6 +1,6 @@
 // Necessary variables
 let oldX = 0, oldY = 0, oldSpeed = 0, newX = 0, newY = 0, newSpeed = 0;
-let request = { "onGoing": true };
+let request = { "onGoing": true, "timestamp": 0 };
 
 const JOYSTICK_OFFSET = 5;
 const JOYTSTICK_REQUEST_INTERVAL = 0.01; // 10ms
@@ -31,8 +31,12 @@ const JoyRight = new JoyStick('joystick-right', {}, (thumb) => {
 
 function _sendXandYToDevice() {
   if (request.onGoing) {
+    if (performance.now() - request.timestamp > 200) {
+      request.onGoing = false;
+    }
     return;
   }
+
   if (oldSpeed == 0 && newSpeed == 0) {
     return;
   }

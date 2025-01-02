@@ -2,6 +2,7 @@
 
 function _request(method, path, request, log, callback) {
   request.onGoing = true;
+  request.timestamp = performance.now();
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
     request.onGoing = false;

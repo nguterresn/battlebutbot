@@ -2,10 +2,6 @@
 #include "MachineRoom.h"
 #include "Robot.h"
 #include <SPIFFS.h>
-#ifdef PHYSYCAL_CONTROLLER
-#include <esp_wifi.h>
-static uint8_t _mac_address[] = { 0x1A, 0xFF, 0x00, 0xFF, 0x00, 0xFF };
-#endif
 
 AsyncWebServer server(80);
 String mac_address;
@@ -14,14 +10,7 @@ String mac_address;
 /// DNS domain.
 bool network_init(void)
 {
-#ifdef PHYSYCAL_CONTROLLER
-  WiFi.mode(WIFI_STA);
-  WiFi.begin();
-  esp_err_t err = esp_wifi_set_mac(WIFI_IF_STA, _mac_address);
-  if (err != ERR_OK) {
-    return false;
-  }
-#endif
+  WiFi.mode(WIFI_AP_STA);
   // Disable power saving on WiFi to improve responsiveness
   // (https://github.com/espressif/arduino-esp32/issues/1484)
   if (!WiFi.setSleep(false) ||
@@ -46,7 +35,6 @@ String processor(const String& var)
 
 bool spiffs_init(void)
 {
-  Serial.printf("Setting SPIFFS!....\n");
   return SPIFFS.begin();
 }
 
