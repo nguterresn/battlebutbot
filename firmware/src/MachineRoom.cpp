@@ -88,7 +88,7 @@ void machine_room_update(int speed, int y, int x)
   // Serial.printf("Speed=%d Y=%d X=%d pwmSpeed=%d pwmModY=%d\n", speed, y, x, _PWMspeed, _PWMmodule_y);
 
   if (x == 0) {
-    speed > 0 ? machine_room_forward(_PWMspeed) : machine_room_backward(_PWMspeed);
+    speed > 0 ? machine_room_forward(_PWMspeed) : machine_room_backward(_PWMspeed & 0xC0);
   }
   else if (x > 0 && speed > 0) {
     // 1st quadrant - forward and right.
