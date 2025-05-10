@@ -7,7 +7,7 @@
 #include "models/Motor.h"
 #include <stdint.h>
 
-#define PHYSYCAL_CONTROLLER
+#define PHYSYCAL_CONTROLLER 1
 
 struct settings {
   uint8_t speed; //!< From 1 - 255, default 255

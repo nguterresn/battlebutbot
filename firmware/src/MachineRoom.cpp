@@ -79,13 +79,13 @@ void machine_room_update(int speed, int y, int x)
     return;
   }
 
-  // Serial.printf("Speed=%d Y=%d X=%d\n", speed, y, x);
-
   double radian         = atan2(abs(y), abs(x));
   uint16_t sin_mapped_y = speed * sin(radian);
 
   uint8_t _PWMspeed     = map(abs(speed), 0, 100, 0, MOTOR_PWM_RANGE);
   uint8_t _PWMmodule_y  = map(sin_mapped_y, 0, 100, 0, MOTOR_PWM_RANGE);
+
+  // Serial.printf("Speed=%d Y=%d X=%d pwmSpeed=%d pwmModY=%d\n", speed, y, x, _PWMspeed, _PWMmodule_y);
 
   if (x == 0) {
     speed > 0 ? machine_room_forward(_PWMspeed) : machine_room_backward(_PWMspeed);
